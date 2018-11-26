@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackgroundFloating"
+        android:contentInsetStart="0dp"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="m">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tabIndicatorColor="@android:color/holo_red_light"
+            app:tabSelectedTextColor="@android:color/holo_red_light"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:tabTextColor="@color/colorPrimaryDark">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_atm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/atm" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_bank_teller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bank_teller" />
+        </android.support.design.widget.TabLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+</android.support.constraint.ConstraintLayout>

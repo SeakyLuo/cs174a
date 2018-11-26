@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button
+            android:id="@+id/enter_check_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Enter Check Transaction"/>
+        <Button
+            android:id="@+id/generate_monthly_statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Generate Monthly Statement"/>
+        <Button
+            android:id="@+id/list_closed_accounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="List Closed Accounts"/>
+        <Button
+            android:id="@+id/customer_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Customer Report"/>
+        <Button
+            android:id="@+id/dter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Generate Government Drug and Tax Evasion Report"/>
+        <Button
+            android:id="@+id/add_interest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Add Interest"/>
+        <Button
+            android:id="@+id/create_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Create Account"/>
+        <Button
+            android:id="@+id/delete_accounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Delete Closed Accounts and Customers"/>
+        <Button
+            android:id="@+id/delete_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Delete Transactions"/>
+
+    </LinearLayout>
+</ScrollView>

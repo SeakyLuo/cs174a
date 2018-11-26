@@ -32,11 +32,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+
+            <EditText
+                android:id="@+id/input_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="Address (Optional)"
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -45,11 +47,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_password"
+
+            <EditText
+                android:id="@+id/input_pin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="4-digit PIN"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:maxLength="4" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Re-enter Label -->
@@ -58,11 +63,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_reEnterPassword"
+
+            <EditText
+                android:id="@+id/input_confirm_pin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Confirm PIN"
                 android:inputType="textPassword"
-                android:hint="Re-enter Password"/>
+                android:maxLength="4" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Signup Button -->
@@ -74,15 +82,8 @@
             android:layout_marginBottom="24dp"
             android:background="@color/Gold"
             android:padding="12dp"
-            android:text="Create Account" />
-
-        <TextView android:id="@+id/link_login"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="@string/already_registered"
             android:gravity="center"
-            android:textSize="16dp"/>
+            android:text="Create Account" />
 
     </LinearLayout>
 </ScrollView>
