@@ -81,6 +81,13 @@ public class ATMFragment extends Fragment {
         }
     }
 
+    public void QuickCash(){
+        if (DatabaseHelper.user == null){
+            Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -138,6 +145,12 @@ public class ATMFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PayFriend();
+            }
+        });
+        view.findViewById(R.id.quick_cash).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuickCash();
             }
         });
         return view;

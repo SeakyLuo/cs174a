@@ -6,9 +6,9 @@ public class Account {
     public static final String ACCOUNT = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
     public static final String CREATE_TABLE = "CREATE TABLE " + ACCOUNT +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     BANK_NAME + " TEXT, " +
+                                                                                    TYPE + " TEXT NOT NULL, " +
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
-                                                                                    TYPE + " TEXT NOT NULL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
     public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Aavings", POCKET = "Pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
@@ -54,11 +54,11 @@ public class Account {
         // updates db
     }
     public String insertQuery(){
-        return "INSERT INTO " + ACCOUNT +" (" + ID + ", " + BANK_NAME + ", " + BALANCE + ", " + INTEREST + ", " + TYPE + ") " +
-                "VALUES (" + aid + ", " + bank_name + ", " + balance + ", " + interest + ", " + type + ")";
+        return "INSERT INTO " + ACCOUNT +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
+                "VALUES (" + aid + ", " + bank_name + ", " + type + ", " + balance + ", " + interest + ")";
     }
     public static String getQuery(){
-        return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + BALANCE + ", a." + INTEREST + ", a." + TYPE + " " +
+        return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
                 "FROM " + ACCOUNT + "a";
     }
 

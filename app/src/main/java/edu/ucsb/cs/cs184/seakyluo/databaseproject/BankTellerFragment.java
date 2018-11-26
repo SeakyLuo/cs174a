@@ -12,6 +12,15 @@ import android.view.ViewGroup;
 
 public class BankTellerFragment extends Fragment {
 
+    public void SetNewDate(){
+
+    }
+
+    public void ResetPIN(){
+        ResetPinDialog dialog = new ResetPinDialog();
+        dialog.showNow(getFragmentManager(), "ResetPin");
+    }
+
     public void EnterCheckTransaction(){
 
     }
@@ -52,6 +61,18 @@ public class BankTellerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bank_teller, container, false);
+        view.findViewById(R.id.set_new_date).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetNewDate();
+            }
+        });
+        view.findViewById(R.id.reset_pin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPIN();
+            }
+        });
         view.findViewById(R.id.enter_check_transaction).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +100,7 @@ public class BankTellerFragment extends Fragment {
         view.findViewById(R.id.dter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DTER();
             }
         });
         view.findViewById(R.id.add_interest).setOnClickListener(new View.OnClickListener() {

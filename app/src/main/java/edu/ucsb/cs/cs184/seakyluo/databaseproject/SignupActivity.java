@@ -1,11 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +43,9 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         setResult(RESULT_OK);
-        finish();
+        UseridDialog fragment = new UseridDialog();
+        fragment.setCaller(SignupActivity.this);
+        fragment.showNow(getSupportFragmentManager(), "UserID");
     }
 
     public void onSignupFailed() {

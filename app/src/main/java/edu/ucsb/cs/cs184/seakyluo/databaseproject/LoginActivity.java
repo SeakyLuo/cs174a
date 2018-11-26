@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity{
 
     public static final int SIGNUP = 0;
 
-    private EditText _pinText;
+    private EditText _idText, _pinText;
     private Button _loginButton;
     private TextView _signupLink;
     private TextView _forgotPassword;
@@ -28,7 +28,8 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SwipeBackHelper.onCreate(this);
-        _pinText = findViewById(R.id.input_password);
+        _idText = findViewById(R.id.input_id);
+        _pinText = findViewById(R.id.input_pin);
         _loginButton = findViewById(R.id.btn_login);
         _signupLink = findViewById(R.id.link_signup);
 
@@ -62,6 +63,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void onLoginSuccess() {
+        DatabaseHelper.user = null;
         finish();
     }
 

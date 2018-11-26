@@ -5,11 +5,11 @@ public class Customer{
     public static final String CREATE_TABLE = "CREATE TABLE " + CUSTOMER +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     NAME + " TEXT, " +
                                                                                     ADDRESS +" TEXT, " +
-                                                                                    PIN  + " CHAR(4) NOT NULL UNIQUE, " +
+                                                                                    PIN  + " CHAR(4) NOT NULL, " +
                                                                                     " PRIMARY KEY(" + ID +"))";
 
     private int id;
-    private String name, address, pin;
+    private String name, address, pin = "1717";
 
     public Customer(int id, String name, String address, String pin){
         this.id = id;
@@ -20,6 +20,7 @@ public class Customer{
     public int getId() { return id; }
     public String getName() { return name; }
     public String getAddress() { return address; }
+    public String getPin() { return pin; }
     public String insertQuery(){
         return "INSERT INTO " + CUSTOMER +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
@@ -33,11 +34,7 @@ public class Customer{
         return false;
     }
 
-    public void SetPin(String OldPIN, String NewPin){
-        if (OldPIN.equals(pin)){
-
-        }else{
-
-        }
+    public void SetPin(String pin){
+        this.pin = pin;
     }
 }

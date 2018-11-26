@@ -10,6 +10,27 @@
         android:orientation="vertical"
         android:gravity="center">
         <Button
+            android:id="@+id/create_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Create Account"/>
+        <Button
+            android:id="@+id/set_new_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Set New Date"/>
+        <Button
+            android:id="@+id/reset_pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Reset PIN"/>
+        <Button
             android:id="@+id/enter_check_transaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,13 +72,6 @@
             android:layout_margin="8dp"
             android:textAllCaps="false"
             android:text="Add Interest"/>
-        <Button
-            android:id="@+id/create_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textAllCaps="false"
-            android:text="Create Account"/>
         <Button
             android:id="@+id/delete_accounts"
             android:layout_width="match_parent"
