@@ -3,13 +3,13 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 import java.sql.Date;
 
 public class Transaction {
-    public static final String CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type";
-    public static final String CREATE_TABLE = "CREATE TABLE Transaction(" + CID + "INTEGER, " +
-                                                                                FROM + " INTEGER, " +
-                                                                                TO + " INTEGER, " +
-                                                                                TIME + " DATE, " +
-                                                                                TYPE + " VAR(20), " +
-                                                                                "PRIMARY KEY(" + CID + " , " + TIME + "))";
+    public static final String TRANSACTION = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type";
+    public static final String CREATE_TABLE = "CREATE TABLE " + TRANSACTION + "(" + CID + "INTEGER, " +
+                                                                                        FROM + " INTEGER, " +
+                                                                                        TO + " INTEGER, " +
+                                                                                        TIME + " DATE, " +
+                                                                                        TYPE + " VAR(20), " +
+                                                                                        "PRIMARY KEY(" + CID + " , " + TIME + "))";
     public static final String DEPOSIT = "deposit", TOP_UP = "top_up", WITHDRAWAL = "withdrawal", PURCHASE = "purchase", TRANSFER = "transfer",
             COLLECT = "collect", PAY_FRIEND = "pay_friend", WIRE = "wire", WRITE_CHECK = "write_check", ACCRUE_INTEREST = "accrue interest";
     private int cid, from, to;
@@ -37,7 +37,11 @@ public class Transaction {
     public Date getTime() { return time; }
     public String getType() { return type; }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ")" +
+        return "INSERT INTO Accounts (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ") " +
                 "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ")";
+    }
+    public static String getQuery(){
+        return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + " " +
+                "FROM " + TRANSACTION + "t";
     }
 }

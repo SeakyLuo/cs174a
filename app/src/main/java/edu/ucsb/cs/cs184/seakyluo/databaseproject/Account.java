@@ -3,13 +3,13 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 import java.util.Arrays;
 
 public class Account {
-    public static final String ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
-    public static final String CREATE_TABLE = "CREATE TABLE Account(" + ID + " INTEGER NOT NULL, " +
-                                                BANK_NAME + " CHAR(20), " +
-                                                BALANCE + " REAL, " +
-                                                INTEREST + " REAL, " +
-                                                TYPE + " CHAR(20) NOT NULL, " +
-                                                "PRIMARY KEY(" + ID + "))";
+    public static final String ACCOUNT = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
+    public static final String CREATE_TABLE = "CREATE TABLE " + ACCOUNT +"(" + ID + " INTEGER NOT NULL, " +
+                                                                                    BANK_NAME + " CHAR(20), " +
+                                                                                    BALANCE + " REAL, " +
+                                                                                    INTEREST + " REAL, " +
+                                                                                    TYPE + " CHAR(20) NOT NULL, " +
+                                                                                    "PRIMARY KEY(" + ID + "))";
     public static final String STUDENT_CHECKING = "student_checking", INTEREST_CHECKING = "interest_checking", SAVINGS = "savings", POCKET = "pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAWAL, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
             VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAWAL, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
@@ -54,8 +54,12 @@ public class Account {
         // updates db
     }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + ID + ", " + BANK_NAME + ", " + BALANCE + ", " + INTEREST + ", " + TYPE + ")" +
+        return "INSERT INTO Accounts (" + ID + ", " + BANK_NAME + ", " + BALANCE + ", " + INTEREST + ", " + TYPE + ") " +
                 "VALUES (" + aid + ", " + bank_name + ", " + balance + ", " + interest + ", " + type + ")";
+    }
+    public static String getQuery(){
+        return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + BALANCE + ", a." + INTEREST + ", a." + TYPE + " " +
+                "FROM " + ACCOUNT + "a";
     }
 
     public boolean isClosed() { return balance <= 0.01; }

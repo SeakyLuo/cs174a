@@ -1,14 +1,12 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import java.io.Serializable;
-
-public class Customer implements Serializable {
-    public static final String ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
-    public static final String CREATE_TABLE = "CREATE TABLE Customer(" + ID + " INTEGER NOT NULL, " +
-                                                                        NAME + " CHAR(30), " +
-                                                                        ADDRESS +" CHAR(50), " +
-                                                                        PIN  + " CHAR(4) NOT NULL UNIQUE, " +
-                                                                        " PRIMARY KEY(" + ID +"))";
+public class Customer{
+    public static final String CUSTOMER = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
+    public static final String CREATE_TABLE = "CREATE TABLE " + CUSTOMER +"(" + ID + " INTEGER NOT NULL, " +
+                                                                                    NAME + " CHAR(30), " +
+                                                                                    ADDRESS +" CHAR(50), " +
+                                                                                    PIN  + " CHAR(4) NOT NULL UNIQUE, " +
+                                                                                    " PRIMARY KEY(" + ID +"))";
 
     private int id;
     private String name, address, pin;
@@ -24,8 +22,12 @@ public class Customer implements Serializable {
     public String getAddress() { return address; }
     public String getPin() { return pin; }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ")" +
+        return "INSERT INTO Accounts (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
+    }
+    public static String getQuery(){
+        return "SELECT c." + ID + ", o." + NAME + ", o." + ADDRESS + ", o." + PIN + " " +
+                "FROM " + CUSTOMER + "c";
     }
 
     public static boolean VerifyPin(String PIN){
@@ -33,7 +35,7 @@ public class Customer implements Serializable {
     }
 
     public void SetPin(String OldPIN, String NewPin){
-        if (OldPIN == pin){
+        if (OldPIN.equals(pin)){
 
         }else{
 

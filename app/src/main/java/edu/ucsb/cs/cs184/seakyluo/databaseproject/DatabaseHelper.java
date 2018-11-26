@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class DatabaseHelper {
-    public static final String CUSTOMER = "customer", ACCOUNT = "account", TRANSACTION = "transaction", OWNS = "owns";
     public static Customer user;
 
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -43,26 +42,37 @@ public class DatabaseHelper {
         }
     }
 
-    public static ArrayList<Object> get(String sql, String type) {
+    public static ArrayList<Object> get(String type) {
         ArrayList<Object> objects = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
         try {
             statement = connection.createStatement();
+            String sql = "";
+            switch (type){
+                case Customer.CUSTOMER:
+                    sql = Customer.getQuery();
+                case Account.ACCOUNT:
+                    sql = Account.getQuery();
+                case Transaction.TRANSACTION:
+                    sql = Transaction.getQuery();
+                case Owns.OWNS:
+                    sql = Owns.getQuery();
+            }
             rs = statement.executeQuery(sql);
             //STEP 5: Extract data from result set
             while(rs.next()){
                 switch (type){
-                    case CUSTOMER:
+                    case Customer.CUSTOMER:
                         objects.add(new Customer(rs.getInt(Customer.ID),
                                                 rs.getString(Customer.NAME),
                                                 rs.getString(Customer.ADDRESS),
                                                 rs.getString(Customer.PIN)));
-                    case ACCOUNT:
+                    case Account.ACCOUNT:
                         objects.add(new Account(rs.getInt(Account.ID),
                                                 rs.getString(Account.BANK_NAME),
                                                 rs.getString(Account.TYPE)));
-                    case TRANSACTION:
+                    case Transaction.TRANSACTION:
                         String to = rs.getString(Transaction.TO);
                         objects.add((to == null) ?
                                 new Transaction(rs.getInt(Transaction.CID),
@@ -74,7 +84,7 @@ public class DatabaseHelper {
                                         rs.getInt(Transaction.TO),
                                         rs.getDate(Transaction.TIME),
                                         rs.getString(Transaction.TYPE)));
-                    case OWNS:
+                    case Owns.OWNS:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
                                             rs.getBoolean(Owns.ISPRIMARY)));
