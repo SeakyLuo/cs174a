@@ -59,7 +59,7 @@ public class Account {
     }
     public static String getQuery(){
         return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
-                "FROM " + ACCOUNT + "a";
+                "FROM " + ACCOUNT + " a";
     }
 
     public boolean isClosed() { return balance <= 0.01; }

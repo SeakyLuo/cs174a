@@ -26,6 +26,6 @@ public class Owns {
     }
     public static String getQuery(){
         return "SELECT o." + CID + ", o." + AID + ", o." + ISPRIMARY + " " +
-                "FROM " + OWNS + "o";
+                "FROM " + OWNS + " o";
     }
 }

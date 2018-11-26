@@ -26,8 +26,8 @@ public class Customer{
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
     }
     public static String getQuery(){
-        return "SELECT c." + ID + ", o." + NAME + ", o." + ADDRESS + ", o." + PIN + " " +
-                "FROM " + CUSTOMER + "c";
+        return "SELECT c." + ID + ", c." + NAME + ", c." + ADDRESS + ", c." + PIN + " " +
+                "FROM " + CUSTOMER + " c";
     }
 
     public static boolean VerifyPin(String PIN){

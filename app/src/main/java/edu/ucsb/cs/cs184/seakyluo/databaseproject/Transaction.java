@@ -38,6 +38,6 @@ public class Transaction {
     }
     public static String getQuery(){
         return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + " " +
-                "FROM " + TRANSACTION + "t";
+                "FROM " + TRANSACTION + " t";
     }
 }
