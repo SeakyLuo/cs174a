@@ -3,7 +3,7 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 public class Owns {
     public static final String OWNS = "Owns", CID = "cid", AID = "aid", ISPRIMARY = "isPrimary";
     public static final String CREATE_TABLE = "CREATE TABLE " + OWNS +"(" + CID + " INTEGER NOT NULL, " +
-                                                                                AID + " INTEGER, " +
+                                                                                AID + " INTEGER NOT NULL, " +
                                                                                 ISPRIMARY +" BIT NOT NULL, "+
                                                                                 "PRIMARY KEY(" + CID + ", " + AID +"), " +
                                                                                 "FOREIGN KEY(" + CID + ") REFERENCES Customer) ON DELETE CASCADE, " +
@@ -21,7 +21,7 @@ public class Owns {
     public int getAid() { return aid; }
     public boolean isPrimary() { return isPrimary; }
     public String insertQuery(){
-        return "INSERT INTO Owns (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
+        return "INSERT INTO " + OWNS +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
                 "VALUES (" + cid + ", " + aid + ", " + isPrimary + ")";
     }
     public static String getQuery(){

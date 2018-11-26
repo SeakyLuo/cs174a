@@ -5,14 +5,14 @@ import java.util.Arrays;
 public class Account {
     public static final String ACCOUNT = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
     public static final String CREATE_TABLE = "CREATE TABLE " + ACCOUNT +"(" + ID + " INTEGER NOT NULL, " +
-                                                                                    BANK_NAME + " CHAR(20), " +
+                                                                                    BANK_NAME + " TEXT, " +
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
-                                                                                    TYPE + " CHAR(20) NOT NULL, " +
+                                                                                    TYPE + " TEXT NOT NULL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
-    public static final String STUDENT_CHECKING = "student_checking", INTEREST_CHECKING = "interest_checking", SAVINGS = "savings", POCKET = "pocket";
-    private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAWAL, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
-            VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAWAL, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
+    public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Aavings", POCKET = "Pocket";
+    private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
+            VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
             VT_POCKET = {Transaction.TOP_UP, Transaction.PURCHASE, Transaction.COLLECT, Transaction.PAY_FRIEND};
     private int aid;
     private String bank_name, type;
@@ -54,7 +54,7 @@ public class Account {
         // updates db
     }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + ID + ", " + BANK_NAME + ", " + BALANCE + ", " + INTEREST + ", " + TYPE + ") " +
+        return "INSERT INTO " + ACCOUNT +" (" + ID + ", " + BANK_NAME + ", " + BALANCE + ", " + INTEREST + ", " + TYPE + ") " +
                 "VALUES (" + aid + ", " + bank_name + ", " + balance + ", " + interest + ", " + type + ")";
     }
     public static String getQuery(){

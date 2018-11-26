@@ -3,8 +3,8 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 public class Customer{
     public static final String CUSTOMER = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
     public static final String CREATE_TABLE = "CREATE TABLE " + CUSTOMER +"(" + ID + " INTEGER NOT NULL, " +
-                                                                                    NAME + " CHAR(30), " +
-                                                                                    ADDRESS +" CHAR(50), " +
+                                                                                    NAME + " TEXT, " +
+                                                                                    ADDRESS +" TEXT, " +
                                                                                     PIN  + " CHAR(4) NOT NULL UNIQUE, " +
                                                                                     " PRIMARY KEY(" + ID +"))";
 
@@ -20,9 +20,8 @@ public class Customer{
     public int getId() { return id; }
     public String getName() { return name; }
     public String getAddress() { return address; }
-    public String getPin() { return pin; }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
+        return "INSERT INTO " + CUSTOMER +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
     }
     public static String getQuery(){

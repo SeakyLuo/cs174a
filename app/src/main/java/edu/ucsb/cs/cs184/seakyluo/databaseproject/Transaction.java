@@ -3,32 +3,28 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 import java.sql.Date;
 
 public class Transaction {
-    public static final String TRANSACTION = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type";
+    public static final String TRANSACTION = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type", AMOUNT = "amount";
     public static final String CREATE_TABLE = "CREATE TABLE " + TRANSACTION + "(" + CID + "INTEGER, " +
                                                                                         FROM + " INTEGER, " +
                                                                                         TO + " INTEGER, " +
                                                                                         TIME + " DATE, " +
-                                                                                        TYPE + " VAR(20), " +
+                                                                                        TYPE + " TEXT, " +
+                                                                                        AMOUNT + " REAL" +
                                                                                         "PRIMARY KEY(" + CID + " , " + TIME + "))";
-    public static final String DEPOSIT = "deposit", TOP_UP = "top_up", WITHDRAWAL = "withdrawal", PURCHASE = "purchase", TRANSFER = "transfer",
-            COLLECT = "collect", PAY_FRIEND = "pay_friend", WIRE = "wire", WRITE_CHECK = "write_check", ACCRUE_INTEREST = "accrue interest";
-    private int cid, from, to;
+    public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
+            COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest";
+    private int cid, from = 0, to = 0;
     private Date time;
     private String type;
+    private double amount;
 
-    public Transaction(int cid, int from, Date time, String type){
+    public Transaction(int cid, Date time, String type, double amount, int from, int to){
         this.cid = cid;
-        this.from = from;
         this.time = time;
         this.type = type;
-    }
-
-    public Transaction(int cid, int from, int to, Date time, String type){
-        this.cid = cid;
+        this.amount = amount;
         this.from = from;
         this.to = to;
-        this.time = time;
-        this.type = type;
     }
 
     public int getId() { return cid; }
@@ -37,11 +33,11 @@ public class Transaction {
     public Date getTime() { return time; }
     public String getType() { return type; }
     public String insertQuery(){
-        return "INSERT INTO Accounts (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ") " +
-                "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ")";
+        return "INSERT INTO " + TRANSACTION +" (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ") " +
+                "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ", " + amount + ")";
     }
     public static String getQuery(){
-        return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + " " +
+        return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + " " +
                 "FROM " + TRANSACTION + "t";
     }
 }

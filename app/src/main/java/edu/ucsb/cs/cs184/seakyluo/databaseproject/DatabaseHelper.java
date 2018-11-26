@@ -35,6 +35,7 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
+//            DBInit.Init();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -42,23 +43,12 @@ public class DatabaseHelper {
         }
     }
 
-    public static ArrayList<Object> get(String type) {
+    public static ArrayList<Object> get(String sql, String type) {
         ArrayList<Object> objects = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
         try {
             statement = connection.createStatement();
-            String sql = "";
-            switch (type){
-                case Customer.CUSTOMER:
-                    sql = Customer.getQuery();
-                case Account.ACCOUNT:
-                    sql = Account.getQuery();
-                case Transaction.TRANSACTION:
-                    sql = Transaction.getQuery();
-                case Owns.OWNS:
-                    sql = Owns.getQuery();
-            }
             rs = statement.executeQuery(sql);
             //STEP 5: Extract data from result set
             while(rs.next()){
@@ -73,17 +63,12 @@ public class DatabaseHelper {
                                                 rs.getString(Account.BANK_NAME),
                                                 rs.getString(Account.TYPE)));
                     case Transaction.TRANSACTION:
-                        String to = rs.getString(Transaction.TO);
-                        objects.add((to == null) ?
-                                new Transaction(rs.getInt(Transaction.CID),
-                                        rs.getInt(Transaction.FROM),
+                        objects.add(new Transaction(rs.getInt(Transaction.CID),
                                         rs.getDate(Transaction.TIME),
-                                        rs.getString(Transaction.TYPE)) :
-                                new Transaction(rs.getInt(Transaction.CID),
+                                        rs.getString(Transaction.TYPE),
+                                        rs.getDouble(Transaction.AMOUNT),
                                         rs.getInt(Transaction.FROM),
-                                        rs.getInt(Transaction.TO),
-                                        rs.getDate(Transaction.TIME),
-                                        rs.getString(Transaction.TYPE)));
+                                        rs.getInt(Transaction.TO)));
                     case Owns.OWNS:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
