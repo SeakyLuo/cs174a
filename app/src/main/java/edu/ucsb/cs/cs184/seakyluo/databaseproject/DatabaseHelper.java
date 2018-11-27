@@ -3,7 +3,6 @@ import android.util.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class DatabaseHelper {
     public static Customer user;
@@ -46,7 +45,7 @@ public class DatabaseHelper {
         }
     }
 
-    public static ArrayList<Object> get(String sql, String type) {
+    public static ArrayList get(String sql, String table_name) {
         ArrayList<Object> objects = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
@@ -55,24 +54,24 @@ public class DatabaseHelper {
             rs = statement.executeQuery(sql);
             //STEP 5: Extract data from result set
             while(rs.next()){
-                switch (type){
-                    case Customer.CUSTOMER:
+                switch (table_name){
+                    case Customer.TABLE_NAME:
                         objects.add(new Customer(rs.getInt(Customer.ID),
                                                 rs.getString(Customer.NAME),
                                                 rs.getString(Customer.ADDRESS),
                                                 rs.getString(Customer.PIN)));
-                    case Account.ACCOUNT:
+                    case Account.TABLE_NAME:
                         objects.add(new Account(rs.getInt(Account.ID),
                                                 rs.getString(Account.BANK_NAME),
                                                 rs.getString(Account.TYPE)));
-                    case Transaction.TRANSACTION:
+                    case Transaction.TABLE_NAME:
                         objects.add(new Transaction(rs.getInt(Transaction.CID),
                                                     rs.getDate(Transaction.TIME),
                                                     rs.getString(Transaction.TYPE),
                                                     rs.getDouble(Transaction.AMOUNT),
                                                     rs.getInt(Transaction.FROM),
                                                     rs.getInt(Transaction.TO)));
-                    case Owns.OWNS:
+                    case Owns.TABLE_NAME:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
                                             rs.getBoolean(Owns.ISPRIMARY)));

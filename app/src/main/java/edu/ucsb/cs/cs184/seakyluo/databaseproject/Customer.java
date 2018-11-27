@@ -1,8 +1,10 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import java.util.ArrayList;
+
 public class Customer{
-    public static final String CUSTOMER = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
-    public static final String CREATE_TABLE = "CREATE TABLE " + CUSTOMER +"(" + ID + " INTEGER NOT NULL, " +
+    public static final String TABLE_NAME = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     NAME + " TEXT, " +
                                                                                     ADDRESS +" TEXT, " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
@@ -22,12 +24,15 @@ public class Customer{
     public String getAddress() { return address; }
     public String getPin() { return pin; }
     public String insertQuery(){
-        return "INSERT INTO " + CUSTOMER +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
+        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
     }
     public static String getQuery(){
         return "SELECT c." + ID + ", c." + NAME + ", c." + ADDRESS + ", c." + PIN + " " +
-                "FROM " + CUSTOMER + " c";
+                "FROM " + TABLE_NAME + " c";
+    }
+    public static Customer findCustomer(int id){
+        return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id, TABLE_NAME)).get(0);
     }
 
     public static boolean VerifyPin(String PIN){

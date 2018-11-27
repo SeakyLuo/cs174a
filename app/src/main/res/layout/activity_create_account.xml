@@ -12,36 +12,39 @@
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
+
         <RadioGroup
+            android:id="@+id/ca_radio_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <RadioButton
                 android:id="@+id/ca_checking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textSize="18sp"
                 android:layout_weight="1"
-                android:text="Checking Account" />
+                android:checked="true"
+                android:padding="16dp"
+                android:text="Checking Account"
+                android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/ca_savings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textSize="18sp"
                 android:layout_weight="1"
-                android:text="Savings Account" />
+                android:padding="16dp"
+                android:text="Savings Account"
+                android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/ca_pocket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textSize="18sp"
                 android:layout_weight="1"
-                android:text="Pocket Account" />
+                android:padding="16dp"
+                android:text="Pocket Account"
+                android:textSize="18sp" />
         </RadioGroup>
 
         <android.support.v7.widget.AppCompatButton

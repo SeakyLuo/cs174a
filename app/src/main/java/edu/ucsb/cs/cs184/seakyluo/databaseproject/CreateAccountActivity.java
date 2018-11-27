@@ -3,17 +3,37 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 
+import java.util.ArrayList;
+
 public class CreateAccountActivity extends AppCompatActivity {
+
+    private RadioGroup radioGroup;
+    private RadioButton checking, savings, pocket;
+    private Button create_account;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SwipeBackHelper.onCreate(this);
         setContentView(R.layout.activity_create_account);
+        radioGroup = findViewById(R.id.ca_radio_group);
+        checking = findViewById(R.id.ca_checking);
+        savings = findViewById(R.id.ca_savings);
+        pocket = findViewById(R.id.ca_pocket);
+        create_account = findViewById(R.id.ca_create_account);
 
+        ArrayList<Owns> owns = DatabaseHelper.get(Owns.getQuery() + " WHERE o.cid = " + DatabaseHelper.user.getId() , Owns.TABLE_NAME);
+        boolean hasCorS = false;
+        for (Owns own: owns){
+
+        }
+        pocket.setVisibility(hasCorS ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
