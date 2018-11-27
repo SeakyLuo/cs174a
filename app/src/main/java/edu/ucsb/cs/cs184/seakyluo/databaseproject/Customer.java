@@ -47,4 +47,9 @@ public class Customer implements Serializable {
     public void SetPin(String pin){
         this.pin = pin;
     }
+
+    @Override
+    public String toString(){
+        return name + "---" + id;
+    }
 }

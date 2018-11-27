@@ -118,4 +118,9 @@ public class Account implements Serializable {
                 return false;
         }
     }
+
+    @Override
+    public String toString(){
+        return getType() + ": " + aid + "\nBank Name: " + bank_name + "\nBalance: " + balance;
+    }
 }

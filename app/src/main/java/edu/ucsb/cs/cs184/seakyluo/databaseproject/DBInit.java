@@ -1,6 +1,9 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.util.Log;
+
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class DBInit {
     public static void Init(){
@@ -131,5 +134,22 @@ public class DBInit {
         DatabaseHelper.run(new Transaction(401605312, new Date(2011, 3, 12), Transaction.TOP_UP, 50, 19023, 67521).insertQuery());
         DatabaseHelper.run(new Transaction(212431965, new Date(2011, 3, 14), Transaction.PAY_FRIEND, 20, 19023, 53027).insertQuery());
         DatabaseHelper.run(new Transaction(210389768, new Date(2011, 3, 14), Transaction.COLLECT, 15, 43947, 29107).insertQuery());
+        // Verify Insertion is Successful
+        verify();
+    }
+
+    public static void verify(){
+        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME)){
+            Log.d("fuck", account.toString());
+        }
+        for (Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
+            Log.d("fuck", customer.toString());
+        }
+        for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery(), Owns.TABLE_NAME)){
+            Log.d("fuck", owns.toString());
+        }
+        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME)){
+            Log.d("fuck", transaction.toString());
+        }
     }
 }

@@ -42,7 +42,7 @@ public class SelectAccountDialog extends DialogFragment {
         for (Account account: accounts){
             RadioButton button = new RadioButton(getContext());
             button.setPadding(16,8,16,8);
-            button.setText(account.getType() + ": " + account.getId() + "\nBank Name: " + account.getBankName() + "\nBalance: " + account.getBalance());
+            button.setText(account.toString());
             radioGroup.addView(button);
         }
     }

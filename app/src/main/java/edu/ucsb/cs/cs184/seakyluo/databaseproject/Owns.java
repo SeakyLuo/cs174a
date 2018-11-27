@@ -34,4 +34,9 @@ public class Owns implements Serializable {
         return "SELECT o." + CID + ", o." + AID + ", o." + ISPRIMARY + " " +
                 "FROM " + TABLE_NAME + " o";
     }
+
+    @Override
+    public String toString(){
+        return cid + "is a" + (isPrimary ? "primary " : "") + "owner of" + aid;
+    }
 }
