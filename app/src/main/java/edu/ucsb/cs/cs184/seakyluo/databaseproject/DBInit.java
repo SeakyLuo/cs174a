@@ -6,12 +6,15 @@ public class DBInit {
     public static void Init(){
         // Create Tables
         DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_TIME);
+        DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_COUNTER);
         DatabaseHelper.run(Customer.CREATE_TABLE);
         DatabaseHelper.run(Account.CREATE_TABLE);
         DatabaseHelper.run(Owns.CREATE_TABLE);
         DatabaseHelper.run(Transaction.CREATE_TABLE);
         // Insert Time
-        DatabaseHelper.run("INSERT INTO Time(time) VALUES TO_DATE('" + 25 + "/" + 11+ "/" + 2018 + "'', 'DD/MM/YYYY')");
+        DatabaseHelper.insertTime(2018,11,26);
+        // Insert Counter
+        DatabaseHelper.insertCounter();
         // Insert Customers
         DatabaseHelper.run(new Customer(361721022, "Alfred Hitchcock", "6667 El Colegio #40", "1234").insertQuery());
         DatabaseHelper.run(new Customer(231403227, "Billy Clinton", "5777 Hollister", "1468").insertQuery());

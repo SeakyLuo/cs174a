@@ -29,11 +29,34 @@ public class CreateAccountActivity extends AppCompatActivity {
         create_account = findViewById(R.id.ca_create_account);
 
         ArrayList<Owns> owns = DatabaseHelper.get(Owns.getQuery() + " WHERE o.cid = " + DatabaseHelper.user.getId() , Owns.TABLE_NAME);
-        boolean hasCorS = false;
-        for (Owns own: owns){
+        pocket.setVisibility(owns.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.ca_checking:
+                        PutMoney();
+                    case R.id.ca_savings:
+                        PutMoney();
+                    case R.id.ca_pocket:
+                        LinkAccount();
+                }
+            }
+        });
+    }
 
+    public void LinkAccount(){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: Account.findUserAccounts()){
+            if (!account.isPocket() && !account.isClosed()){
+                accounts.add(account);
+            }
         }
-        pocket.setVisibility(hasCorS ? View.VISIBLE : View.INVISIBLE);
+        // TODO: show accounts
+    }
+
+    public void PutMoney(){
+
     }
 
     @Override

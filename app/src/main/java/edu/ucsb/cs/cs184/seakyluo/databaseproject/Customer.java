@@ -36,7 +36,7 @@ public class Customer{
     }
 
     public static boolean VerifyPin(String PIN){
-        return false;
+        return DatabaseHelper.user.pin.equals(PIN);
     }
 
     public void SetPin(String pin){

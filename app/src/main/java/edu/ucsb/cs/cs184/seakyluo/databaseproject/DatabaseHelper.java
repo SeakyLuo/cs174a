@@ -7,9 +7,11 @@ import java.util.ArrayList;
 public class DatabaseHelper {
     public static Customer user;
     public static Date time;
+    private static int acount, ccount;
 
-    public static final String TIME = "Time";
+    public static final String TIME = "Time", COUNTER = "Counter", ACOUNT = "AccountCounter", CCOUNT = "CustomerCounter";
     public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE)";
+    public static final String CREATE_TABLE_COUNTER = "CREATE TABLE" + COUNTER + "(" + ACOUNT + " INTEGER" + ", " + CCOUNT + ")";
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:XE";
 
@@ -77,6 +79,10 @@ public class DatabaseHelper {
                                             rs.getBoolean(Owns.ISPRIMARY)));
                     case TIME:
                         time = rs.getDate("time");
+                    case ACOUNT:
+                        acount = rs.getInt(ACOUNT);
+                    case CCOUNT:
+                        ccount = rs.getInt(CCOUNT);
                 }
             }
         } catch (SQLException e) {
@@ -120,8 +126,20 @@ public class DatabaseHelper {
 
     public static boolean isInitFinished() { return initFinished; }
     public static void setTime(int year, int month, int day){
-        run("UPDATE Time t SET t.time = TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
+        run("UPDATE " + TIME + " t SET t.time = TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
         time = new Date(year, month, day);
+    }
+    public static void insertTime(int year, int month, int day){
+        run("INSERT INTO " + TIME + "(time) VALUES TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
+    }
+    public static void updateCounter(String variable){
+        if (variable.equals(ACOUNT) || variable.equals(CCOUNT))
+            run("UPDATE " + COUNTER + " c SET c." + variable + "=c." + variable + "+1");
+    }
+    public static int getAcount() { return acount; }
+    public static int getCcount() { return ccount; }
+    public static void insertCounter(){
+        run("INSERT INTO " + COUNTER + "(" + ACOUNT + ", " + CCOUNT + ") VALUES (10000, 10000)");
     }
 
     public static void close(){

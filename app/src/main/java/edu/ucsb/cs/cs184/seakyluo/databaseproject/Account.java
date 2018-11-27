@@ -37,7 +37,8 @@ public class Account {
 
     public int getId() { return aid; }
     public String getType(){
-        return type;
+       if (isPocket()) return POCKET;
+       return type;
     }
     public String getBankName() { return bank_name; }
     public double getBalance() { return balance; }
@@ -62,11 +63,34 @@ public class Account {
         return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
                 "FROM " + TABLE_NAME + " a";
     }
-    public static Account findAccount(int id){
-        return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + id, TABLE_NAME)).get(0);
+    public static Account findAccount(int aid){
+        return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
+    }
+    public static ArrayList<Account> findUserAccounts(){
+        ArrayList<Account> accounts = new ArrayList<>();
+        if (DatabaseHelper.user == null) return accounts;
+        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + DatabaseHelper.user.getId(), Owns.TABLE_NAME)){
+            accounts.add(findAccount(owns.getAid()));
+        }
+        return accounts;
     }
 
     public boolean isClosed() { return balance <= 0.01; }
+    public boolean isPocket() {
+        try{
+            Integer.parseInt(type);
+            return true;
+        }catch (NumberFormatException e){
+            return false;
+        }
+    }
+    public int getPocketLinkedAccount(){
+        try{
+            return Integer.parseInt(type);
+        }catch (NumberFormatException e){
+            return 0;
+        }
+    }
 
     public boolean ValidTransactions(Transaction transaction){
         switch (type){
