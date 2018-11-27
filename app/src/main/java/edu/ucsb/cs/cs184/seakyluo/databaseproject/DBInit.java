@@ -135,10 +135,10 @@ public class DBInit {
         DatabaseHelper.run(new Transaction(212431965, new Date(2011, 3, 14), Transaction.PAY_FRIEND, 20, 19023, 53027).insertQuery());
         DatabaseHelper.run(new Transaction(210389768, new Date(2011, 3, 14), Transaction.COLLECT, 15, 43947, 29107).insertQuery());
         // Verify Insertion is Successful
-        verify();
+        Verification();
     }
 
-    public static void verify(){
+    public static void Verification(){
         for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME)){
             Log.d("fuck", account.toString());
         }
