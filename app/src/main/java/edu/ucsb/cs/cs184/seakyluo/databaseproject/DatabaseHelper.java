@@ -7,7 +7,10 @@ import java.util.Objects;
 
 public class DatabaseHelper {
     public static Customer user;
+    public static Date time;
 
+    public static final String TIME = "Time";
+    public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE)";
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:XE";
 
@@ -64,17 +67,18 @@ public class DatabaseHelper {
                                                 rs.getString(Account.TYPE)));
                     case Transaction.TRANSACTION:
                         objects.add(new Transaction(rs.getInt(Transaction.CID),
-                                        rs.getDate(Transaction.TIME),
-                                        rs.getString(Transaction.TYPE),
-                                        rs.getDouble(Transaction.AMOUNT),
-                                        rs.getInt(Transaction.FROM),
-                                        rs.getInt(Transaction.TO)));
+                                                    rs.getDate(Transaction.TIME),
+                                                    rs.getString(Transaction.TYPE),
+                                                    rs.getDouble(Transaction.AMOUNT),
+                                                    rs.getInt(Transaction.FROM),
+                                                    rs.getInt(Transaction.TO)));
                     case Owns.OWNS:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
                                             rs.getBoolean(Owns.ISPRIMARY)));
+                    case TIME:
+                        time = rs.getDate("time");
                 }
-                objects.add(rs.getObject(sql));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,6 +120,10 @@ public class DatabaseHelper {
     }
 
     public static boolean isInitFinished() { return initFinished; }
+    public static void setTime(int year, int month, int day){
+        run("UPDATE Time t SET t.time = TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
+        time = new Date(year, month, day);
+    }
 
     public static void close(){
         try {
