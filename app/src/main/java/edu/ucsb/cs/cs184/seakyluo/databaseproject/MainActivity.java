@@ -14,9 +14,6 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private TabPagerAdapter adapter;
     private int position;
-    private ATMFragment atmFragment;
-    private BankTellerFragment bankTellerFragment;
-    private ArrayList<Fragment> fragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,7 +9,7 @@ public class DBInit {
     public static void Init(){
         // Create Tables
         DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_TIME);
-//        DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_COUNTER);
+        DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_COUNTER);
         DatabaseHelper.run(Customer.CREATE_TABLE);
         DatabaseHelper.run(Account.CREATE_TABLE);
         DatabaseHelper.run(Owns.CREATE_TABLE);
