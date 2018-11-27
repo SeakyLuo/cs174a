@@ -1,5 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.widget.Toast;
+
 import java.sql.Date;
 
 public class Transaction {
@@ -40,5 +42,39 @@ public class Transaction {
     public static String getQuery(){
         return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + " " +
                 "FROM " + TABLE_NAME + " t";
+    }
+    public static void Deposit(int toAccount, double amount){
+
+    }
+    public static void TopUp(int fromAccount, double amount){
+
+    }
+    public static void Withdraw(int fromAccount, double amount){
+
+    }
+    public static void Purchase(int fromAccount, double amount){
+
+    }
+    public static void Transfer(int from, int to, double amount){
+
+    }
+    public static void Collect(int from, int to, double amount){
+
+    }
+
+    public static void Wire(int from, int to, double amount){
+
+    }
+
+    public static void PayFriend(int from, int to, double amount){
+
+    }
+
+    public static void WriteCheck(int from, double amount){
+
+    }
+
+    public static void AccrueInterest(int to, double amount){
+
     }
 }
