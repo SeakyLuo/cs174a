@@ -12,6 +12,9 @@ public class DatabaseHelper {
     public static final String TIME = "Time", COUNTER = "Counter", ACOUNT = "AccountCounter", CCOUNT = "CustomerCounter";
     public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE)";
     public static final String CREATE_TABLE_COUNTER = "CREATE TABLE" + COUNTER + "(" + ACOUNT + " INTEGER" + ", " + CCOUNT + ")";
+    public static final String GET_TIME = "SELECT t.time FROM " + TIME + " t";
+    public static final String GET_ACOUNT = "SELECT c." + ACOUNT + " FROM " + COUNTER + " c";
+    public static final String GET_CCOUNT = "SELECT c." + CCOUNT + " FROM " + COUNTER + " c";
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DB_URL = "jdbc:oracle:thin:@cloud-34-133.eci.ucsb.edu:1521:XE";
 
