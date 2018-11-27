@@ -11,7 +11,7 @@ public class DatabaseHelper {
 
     public static final String TIME = "Time", COUNTER = "Counter", ACOUNT = "AccountCounter", CCOUNT = "CustomerCounter";
     public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE)";
-    public static final String CREATE_TABLE_COUNTER = "CREATE TABLE" + COUNTER + "(" + ACOUNT + " INTEGER" + ", " + CCOUNT + ")";
+    public static final String CREATE_TABLE_COUNTER = "CREATE TABLE " + COUNTER + "(" + ACOUNT + " INTEGER" + ", " + CCOUNT + " INTEGER" + ")";
     private static final String GET_TIME = "SELECT t.time FROM " + TIME + " t";
     private static final String GET_ACOUNT = "SELECT c." + ACOUNT + " FROM " + COUNTER + " c";
     private static final String GET_CCOUNT = "SELECT c." + CCOUNT + " FROM " + COUNTER + " c";
@@ -42,14 +42,15 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
-//            DBInit.Init();
-//            get(GET_TIME, TIME);
-//            get(GET_ACOUNT, ACOUNT);
-//            get(GET_CCOUNT, CCOUNT);
+            DBInit.Init();
+            get(GET_TIME, TIME);
+            get(GET_ACOUNT, ACOUNT);
+            get(GET_CCOUNT, CCOUNT);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+            close();
         }
     }
 
@@ -95,12 +96,16 @@ public class DatabaseHelper {
             e.printStackTrace();
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             try {
-                rs.close();
+                if (rs != null) {
+                    rs.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -109,21 +114,27 @@ public class DatabaseHelper {
     }
 
     public static void run(String sql){
+        Log.d("fuck", sql);
         Statement statement = null;
         ResultSet rs = null;
         try {
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
         } catch (SQLException e) {
+            Log.d("fuck", e.toString());
             e.printStackTrace();
         }finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             try {
-                rs.close();
+                if (rs != null) {
+                    rs.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -132,11 +143,11 @@ public class DatabaseHelper {
 
     public static boolean isInitFinished() { return initFinished; }
     public static void setTime(int year, int month, int day){
-        run("UPDATE " + TIME + " t SET t.time = TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
+        run("UPDATE " + TIME + " t SET t.time = TO_DATE('" + day + "/" + month + "/" + year + "', 'DD/MM/YYYY')");
         time = new Date(year, month, day);
     }
     public static void insertTime(int year, int month, int day){
-        run("INSERT INTO " + TIME + "(time) VALUES TO_DATE('" + year + "/" + month + "/" + day + "', 'YYYY/MM/DD')");
+        run("INSERT INTO " + TIME + "(time) VALUES TO_DATE('" + day + "/" + month + "/" + year + "', 'DD/MM/YYYY')");
     }
     public static void updateCounter(String variable){
         if (variable.equals(ACOUNT) || variable.equals(CCOUNT))
@@ -148,9 +159,18 @@ public class DatabaseHelper {
         run("INSERT INTO " + COUNTER + "(" + ACOUNT + ", " + CCOUNT + ") VALUES (10000, 10000)");
     }
 
+    public static void clear(){
+        // Drop all tables
+        run(Account.DROP_TABLE);
+        run(Customer.DROP_TABLE);
+        run(Owns.DROP_TABLE);
+        run(Transaction.DROP_TABLE);
+    }
+
     public static void close(){
         try {
             connection.close();
+            Log.d("fuck", "Connection Closed");
         } catch (SQLException e) {
             e.printStackTrace();
         }

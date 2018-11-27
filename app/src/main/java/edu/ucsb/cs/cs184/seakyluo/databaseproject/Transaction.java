@@ -7,14 +7,15 @@ import java.sql.Date;
 
 public class Transaction implements Serializable {
     public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type", AMOUNT = "amount";
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + CID + "INTEGER NOT NULL, " +
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + CID + " INTEGER NOT NULL, " +
                                                                                         TIME + " DATE, " +
                                                                                         TYPE + " TEXT, " +
-                                                                                        AMOUNT + " REAL" +
+                                                                                        AMOUNT + " REAL, " +
                                                                                         FROM + " INTEGER, " +
                                                                                         TO + " INTEGER, " +
-                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + ")" +
+                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + "), " +
                                                                                         "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
             COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest";
     private int cid, from = 0, to = 0;
@@ -38,11 +39,11 @@ public class Transaction implements Serializable {
     public String getType() { return type; }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT+ ", " + FROM + ", " + TO + ") " +
-                "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ", " + amount + ")";
+                "VALUES (" + cid + ", " + time + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
     }
     public static String InsertQuery(int cid, Date time, String type, double amount, int from, int to){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ") " +
-                "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ", " + amount + ")";
+                "VALUES (" + cid + ", " + time + ", '" + type + ", " + amount + ", " + from + ", " + to + ")";
     }
     public static String getQuery(){
         return "SELECT t." + CID + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + ", t." + FROM + ", t." + TO + " " +

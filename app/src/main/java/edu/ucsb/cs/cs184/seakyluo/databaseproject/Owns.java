@@ -8,8 +8,9 @@ public class Owns implements Serializable {
                                                                                 AID + " INTEGER NOT NULL, " +
                                                                                 ISPRIMARY +" BIT NOT NULL, "+
                                                                                 "PRIMARY KEY(" + CID + ", " + AID +"), " +
-                                                                                "FOREIGN KEY(" + CID + ") REFERENCES Customer) ON DELETE CASCADE, " +
-                                                                                "FOREIGN KEY(" + AID + ") REFERENCES Account) ON DELETE CASCADE)";
+                                                                                "FOREIGN KEY(" + CID + ") REFERENCES Customer ON DELETE CASCADE, " +
+                                                                                "FOREIGN KEY(" + AID + ") REFERENCES Account ON DELETE CASCADE)";
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     private int cid, aid;
     private boolean isPrimary;
 

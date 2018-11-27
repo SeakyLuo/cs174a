@@ -10,7 +10,7 @@ public class Customer implements Serializable {
                                                                                     ADDRESS +" TEXT, " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
                                                                                     " PRIMARY KEY(" + ID +"))";
-
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     private int id;
     private String name, address, pin = "1717";
 
@@ -26,11 +26,11 @@ public class Customer implements Serializable {
     public String getPin() { return pin; }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
-                "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
+                "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
     }
     public static String InsertQuery(int id, String name, String address, String pin){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
-                "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
+                "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
     }
     public static String getQuery(){
         return "SELECT c." + ID + ", c." + NAME + ", c." + ADDRESS + ", c." + PIN + " " +

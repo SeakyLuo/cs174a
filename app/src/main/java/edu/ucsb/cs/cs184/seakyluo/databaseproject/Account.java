@@ -12,6 +12,7 @@ public class Account implements Serializable {
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
             VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
@@ -58,11 +59,11 @@ public class Account implements Serializable {
     }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
-                "VALUES (" + aid + ", " + bank_name + ", " + type + ", " + balance + ", " + interest + ")";
+                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
     }
     public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
-                "VALUES (" + aid + ", " + bank_name + ", " + type + ", " + balance + ", " + interest + ")";
+                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
     }
     public static String getQuery(){
         return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
