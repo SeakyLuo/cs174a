@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 public class SelectAccountDialog extends DialogFragment {
 
-    private RecyclerViewFragment fragment;
-    private SelectAccountAdapter adapter;
     private RadioGroup radioGroup;
     private Button confirm;
     private ArrayList<onConfirmListener> listeners = new ArrayList<>();
