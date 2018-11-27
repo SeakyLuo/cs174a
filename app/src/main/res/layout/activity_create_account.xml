@@ -54,17 +54,18 @@
                 android:padding="16dp"
                 android:text="Pocket Account"
                 android:textSize="18sp" />
-
         </RadioGroup>
 
-        <Button
+        <EditText
             android:id="@+id/ca_select_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Select Account To Link"
-            android:textAllCaps="false"
-            android:visibility="invisible" />
+            android:hint="Select Account To Link"
+            android:editable="false"
+            android:clickable="true"
+            android:inputType="textPersonName"
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/ca_bank_name"

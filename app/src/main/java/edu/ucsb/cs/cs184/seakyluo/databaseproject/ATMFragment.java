@@ -15,7 +15,8 @@ import android.widget.Toast;
 import static android.app.Activity.RESULT_OK;
 
 public class ATMFragment extends Fragment {
-    public static final int LOGIN = 0;
+    public static final int LOGIN = 0, DEPOSIT = 1, TOP_UP = 2, WITHDRAW = 3, PURCHASE = 4,
+                            TRANSFER = 5, COLLECT = 6, WIRE = 7, PAY_FRIEND = 8;
     private Button login;
 
     public void Deposit(){
@@ -23,6 +24,11 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
+        intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findUserNonPocketAccounts());
+        startActivityForResult(intent, DEPOSIT);
     }
 
     public void TopUp(){
@@ -30,6 +36,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.TOP_UP);
+        startActivityForResult(intent, TOP_UP);
     }
 
     public void Withdraw(){
@@ -37,6 +46,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
+        startActivityForResult(intent, WITHDRAW);
     }
 
     public void Purchase(){
@@ -44,6 +56,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
+        startActivityForResult(intent, PURCHASE);
     }
 
     public void Transfer(){
@@ -51,6 +66,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
+        startActivityForResult(intent, TRANSFER);
     }
 
     public void Collect(){
@@ -58,6 +76,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.COLLECT);
+        startActivityForResult(intent, COLLECT);
     }
 
     public void Wire(){
@@ -65,6 +86,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
+        startActivityForResult(intent, DEPOSIT);
     }
 
     public void PayFriend(){
@@ -72,6 +96,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.PAY_FRIEND);
+        startActivityForResult(intent, PAY_FRIEND);
     }
 
     public void QuickCash(){
@@ -88,6 +115,34 @@ public class ATMFragment extends Fragment {
             DatabaseHelper.user = null;
             login.setText(getString(R.string.login));
             Toast.makeText(getContext(), "Logout Successful!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) return;
+        int from = data.getIntExtra(UserInputActivity.FROM,0);
+        int to = data.getIntExtra(UserInputActivity.TO, 0);
+        double amount =data.getDoubleExtra(UserInputActivity.AMOUNT, 0);
+        switch (requestCode){
+            case LOGIN:
+                login.setText(R.string.logout);
+            case DEPOSIT:
+                //
+            case TOP_UP:
+                //
+            case WITHDRAW:
+                //
+            case PURCHASE:
+                //
+            case TRANSFER:
+                //
+            case COLLECT:
+                //
+            case WIRE:
+                //
+            case PAY_FRIEND:
+                //
         }
     }
 
@@ -157,14 +212,5 @@ public class ATMFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LOGIN) {
-            if (resultCode == RESULT_OK) {
-                login.setText(R.string.logout);
-            }
-        }
     }
 }

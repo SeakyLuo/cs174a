@@ -79,6 +79,13 @@ public class Account implements Serializable {
         }
         return accounts;
     }
+    public static ArrayList<Account> findUserNonPocketAccounts(){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: findUserAccounts())
+            if (!account.isPocket())
+                accounts.add(account);
+        return accounts;
+    }
 
     public boolean isClosed() { return balance <= 0.01; }
     public boolean isPocket() {

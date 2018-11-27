@@ -17,8 +17,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private RadioGroup radioGroup;
     private RadioButton ichecking, schecking, savings, pocket;
-    private EditText input_amount, bank_name;
-    private Button create_account, select_account;
+    private EditText input_amount, bank_name, select_account;
+    private Button create_account;
     private Account selected_account;
 
     @Override
@@ -49,7 +49,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     @Override
                     public void onConfirm(Account account) {
                         selected_account = account;
-                        select_account.setText(account.getId());
+                        select_account.setText(account.getId() + "");
                     }
                 });
             }
