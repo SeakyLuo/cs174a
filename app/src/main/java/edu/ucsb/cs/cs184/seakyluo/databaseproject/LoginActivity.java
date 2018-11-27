@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity{
         _idText = findViewById(R.id.input_id);
         _pinText = findViewById(R.id.input_pin);
         _loginButton = findViewById(R.id.btn_login);
-        _signupLink = findViewById(R.id.link_signup);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,27 +42,11 @@ public class LoginActivity extends AppCompatActivity{
                 }
             }
         });
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, SIGNUP);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SIGNUP) {
-            if (resultCode == RESULT_OK) {
-                onLoginSuccess();
-            }
-        }
     }
 
     public void onLoginSuccess() {
         DatabaseHelper.user = null;
+        setResult(RESULT_OK);
         finish();
     }
 

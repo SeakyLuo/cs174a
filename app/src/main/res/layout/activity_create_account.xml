@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RadioButton
+                android:id="@+id/ca_checking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="Checking Account" />
+
+            <RadioButton
+                android:id="@+id/ca_savings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="Savings Account" />
+
+            <RadioButton
+                android:id="@+id/ca_pocket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="Pocket Account" />
+        </RadioGroup>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/ca_create_account"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/Gold"
+            android:padding="12dp"
+            android:gravity="center"
+            android:text="Create Account" />
+
+    </LinearLayout>
+</ScrollView>

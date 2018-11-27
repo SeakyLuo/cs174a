@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class BankTellerFragment extends Fragment {
 
@@ -44,11 +45,6 @@ public class BankTellerFragment extends Fragment {
     public void AddInterest(){
 
     }
-
-    public void CreateAccount(){
-        startActivity(new Intent(getContext(), SignupActivity.class));
-    }
-
     public void DeleteAccounts(){
 
     }
@@ -61,6 +57,22 @@ public class BankTellerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bank_teller, container, false);
+        view.findViewById(R.id.sign_up).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SignupActivity.class));
+            }
+        });
+        view.findViewById(R.id.create_account).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DatabaseHelper.user == null){
+                    Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startActivity(new Intent(getContext(), CreateAccountActivity.class));
+            }
+        });
         view.findViewById(R.id.set_new_date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,12 +119,6 @@ public class BankTellerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AddInterest();
-            }
-        });
-        view.findViewById(R.id.create_account).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateAccount();
             }
         });
         view.findViewById(R.id.delete_accounts).setOnClickListener(new View.OnClickListener() {

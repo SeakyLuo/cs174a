@@ -83,7 +83,7 @@
             android:background="@color/Gold"
             android:padding="12dp"
             android:gravity="center"
-            android:text="Create Account" />
+            android:text="Sign Up" />
 
     </LinearLayout>
 </ScrollView>

@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -42,7 +43,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
-        setResult(RESULT_OK);
         UseridDialog fragment = new UseridDialog();
         fragment.setCaller(SignupActivity.this);
         fragment.showNow(getSupportFragmentManager(), "UserID");

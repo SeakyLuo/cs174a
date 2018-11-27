@@ -10,7 +10,7 @@ public class Account {
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
-    public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Aavings", POCKET = "Pocket";
+    public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
             VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
             VT_POCKET = {Transaction.TOP_UP, Transaction.PURCHASE, Transaction.COLLECT, Transaction.PAY_FRIEND};

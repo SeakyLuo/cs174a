@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,19 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class ATMFragment extends Fragment {
-    private Button login;
+import static android.app.Activity.RESULT_OK;
 
-    public void Login(){
-        if (login.getText().toString().equals(getString(R.string.login))){
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            login.setText(getString(R.string.logout));
-        } else{
-            DatabaseHelper.user = null;
-            login.setText(getString(R.string.login));
-            Toast.makeText(getContext(), "Logout Successful!", Toast.LENGTH_SHORT).show();
-        }
-    }
+public class ATMFragment extends Fragment {
+    public static final int LOGIN = 0;
+    private Button login;
 
     public void Deposit(){
         if (DatabaseHelper.user == null){
@@ -85,6 +78,16 @@ public class ATMFragment extends Fragment {
         if (DatabaseHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
+        }
+    }
+
+    public void Login(){
+        if (login.getText().toString().equals(getString(R.string.login))){
+            startActivityForResult(new Intent(getContext(), LoginActivity.class), LOGIN);
+        } else{
+            DatabaseHelper.user = null;
+            login.setText(getString(R.string.login));
+            Toast.makeText(getContext(), "Logout Successful!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -154,5 +157,14 @@ public class ATMFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOGIN) {
+            if (resultCode == RESULT_OK) {
+                login.setText(R.string.logout);
+            }
+        }
     }
 }
