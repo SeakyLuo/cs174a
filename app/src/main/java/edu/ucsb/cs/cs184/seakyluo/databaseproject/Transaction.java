@@ -49,38 +49,119 @@ public class Transaction implements Serializable {
         return "SELECT t." + CID + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + ", t." + FROM + ", t." + TO + " " +
                 "FROM " + TABLE_NAME + " t";
     }
+
+    //add details into trans table inside the helper functions
     public static void Deposit(int toAccount, double amount){
+        Account acc1 = Account.findAccount(from);
+        acc1.modifyBalance(amount);
+    }
+    public static void TopUp(int from, int to, double amount){
+        Account acc1 = Account.findAccount(from);
+        Account acc2 = Account.findAccount(to);
+        //to do
+        // check if it is linked????
+        if(acc1.getBalance() < amount){
+            //error message
+        }
+        else if (!acc2.isPocket()) {
+            //error message
+        }
+        acc1.modifyBalance(-amount);
+        acc2.modifyBalance(amount);
+    }
+    public static void Withdraw(int from, double amount){
+        Account acc1 = Account.findAccount(from);
+        if(acc1.getBalance() < amount){
+            //error message
+        }
+        acc1.modifyBalance(-amount);
+    }
+    public static void Purchase(int from, double amount){
+        Account acc1 = Account.findAccount(from);
+        if(!acc1.isPocket()) {
+            //error message
+        }
+        else if (acc1.getBalance() < amount) {
+            //error message
+        }
+        acc1.modifyBalance(-amount);
 
     }
-    public static void TopUp(int fromAccount, double amount){
+    public static void Transfer(int from, int to, double amount, int userid){
+        // should findaccount return a set of accounts instead of get (0)
+        Account acc1 = Account.findAccount(from);
+        Account acc2 = Account.findAccount(to);
 
-    }
-    public static void Withdraw(int fromAccount, double amount){
-
-    }
-    public static void Purchase(int fromAccount, double amount){
-
-    }
-    public static void Transfer(int from, int to, double amount){
+        //f(acc1.getusers intersect acc2.getusers ==0){ error message}
+        if(amount>2000){
+            //error message
+        }
+        //else if(userid not in acc1.getusers || userid not in acc2.getusers ){error message}
+        acc1.modifyBalance(-amount);
+        acc2.modifyBalance(amount);
 
     }
     public static void Collect(int from, int to, double amount){
+        Account acc1 = Account.findAccount(from);
+        Account acc2 = Account.findAccount(to);
+        if(!acc1.isPocket()) {
+            //error message
+        }
+        else if(acc1.getBalance() < amount){
+            //error message
+        }
+        acc1.modifyBalance(-amount);
+        acc2.modifyBalance(amount * 0.97);
 
     }
 
-    public static void Wire(int from, int to, double amount){
-
+    public static void Wire(int from, int to, double amount, int userid){
+        Account acc1 = Account.findAccount(from);
+        Account acc2 = Account.findAccount(to);
+        if(acc1.isPocket()){
+            //error message
+        }
+        else if(acc2.isPocket()){
+            //error
+        }
+        //else if(userid not in acc1.getusers){error message}
+        acc1.modifyBalance(-amount);
+        acc2.modifyBalance(amount * 0.98);
+        {
+            //error message
+        }
     }
 
     public static void PayFriend(int from, int to, double amount){
+        Account acc1 = Account.findAccount(from);
+        Account acc2 = Account.findAccount(to);
+        if(!acc1.isPocket()) {
+            //error message
+        }
+        else if(!acc2.isPocket()){
+            //error message
+        }
+        else if(acc1.getBalance() < amount){
+            //error message
+        }
+        acc1.modifyBalance(-amount);
+        acc2.modifyBalance(amount);
 
     }
 
     public static void WriteCheck(int from, double amount){
+        Account acc1 = Account.findAccount(from);
+        if(acc1.getType()!="CHECKING") {
+            //error message
+        }
+        acc1.modifyBalance(-amount);
+        //where to save it  ??????
 
     }
 
     public static void AccrueInterest(int to, double amount){
+        Account acc1 = Account.findAccount(to);
+        acc1.modifyBalance(amount);
 
     }
     @Override
