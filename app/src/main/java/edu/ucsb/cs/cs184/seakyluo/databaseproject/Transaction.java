@@ -77,4 +77,8 @@ public class Transaction {
     public static void AccrueInterest(int to, double amount){
 
     }
+    @Override
+    public String toString(){
+        return time.toString() + "---" + Customer.findCustomer(cid).getName() + "---" + type + "---$" + amount + ((from != 0) ? "---from " + from : "") + ((to != 0) ? "---to " + to : "") ;
+    }
 }
