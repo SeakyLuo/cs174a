@@ -2,9 +2,10 @@ package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Transaction {
+public class Transaction implements Serializable {
     public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type", AMOUNT = "amount";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + CID + "INTEGER NOT NULL, " +
                                                                                         TIME + " DATE, " +
@@ -36,11 +37,15 @@ public class Transaction {
     public Date getTime() { return time; }
     public String getType() { return type; }
     public String insertQuery(){
+        return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT+ ", " + FROM + ", " + TO + ") " +
+                "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ", " + amount + ")";
+    }
+    public static String InsertQuery(int cid, Date time, String type, double amount, int from, int to){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ") " +
                 "VALUES (" + cid + ", " + from + ", " + to + ", " + time + ", " + type + ", " + amount + ")";
     }
     public static String getQuery(){
-        return "SELECT t." + CID + ", t." + FROM + ", t." + TO + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + " " +
+        return "SELECT t." + CID + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + ", t." + FROM + ", t." + TO + " " +
                 "FROM " + TABLE_NAME + " t";
     }
     public static void Deposit(int toAccount, double amount){

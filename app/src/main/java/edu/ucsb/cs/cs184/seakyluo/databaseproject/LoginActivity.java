@@ -35,17 +35,17 @@ public class LoginActivity extends AppCompatActivity{
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Customer.VerifyPin(_pinText.getText().toString())) {
-                    onLoginFailed();
-                } else{
+                if (Customer.VerifyPin(_pinText.getText().toString())) {
                     onLoginSuccess();
+                } else{
+                    onLoginFailed();
                 }
             }
         });
     }
 
     public void onLoginSuccess() {
-        DatabaseHelper.user = null;
+        DatabaseHelper.user = Customer.findCustomer(Integer.parseInt(_idText.getText().toString()));
         setResult(RESULT_OK);
         finish();
     }

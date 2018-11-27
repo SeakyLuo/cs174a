@@ -9,9 +9,9 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
 
         <RadioGroup
             android:id="@+id/ca_radio_group"
@@ -19,13 +19,22 @@
             android:layout_height="match_parent">
 
             <RadioButton
-                android:id="@+id/ca_checking"
+                android:id="@+id/ca_ichecking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
                 android:padding="16dp"
-                android:text="Checking Account"
+                android:text="Interest-Checking Account"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/ca_schecking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Student-Checking Account"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -45,9 +54,38 @@
                 android:padding="16dp"
                 android:text="Pocket Account"
                 android:textSize="18sp" />
+
         </RadioGroup>
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
+            android:id="@+id/ca_select_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Select Account To Link"
+            android:textAllCaps="false"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/ca_bank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Bank Name" />
+
+        <EditText
+            android:id="@+id/ca_input_amount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Deposit"
+            android:inputType="numberSigned|numberDecimal" />
+
+        <Button
             android:id="@+id/ca_create_account"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

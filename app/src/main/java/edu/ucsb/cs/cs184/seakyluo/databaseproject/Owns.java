@@ -1,6 +1,8 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-public class Owns {
+import java.io.Serializable;
+
+public class Owns implements Serializable {
     public static final String TABLE_NAME = "Owns", CID = "cid", AID = "aid", ISPRIMARY = "isPrimary";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + CID + " INTEGER NOT NULL, " +
                                                                                 AID + " INTEGER NOT NULL, " +
@@ -21,6 +23,10 @@ public class Owns {
     public int getAid() { return aid; }
     public boolean isPrimary() { return isPrimary; }
     public String insertQuery(){
+        return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
+                "VALUES (" + cid + ", " + aid + ", " + isPrimary + ")";
+    }
+    public static String InsertQuery(int cid, int aid, boolean isPrimary){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
                 "VALUES (" + cid + ", " + aid + ", " + isPrimary + ")";
     }

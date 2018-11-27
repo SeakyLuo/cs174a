@@ -1,8 +1,9 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Customer{
+public class Customer implements Serializable {
     public static final String TABLE_NAME = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     NAME + " TEXT, " +
@@ -24,6 +25,10 @@ public class Customer{
     public String getAddress() { return address; }
     public String getPin() { return pin; }
     public String insertQuery(){
+        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
+                "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
+    }
+    public static String InsertQuery(int id, String name, String address, String pin){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", " + name + ", " + address + ", " + pin + ")";
     }

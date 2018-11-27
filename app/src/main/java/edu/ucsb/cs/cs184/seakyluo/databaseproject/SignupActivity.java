@@ -16,7 +16,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText _pinText;
     private EditText _cpinText;
     private Button _signupButton;
-    private TextView _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +43,15 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         UseridDialog fragment = new UseridDialog();
+        int ccount = DatabaseHelper.getCcount();
+        DatabaseHelper.updateCounter(DatabaseHelper.CCOUNT);
+        Customer customer = new Customer(ccount, _nameText.getText().toString(), _addressText.getText().toString(), _pinText.getText().toString());
+        DatabaseHelper.user = customer;
+        DatabaseHelper.run(customer.insertQuery());
         fragment.setCaller(SignupActivity.this);
         fragment.showNow(getSupportFragmentManager(), "UserID");
+        startActivity(new Intent(SignupActivity.this, CreateAccountActivity.class));
+        finish();
     }
 
     public void onSignupFailed() {
@@ -76,18 +82,13 @@ public class SignupActivity extends AppCompatActivity {
             _pinText.setError("You PIN should have exactly 4 digits.");
             valid = false;
         }
-        // TODO: change to if used
-        if (pin.length() > 30) {
-            _pinText.setError("This PIN has been used.");
-            valid = false;
-        }
 
         if (cpin.isEmpty()) {
             _cpinText.setError("Empty!");
             valid = false;
         }
         if (!cpin.equals(pin)) {
-            _cpinText.setError("Passwords NOT match!");
+            _cpinText.setError("PIN NOT match!");
             valid = false;
         }
 

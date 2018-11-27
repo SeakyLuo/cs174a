@@ -1,9 +1,10 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Account {
+public class Account implements Serializable {
     public static final String TABLE_NAME = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     BANK_NAME + " TEXT, " +
@@ -56,6 +57,10 @@ public class Account {
         // updates db
     }
     public String insertQuery(){
+        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
+                "VALUES (" + aid + ", " + bank_name + ", " + type + ", " + balance + ", " + interest + ")";
+    }
+    public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
                 "VALUES (" + aid + ", " + bank_name + ", " + type + ", " + balance + ", " + interest + ")";
     }
