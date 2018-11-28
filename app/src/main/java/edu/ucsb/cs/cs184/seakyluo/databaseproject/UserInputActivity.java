@@ -19,11 +19,12 @@ public class UserInputActivity extends AppCompatActivity {
     public static final String FROM_VISIBLE = "fv", TO_VISIBLE = "tv";
     public static final String FROM_TYPE = "ft", TO_TYPE = "tt";
 
-    private TextView title;
+    private TextView title_text;
     private EditText fromAccount, toAccount, amount;
     private ImageButton back;
     private Button confirm;
-    private int from, to;
+    private String title;
+    private int from = 0, to = 0;
     private Account selected_from, selected_to;
     private boolean fromVisible = true, toVisible = true;
     private String[] from_type, to_type;
@@ -36,14 +37,15 @@ public class UserInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_input);
         callerIntent = getIntent();
 
-        title = findViewById(R.id.ui_title);
+        title_text = findViewById(R.id.ui_title);
         fromAccount = findViewById(R.id.ui_from);
         toAccount = findViewById(R.id.ui_to);
         amount = findViewById(R.id.ui_amount);
         back = findViewById(R.id.ui_back);
         confirm = findViewById(R.id.ui_confirm);
 
-        title.setText(callerIntent.getStringExtra(TITLE));
+        title = callerIntent.getStringExtra(TITLE);
+        title_text.setText(title);
         fromVisible = callerIntent.getBooleanExtra(FROM_VISIBLE, true);
         toVisible = callerIntent.getBooleanExtra(TO_VISIBLE, true);
         fromAccount.setVisibility(fromVisible ? View.VISIBLE : View.INVISIBLE);
@@ -85,7 +87,7 @@ public class UserInputActivity extends AppCompatActivity {
     private void MakeTransaction(){
         double amount = Double.parseDouble(this.amount.getText().toString());
         try{
-            switch (title.getText().toString()){
+            switch (title){
                 case Transaction.DEPOSIT:
                     Transaction.Deposit(to, amount);
                 case Transaction.TOP_UP:
@@ -110,6 +112,7 @@ public class UserInputActivity extends AppCompatActivity {
         }catch (Exception e){
             this.amount.setError(e.toString());
         }
+        Transaction.InsertQuery(DatabaseHelper.user.getId(), DatabaseHelper.time, title, amount, from, to);
         finish();
     }
 
