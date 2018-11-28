@@ -36,6 +36,12 @@ public class BankTellerFragment extends Fragment {
 
     public void EnterCheckTransaction(){
         // TODO
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
+        intent.putExtra(UserInputActivity.FROM_VISIBLE, true);
+        intent.putExtra(UserInputActivity.TO_VISIBLE, true);
+        startActivity(intent);
+
     }
 
     public void GenerateMonthlyStatement(){
@@ -73,8 +79,20 @@ public class BankTellerFragment extends Fragment {
         // TODO: get customers
         ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
+
+        String sql="SELECT t.cid, SUM(ABS(t.AMOUNT)) FROM " + Transaction.TABLE_NAME +" t "
+            + "Where t.TYPE IN ("+ Transaction.DEPOSIT+","+Transaction.TRANSFER+","+Transaction.WIRE
+            +") GROUP BY t.cid";
+        ArrayList<int,double> table = DatabaseHelper.get(sql,Transaction.TABLE_NAME);
+
+        for(int i = 0 ; i<table.size(); i++){
+            if(table[i][1] >= 1000.0){
+                data.add(Customer.findCustomer(table[i][0]));
+            }
+        }
         dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);
+
     }
 
     public void AddInterest(){
@@ -95,6 +113,7 @@ public class BankTellerFragment extends Fragment {
             if (DatabaseHelper.time.getMonth() - transaction.getTime().getMonth() > 1)
                 DatabaseHelper.run(transaction.deleteQuery());
         // TODO: description seems to say delete all?
+        // yes, i agree that we should delete all
     }
 
     @Nullable
