@@ -22,7 +22,7 @@ public class BankTellerFragment extends Fragment {
             dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                    DatabaseHelper.setTime(year, month, dayOfMonth);
+                    DatabaseHelper.setTime(year, month, dayOfMonth);
                 }
             });
             dialog.show();
@@ -36,12 +36,19 @@ public class BankTellerFragment extends Fragment {
 
     public void EnterCheckTransaction(){
         // TODO
+//        Intent intent = new Intent(getContext(), UserInputActivity.class);
+//        intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
+//        intent.putExtra(UserInputActivity.FROM_VISIBLE, true);
+//        intent.putExtra(UserInputActivity.TO_VISIBLE, true);
+//        startActivity(intent);
+
+        // Should be this?
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
-        intent.putExtra(UserInputActivity.FROM_VISIBLE, true);
-        intent.putExtra(UserInputActivity.TO_VISIBLE, true);
-        startActivity(intent);
 
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.CHECKING, false));
+        startActivity(intent);
     }
 
     public void GenerateMonthlyStatement(){
@@ -83,13 +90,19 @@ public class BankTellerFragment extends Fragment {
         String sql="SELECT t.cid, SUM(ABS(t.AMOUNT)) FROM " + Transaction.TABLE_NAME +" t "
             + "Where t.TYPE IN ("+ Transaction.DEPOSIT+","+Transaction.TRANSFER+","+Transaction.WIRE
             +") GROUP BY t.cid";
-        ArrayList<int,double> table = DatabaseHelper.get(sql,Transaction.TABLE_NAME);
-
-        for(int i = 0 ; i<table.size(); i++){
-            if(table[i][1] >= 1000.0){
-                data.add(Customer.findCustomer(table[i][0]));
-            }
-        }
+//        ArrayList<int,double> table = DatabaseHelper.get(sql,Transaction.TABLE_NAME);
+//
+//        for(int i = 0 ; i<table.size(); i++){
+//            if(table[i][1] >= 1000.0){
+//                data.add(Customer.findCustomer(table[i][0]));
+//            }
+//        }
+//        ArrayList<Transaction> transactions = DatabaseHelper.get(sql, Transaction.TABLE_NAME);
+//        for(Transaction transaction: transactions){
+//            if(transaction.getAmount() >= 10000){
+//                data.add(Customer.findCustomer(transaction.getId()));
+//            }
+//        }
         dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);
 
@@ -109,11 +122,13 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void DeleteTransactions(){
+        // Delete All but Last Month
+//        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
+//            if (DatabaseHelper.time.getMonth() - transaction.getTime().getMonth() > 1)
+//                DatabaseHelper.run(transaction.deleteQuery());
+        // Delete All
         for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
-            if (DatabaseHelper.time.getMonth() - transaction.getTime().getMonth() > 1)
-                DatabaseHelper.run(transaction.deleteQuery());
-        // TODO: description seems to say delete all?
-        // yes, i agree that we should delete all
+            DatabaseHelper.run(transaction.deleteQuery());
     }
 
     @Nullable

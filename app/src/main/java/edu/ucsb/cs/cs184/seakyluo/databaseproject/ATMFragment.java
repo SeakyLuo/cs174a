@@ -17,6 +17,7 @@ import static android.app.Activity.RESULT_OK;
 public class ATMFragment extends Fragment {
     public static final int LOGIN = 0;
     private Button login;
+    private int userid = DatabaseHelper.user.getId();
 
     public void Deposit(){
         if (DatabaseHelper.user == null){
@@ -27,7 +28,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
         startActivity(intent);
     }
 
@@ -40,7 +41,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.TOP_UP);
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
         startActivity(intent);
     }
 
@@ -53,7 +54,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
         startActivity(intent);
     }
 
@@ -66,7 +67,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
         ;
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.SAVINGS));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.SAVINGS, false));
         startActivity(intent);
     }
 
@@ -78,8 +79,8 @@ public class ATMFragment extends Fragment {
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
 
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
         startActivity(intent);
     }
 
@@ -92,7 +93,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.COLLECT);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(userid, Account.POCKET, false));
         startActivity(intent);
     }
 
@@ -104,7 +105,7 @@ public class ATMFragment extends Fragment {
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(userid, Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.CHECKING, Account.SAVINGS});
         startActivity(intent);
     }
@@ -117,7 +118,7 @@ public class ATMFragment extends Fragment {
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PAY_FRIEND);
 
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(userid, Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.POCKET});
         startActivity(intent);
     }

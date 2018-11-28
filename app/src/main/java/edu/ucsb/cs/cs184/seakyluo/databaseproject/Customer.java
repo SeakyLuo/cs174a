@@ -55,8 +55,6 @@ public class Customer implements Serializable {
         this.pin = pin;
     }
 
-
-
     @Override
     public String toString(){
         return name + "---" + id;

@@ -20,8 +20,6 @@ public class LoginActivity extends AppCompatActivity{
 
     private EditText _idText, _pinText;
     private Button _loginButton;
-    private TextView _signupLink;
-    private TextView _forgotPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

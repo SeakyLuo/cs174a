@@ -126,18 +126,18 @@ public class Account implements Serializable {
             accounts.add(findAccount(owns.getAid()));
         return accounts;
     }
-    public static ArrayList<Account> findAccountsWithType(int userid, String type){
+    public static ArrayList<Account> findAccountsWithType(int userid, String type, boolean including_closed){
         ArrayList<Account> accounts = new ArrayList<>();
         for(Account account: findAccounts(userid)){
-            if(account.isType(type))
+            if(account.isType(type) && including_closed || !account.isClosed())
                 accounts.add(account);
         }
         return accounts;
     }
-    public static ArrayList<Account> findAccountsWithoutType(int userid, String type){
+    public static ArrayList<Account> findAccountsWithoutType(int userid, String type, boolean including_closed){
         ArrayList<Account> accounts = new ArrayList<>();
         for(Account account: findAccounts(userid)){
-            if(!account.isType(type))
+            if(!account.isType(type) && including_closed || !account.isClosed())
                 accounts.add(account);
         }
         return accounts;

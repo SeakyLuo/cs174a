@@ -109,8 +109,15 @@ public class UserInputActivity extends AppCompatActivity {
                 case Transaction.QUICK_REFILL:
                     Transaction.QuickRefill(from, amount);
             }
-        }catch (Exception e){
+        } catch (Account.NotEnoughMoneyException e){
             this.amount.setError(e.toString());
+            return;
+        } catch (Transaction.TransactionException e){
+            this.amount.setError(e.toString());
+            return;
+        } catch (Exception e) {
+            this.amount.setError(e.toString());
+            return;
         }
         Transaction.InsertQuery(DatabaseHelper.user.getId(), DatabaseHelper.time, title, amount, from, to);
         finish();

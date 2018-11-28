@@ -39,6 +39,7 @@ public class Transaction implements Serializable {
     public int getTo() { return to; }
     public Date getTime() { return time; }
     public String getType() { return type; }
+    public double getAmount() { return amount; }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT+ ", " + FROM + ", " + TO + ") " +
                 "VALUES (" + cid + ", " + time + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
@@ -77,7 +78,7 @@ public class Transaction implements Serializable {
     }
     public static void Transfer(int from, int to, double amount) throws Exception {
         if(amount > 2000){
-            throw new Exception("Cannot Exceed $2000!");
+            throw new TransactionException("Cannot Exceed $2000!");
         }
         Account.findAccount(from).modifyBalance(-amount);
         Account.findAccount(to).modifyBalance(amount);
@@ -113,15 +114,23 @@ public class Transaction implements Serializable {
     }
 
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
+        // TODO: see project description
         Account acc1 = Account.findAccount(from);
         acc1.modifyBalance(-amount);
     }
     public static void QuickRefill(int from, double amount) throws Account.NotEnoughMoneyException{
+        // TODO: see project description
         Account acc1 = Account.findAccount(from);
         acc1.modifyBalance(amount);
     }
     @Override
     public String toString(){
         return time.toString() + "---" + Customer.findCustomer(cid).getName() + "---" + type + "---$" + amount + ((from != 0) ? "---from " + from : "") + ((to != 0) ? "---to " + to : "") ;
+    }
+
+    public static class TransactionException extends Exception{
+        public TransactionException(String message){
+            super(message);
+        }
     }
 }
