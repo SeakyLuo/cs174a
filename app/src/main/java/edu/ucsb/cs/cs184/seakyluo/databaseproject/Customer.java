@@ -40,7 +40,11 @@ public class Customer implements Serializable {
                 "FROM " + TABLE_NAME + " c";
     }
     public static Customer findCustomer(int id){
-        return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id, TABLE_NAME)).get(0);
+        try{
+            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id, TABLE_NAME)).get(0);
+        }catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public static boolean VerifyPin(String PIN){
