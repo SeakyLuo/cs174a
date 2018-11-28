@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +10,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class BankTellerFragment extends Fragment {
 
     public void SetNewDate(){
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            DatePickerDialog dialog = new DatePickerDialog(getContext());
+            dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                    DatabaseHelper.setTime(year, month, dayOfMonth);
+                }
+            });
+            dialog.show();
+        }
     }
 
     public void ResetPIN(){
@@ -27,19 +40,34 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void GenerateMonthlyStatement(){
-
+        // TODO: get monthly transactions
+        ArrayList<Transaction> data = new ArrayList<>();
+        ShowListDialog dialog = new ShowListDialog();
+        dialog.setData(data);
+        dialog.show(getFragmentManager(), "GenerateMonthlyStatement");
     }
 
     public void ListClosedAccounts(){
-
+        // TODO: get closed accounts
+        ArrayList<Account> data = new ArrayList<>();
+        ShowListDialog dialog = new ShowListDialog();
+        dialog.setData(data);
+        dialog.show(getFragmentManager(), "ListClosedAccounts");
     }
 
     public void CustomerReport(){
-
+        ArrayList<Account> data = Account.findAccounts(0);
+        ShowListDialog dialog = new ShowListDialog();
+        dialog.setData(data);
+        dialog.show(getFragmentManager(), "CustomerReport");
     }
 
     public void DTER(){
-
+        // TODO: get accounts
+        ArrayList<Account> data = new ArrayList<>();
+        ShowListDialog dialog = new ShowListDialog();
+        dialog.setData(data);
+        dialog.show(getFragmentManager(), "DTER");
     }
 
     public void AddInterest(){

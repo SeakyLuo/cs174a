@@ -43,7 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SelectAccountDialog dialog = new SelectAccountDialog();
-                dialog.setAccounts(Account.findUserAccounts());
+                dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
                 dialog.showNow(getSupportFragmentManager(), "SelectAccount");
                 dialog.addOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
                     @Override

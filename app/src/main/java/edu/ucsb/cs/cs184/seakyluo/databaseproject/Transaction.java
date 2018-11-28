@@ -17,7 +17,8 @@ public class Transaction implements Serializable {
                                                                                         "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
-            COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest";
+            COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest",
+            QUICK_CASH = "quick-cash", QUICK_REFILL = "quick-refill";
     private int cid, from = 0, to = 0;
     private Date time;
     private String type;
@@ -50,9 +51,8 @@ public class Transaction implements Serializable {
                 "FROM " + TABLE_NAME + " t";
     }
 
-    //add details into trans table inside the helper functions
     public static void Deposit(int toAccount, double amount){
-        Account acc1 = Account.findAccount(from);
+        Account acc1 = Account.findAccount(toAccount);
         acc1.modifyBalance(amount);
     }
     public static void TopUp(int from, int to, double amount){
@@ -62,9 +62,11 @@ public class Transaction implements Serializable {
         // check if it is linked????
         if(acc1.getBalance() < amount){
             //error message
+            return;
         }
         else if (!acc2.isPocket()) {
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
         acc2.modifyBalance(amount);
@@ -73,6 +75,7 @@ public class Transaction implements Serializable {
         Account acc1 = Account.findAccount(from);
         if(acc1.getBalance() < amount){
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
     }
@@ -80,14 +83,16 @@ public class Transaction implements Serializable {
         Account acc1 = Account.findAccount(from);
         if(!acc1.isPocket()) {
             //error message
+            return;
         }
         else if (acc1.getBalance() < amount) {
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
 
     }
-    public static void Transfer(int from, int to, double amount, int userid){
+    public static void Transfer(int from, int to, double amount){
         // should findaccount return a set of accounts instead of get (0)
         Account acc1 = Account.findAccount(from);
         Account acc2 = Account.findAccount(to);
@@ -95,6 +100,7 @@ public class Transaction implements Serializable {
         //f(acc1.getusers intersect acc2.getusers ==0){ error message}
         if(amount>2000){
             //error message
+            return;
         }
         //else if(userid not in acc1.getusers || userid not in acc2.getusers ){error message}
         acc1.modifyBalance(-amount);
@@ -106,23 +112,27 @@ public class Transaction implements Serializable {
         Account acc2 = Account.findAccount(to);
         if(!acc1.isPocket()) {
             //error message
+            return;
         }
         else if(acc1.getBalance() < amount){
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
         acc2.modifyBalance(amount * 0.97);
 
     }
 
-    public static void Wire(int from, int to, double amount, int userid){
+    public static void Wire(int from, int to, double amount){
         Account acc1 = Account.findAccount(from);
         Account acc2 = Account.findAccount(to);
         if(acc1.isPocket()){
             //error message
+            return;
         }
         else if(acc2.isPocket()){
             //error
+            return;
         }
         //else if(userid not in acc1.getusers){error message}
         acc1.modifyBalance(-amount);
@@ -137,12 +147,15 @@ public class Transaction implements Serializable {
         Account acc2 = Account.findAccount(to);
         if(!acc1.isPocket()) {
             //error message
+            return;
         }
         else if(!acc2.isPocket()){
             //error message
+            return;
         }
         else if(acc1.getBalance() < amount){
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
         acc2.modifyBalance(amount);
@@ -153,6 +166,7 @@ public class Transaction implements Serializable {
         Account acc1 = Account.findAccount(from);
         if(acc1.getType()!="CHECKING") {
             //error message
+            return;
         }
         acc1.modifyBalance(-amount);
         //where to save it  ??????
@@ -163,6 +177,15 @@ public class Transaction implements Serializable {
         Account acc1 = Account.findAccount(to);
         acc1.modifyBalance(amount);
 
+    }
+
+    public static void QuickCash(int from, double amount){
+        Account acc1 = Account.findAccount(from);
+        acc1.modifyBalance(-amount);
+    }
+    public static void QuickRefill(int from, double amount){
+        Account acc1 = Account.findAccount(from);
+        acc1.modifyBalance(amount);
     }
     @Override
     public String toString(){

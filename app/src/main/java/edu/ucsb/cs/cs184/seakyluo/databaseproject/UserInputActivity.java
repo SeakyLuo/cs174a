@@ -16,8 +16,10 @@ import java.util.ArrayList;
 
 public class UserInputActivity extends AppCompatActivity {
 
-    public static final String TITLE = "Title", FROM = "from", TO = "to", AMOUNT = "amount", FROM_ACCOUNTS = "from_account", TO_ACCOUNTS = "to_account";
+    public static final String TITLE = "Title", FROM = "from", TO = "to", AMOUNT = "amount";
+    public static final String FROM_ACCOUNTS = "from_account", TO_ACCOUNTS = "to_account";
     public static final String FROM_VISIBLE = "fv", TO_VISIBLE = "tv";
+    public static final String FROM_TYPE = "ft", TO_TYPE = "tt";
 
     private TextView title;
     private EditText fromAccount, toAccount, amount;
@@ -25,6 +27,7 @@ public class UserInputActivity extends AppCompatActivity {
     private Button confirm;
     private Account selected_from, selected_to;
     private boolean fromVisible = true, toVisible = true;
+    private String from_type, to_type;
     private Intent callerIntent;
 
     @Override
@@ -48,6 +51,8 @@ public class UserInputActivity extends AppCompatActivity {
         toAccount.setVisibility(toVisible ? View.VISIBLE : View.INVISIBLE);
         ArrayList<Account> fromAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(FROM_ACCOUNTS);
         ArrayList<Account> toAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(TO_ACCOUNTS);
+        from_type = callerIntent.getStringExtra(FROM_TYPE);
+        to_type = callerIntent.getStringExtra(TO_TYPE);
         setFromEditable(fromAccounts);
         setToEditable(toAccounts);
 
@@ -62,8 +67,20 @@ public class UserInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                if (fromVisible) intent.putExtra(FROM,  Integer.parseInt(fromAccount.getText().toString()));
-                if (toVisible) intent.putExtra(TO, Integer.parseInt(toAccount.getText().toString()));
+                if (fromVisible){
+                    if (from_type != null && Account.findAccount(Integer.parseInt(fromAccount.getText().toString())).isType(from_type)){
+                        fromAccount.setError(from_type + " required.");
+                        return;
+                    }
+                    intent.putExtra(FROM,  Integer.parseInt(fromAccount.getText().toString()));
+                }
+                if (toVisible){
+                    if (to_type != null && Account.findAccount(Integer.parseInt(toAccount.getText().toString())).isType(to_type)){
+                        toAccount.setError(to_type + " required.");
+                        return;
+                    }
+                    intent.putExtra(TO, Integer.parseInt(toAccount.getText().toString()));
+                }
                 intent.putExtra(AMOUNT, Double.parseDouble(amount.getText().toString()));
                 setResult(RESULT_OK, intent);
                 finish();

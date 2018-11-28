@@ -13,7 +13,7 @@ public class Account implements Serializable {
                                                                                     INTEREST + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
-    public static final String STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
+    public static final String CHECKING = "Checking", STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
             VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
             VT_POCKET = {Transaction.TOP_UP, Transaction.PURCHASE, Transaction.COLLECT, Transaction.PAY_FRIEND};
@@ -42,24 +42,32 @@ public class Account implements Serializable {
        if (isPocket()) return POCKET;
        return type;
     }
+    public boolean isType(String type){
+        return getType().contains(type);
+    }
     public String getBankName() { return bank_name; }
     public double getBalance() { return balance; }
     public double getInterest() { return interest; }
     public void setBalance(double balance) {
         this.balance = balance;
-        // updates db
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
     }
     public void modifyBalance(double delta) {
         this.balance += delta;
-        // updates db
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
         this.interest = interest;
-        // updates db
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + "WHERE a." + ID + "=" + aid);
     }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
                 "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
+    }
+    public ArrayList<Owns> findOwners(){
+        ArrayList<Owns> owners = new ArrayList<>();
+        DatabaseHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
+        return owners;
     }
     public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
@@ -72,19 +80,26 @@ public class Account implements Serializable {
     public static Account findAccount(int aid){
         return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
     }
-    public static ArrayList<Account> findUserAccounts(){
+    public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();
-        if (DatabaseHelper.user == null) return accounts;
-        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + DatabaseHelper.user.getId(), Owns.TABLE_NAME)){
+        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
             accounts.add(findAccount(owns.getAid()));
+        return accounts;
+    }
+    public static ArrayList<Account> findAccountsWithType(int userid, String type){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: findAccounts(userid)){
+            if(account.isType(type))
+                accounts.add(account);
         }
         return accounts;
     }
-    public static ArrayList<Account> findUserNonPocketAccounts(){
+    public static ArrayList<Account> findAccountsWithoutType(int userid, String type){
         ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: findUserAccounts())
-            if (!account.isPocket())
+        for(Account account: findAccounts(userid)){
+            if(!account.isType(type))
                 accounts.add(account);
+        }
         return accounts;
     }
 
@@ -122,6 +137,6 @@ public class Account implements Serializable {
 
     @Override
     public String toString(){
-        return getType() + ": " + aid + "\nBank Name: " + bank_name + "\nBalance: " + balance;
+        return getType() + ": " + aid + "\nBank Name: " + bank_name + "\nBalance: " + balance + "\n" + (isClosed() ? "Closed" : "Open") ;
     }
 }

@@ -16,7 +16,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ATMFragment extends Fragment {
     public static final int LOGIN = 0, DEPOSIT = 1, TOP_UP = 2, WITHDRAW = 3, PURCHASE = 4,
-                            TRANSFER = 5, COLLECT = 6, WIRE = 7, PAY_FRIEND = 8;
+                            TRANSFER = 5, COLLECT = 6, WIRE = 7, PAY_FRIEND = 8, QUICK_CASH = 9, QUICK_REFILL = 10;
     private Button login;
 
     public void Deposit(){
@@ -26,8 +26,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
+
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findUserNonPocketAccounts());
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, DEPOSIT);
     }
 
@@ -38,6 +39,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TOP_UP);
+
+        intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, TOP_UP);
     }
 
@@ -48,6 +52,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
+
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, WITHDRAW);
     }
 
@@ -58,6 +65,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
+        ;
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.SAVINGS));
         startActivityForResult(intent, PURCHASE);
     }
 
@@ -68,6 +78,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
+
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, TRANSFER);
     }
 
@@ -78,6 +91,9 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.COLLECT);
+
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, COLLECT);
     }
 
@@ -88,6 +104,8 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
+
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, DEPOSIT);
     }
 
@@ -98,6 +116,8 @@ public class ATMFragment extends Fragment {
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PAY_FRIEND);
+
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
         startActivityForResult(intent, PAY_FRIEND);
     }
 
@@ -106,6 +126,23 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_CASH);
+
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        startActivityForResult(intent, QUICK_CASH);
+    }
+
+    public void QuickRefill(){
+        if (DatabaseHelper.user == null){
+            Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(getContext(), UserInputActivity.class);
+        intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_REFILL);
+
+        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
+        startActivityForResult(intent, QUICK_REFILL);
     }
 
     public void Login(){
@@ -121,28 +158,32 @@ public class ATMFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
-        int from = data.getIntExtra(UserInputActivity.FROM,0);
+        int from = data.getIntExtra(UserInputActivity.FROM, 0);
         int to = data.getIntExtra(UserInputActivity.TO, 0);
         double amount =data.getDoubleExtra(UserInputActivity.AMOUNT, 0);
         switch (requestCode){
             case LOGIN:
                 login.setText(R.string.logout);
             case DEPOSIT:
-                //
+                Transaction.Deposit(to, amount);
             case TOP_UP:
-                //
+                Transaction.TopUp(from, to, amount);
             case WITHDRAW:
-                //
+                Transaction.Withdraw(from, amount);
             case PURCHASE:
-                //
+                Transaction.Purchase(from, amount);
             case TRANSFER:
-                //
+                Transaction.Transfer(from, to, amount);
             case COLLECT:
-                //
+                Transaction.Collect(from, to, amount);
             case WIRE:
-                //
+                Transaction.Wire(from, to, amount);
             case PAY_FRIEND:
-                //
+                Transaction.PayFriend(from, to, amount);
+            case QUICK_CASH:
+                Transaction.QuickCash(from, amount);
+            case QUICK_REFILL:
+                Transaction.QuickRefill(from, amount);
         }
     }
 
@@ -209,6 +250,12 @@ public class ATMFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 QuickCash();
+            }
+        });
+        view.findViewById(R.id.quick_refill).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuickRefill();
             }
         });
         return view;
