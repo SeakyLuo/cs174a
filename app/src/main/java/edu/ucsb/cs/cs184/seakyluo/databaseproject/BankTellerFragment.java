@@ -35,14 +35,6 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void EnterCheckTransaction(){
-        // TODO
-//        Intent intent = new Intent(getContext(), UserInputActivity.class);
-//        intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
-//        intent.putExtra(UserInputActivity.FROM_VISIBLE, true);
-//        intent.putExtra(UserInputActivity.TO_VISIBLE, true);
-//        startActivity(intent);
-
-        // Should be this?
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
 
@@ -83,26 +75,17 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void DTER(){
-        // TODO: get customers
         ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
 
-        String sql="SELECT t.cid, SUM(ABS(t.AMOUNT)) FROM " + Transaction.TABLE_NAME +" t "
-            + "Where t.TYPE IN ("+ Transaction.DEPOSIT+","+Transaction.TRANSFER+","+Transaction.WIRE
-            +") GROUP BY t.cid";
-//        ArrayList<int,double> table = DatabaseHelper.get(sql,Transaction.TABLE_NAME);
-//
-//        for(int i = 0 ; i<table.size(); i++){
-//            if(table[i][1] >= 1000.0){
-//                data.add(Customer.findCustomer(table[i][0]));
-//            }
-//        }
-//        ArrayList<Transaction> transactions = DatabaseHelper.get(sql, Transaction.TABLE_NAME);
-//        for(Transaction transaction: transactions){
-//            if(transaction.getAmount() >= 10000){
-//                data.add(Customer.findCustomer(transaction.getId()));
-//            }
-//        }
+        for(Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
+            double sum = 0;
+            for(Transaction transaction: Transaction.MonthlyStatement(customer.getId())){
+                if (transaction.getType().equals(Transaction.DEPOSIT) || transaction.getType().equals(Transaction.TRANSFER) || transaction.getType().equals(Transaction.WIRE))
+                    sum += Math.abs(transaction.getAmount());
+            }
+            if (sum > 10000) data.add(customer);
+        }
         dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);
 
