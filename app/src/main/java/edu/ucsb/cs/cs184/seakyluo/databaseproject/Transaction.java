@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Transaction implements Serializable {
     public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type", AMOUNT = "amount";
@@ -42,6 +43,9 @@ public class Transaction implements Serializable {
         return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT+ ", " + FROM + ", " + TO + ") " +
                 "VALUES (" + cid + ", " + time + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
     }
+    public String deleteQuery(){
+        return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + TIME + "=" + time;
+    }
     public static String InsertQuery(int cid, Date time, String type, double amount, int from, int to){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + FROM + ", " + TO + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ") " +
                 "VALUES (" + cid + ", " + time + ", '" + type + ", " + amount + ", " + from + ", " + to + ")";
@@ -50,140 +54,69 @@ public class Transaction implements Serializable {
         return "SELECT t." + CID + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + ", t." + FROM + ", t." + TO + " " +
                 "FROM " + TABLE_NAME + " t";
     }
+    public static ArrayList<Transaction> MonthlyStatement(int userid){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(getQuery(), TABLE_NAME))
+            if (userid == transaction.cid && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth())
+                transactions.add(transaction);
+        return transactions;
+    }
 
-    public static void Deposit(int toAccount, double amount){
-        Account acc1 = Account.findAccount(toAccount);
-        acc1.modifyBalance(amount);
+    public static void Deposit(int toAccount, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(toAccount).modifyBalance(amount);
     }
-    public static void TopUp(int from, int to, double amount){
-        Account acc1 = Account.findAccount(from);
-        Account acc2 = Account.findAccount(to);
-        //to do
-        // check if it is linked????
-        if(acc1.getBalance() < amount){
-            //error message
-            return;
-        }
-        else if (!acc2.isPocket()) {
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
-        acc2.modifyBalance(amount);
+    public static void TopUp(int from, int to, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
+        Account.findAccount(to).modifyBalance(amount);
     }
-    public static void Withdraw(int from, double amount){
-        Account acc1 = Account.findAccount(from);
-        if(acc1.getBalance() < amount){
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
+    public static void Withdraw(int from, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
     }
-    public static void Purchase(int from, double amount){
-        Account acc1 = Account.findAccount(from);
-        if(!acc1.isPocket()) {
-            //error message
-            return;
+    public static void Purchase(int from, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
+    }
+    public static void Transfer(int from, int to, double amount) throws Exception {
+        if(amount > 2000){
+            throw new Exception("Cannot Exceed $2000!");
         }
-        else if (acc1.getBalance() < amount) {
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
+        Account.findAccount(from).modifyBalance(-amount);
+        Account.findAccount(to).modifyBalance(amount);
 
     }
-    public static void Transfer(int from, int to, double amount){
-        // should findaccount return a set of accounts instead of get (0)
-        Account acc1 = Account.findAccount(from);
-        Account acc2 = Account.findAccount(to);
-
-        //f(acc1.getusers intersect acc2.getusers ==0){ error message}
-        if(amount>2000){
-            //error message
-            return;
-        }
-        //else if(userid not in acc1.getusers || userid not in acc2.getusers ){error message}
-        acc1.modifyBalance(-amount);
-        acc2.modifyBalance(amount);
-
-    }
-    public static void Collect(int from, int to, double amount){
-        Account acc1 = Account.findAccount(from);
-        Account acc2 = Account.findAccount(to);
-        if(!acc1.isPocket()) {
-            //error message
-            return;
-        }
-        else if(acc1.getBalance() < amount){
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
-        acc2.modifyBalance(amount * 0.97);
+    public static void Collect(int from, int to, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
+        Account.findAccount(to).modifyBalance(amount * 0.97);
 
     }
 
-    public static void Wire(int from, int to, double amount){
-        Account acc1 = Account.findAccount(from);
-        Account acc2 = Account.findAccount(to);
-        if(acc1.isPocket()){
-            //error message
-            return;
-        }
-        else if(acc2.isPocket()){
-            //error
-            return;
-        }
-        //else if(userid not in acc1.getusers){error message}
-        acc1.modifyBalance(-amount);
-        acc2.modifyBalance(amount * 0.98);
-        {
-            //error message
+    public static void Wire(int from, int to, double amount) throws Account.NotEnoughMoneyException {
+        Account.findAccount(from).modifyBalance(-amount);
+        Account.findAccount(to).modifyBalance(amount * 0.98);
+    }
+
+    public static void PayFriend(int from, int to, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
+        Account.findAccount(to).modifyBalance(amount);
+    }
+
+    public static void WriteCheck(int from, double amount)  throws Account.NotEnoughMoneyException{
+        Account.findAccount(from).modifyBalance(-amount);
+    }
+
+    public static void AccrueInterest(Account account){
+        // TODO: see project description
+        try {
+            account.modifyBalance(account.getBalance() * account.getMonthlyInterest());
+        } catch (Account.NotEnoughMoneyException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void PayFriend(int from, int to, double amount){
-        Account acc1 = Account.findAccount(from);
-        Account acc2 = Account.findAccount(to);
-        if(!acc1.isPocket()) {
-            //error message
-            return;
-        }
-        else if(!acc2.isPocket()){
-            //error message
-            return;
-        }
-        else if(acc1.getBalance() < amount){
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
-        acc2.modifyBalance(amount);
-
-    }
-
-    public static void WriteCheck(int from, double amount){
-        Account acc1 = Account.findAccount(from);
-        if(acc1.getType()!="CHECKING") {
-            //error message
-            return;
-        }
-        acc1.modifyBalance(-amount);
-        //where to save it  ??????
-
-    }
-
-    public static void AccrueInterest(int to, double amount){
-        Account acc1 = Account.findAccount(to);
-        acc1.modifyBalance(amount);
-
-    }
-
-    public static void QuickCash(int from, double amount){
+    public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
         Account acc1 = Account.findAccount(from);
         acc1.modifyBalance(-amount);
     }
-    public static void QuickRefill(int from, double amount){
+    public static void QuickRefill(int from, double amount) throws Account.NotEnoughMoneyException{
         Account acc1 = Account.findAccount(from);
         acc1.modifyBalance(amount);
     }

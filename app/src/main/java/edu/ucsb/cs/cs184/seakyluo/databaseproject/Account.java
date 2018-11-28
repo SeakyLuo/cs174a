@@ -48,11 +48,15 @@ public class Account implements Serializable {
     public String getBankName() { return bank_name; }
     public double getBalance() { return balance; }
     public double getInterest() { return interest; }
+    public double getMonthlyInterest() { return interest / 12; }
     public void setBalance(double balance) {
         this.balance = balance;
         DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
     }
-    public void modifyBalance(double delta) {
+    public void modifyBalance(double delta) throws NotEnoughMoneyException {
+        if (this.balance < delta){
+            throw new NotEnoughMoneyException();
+        }
         this.balance += delta;
         DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
     }
@@ -69,6 +73,9 @@ public class Account implements Serializable {
         DatabaseHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
         return owners;
     }
+    public String deleteQuery(){
+        return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + aid;
+    }
     public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
                 "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
@@ -76,31 +83,6 @@ public class Account implements Serializable {
     public static String getQuery(){
         return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
                 "FROM " + TABLE_NAME + " a";
-    }
-    public static Account findAccount(int aid){
-        return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
-    }
-    public static ArrayList<Account> findAccounts(int userid){
-        ArrayList<Account> accounts = new ArrayList<>();
-        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
-            accounts.add(findAccount(owns.getAid()));
-        return accounts;
-    }
-    public static ArrayList<Account> findAccountsWithType(int userid, String type){
-        ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: findAccounts(userid)){
-            if(account.isType(type))
-                accounts.add(account);
-        }
-        return accounts;
-    }
-    public static ArrayList<Account> findAccountsWithoutType(int userid, String type){
-        ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: findAccounts(userid)){
-            if(!account.isType(type))
-                accounts.add(account);
-        }
-        return accounts;
     }
 
     public boolean isClosed() { return balance <= 0.01; }
@@ -135,8 +117,47 @@ public class Account implements Serializable {
         }
     }
 
+    public static Account findAccount(int aid){
+        return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
+    }
+    public static ArrayList<Account> findAccounts(int userid){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
+            accounts.add(findAccount(owns.getAid()));
+        return accounts;
+    }
+    public static ArrayList<Account> findAccountsWithType(int userid, String type){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: findAccounts(userid)){
+            if(account.isType(type))
+                accounts.add(account);
+        }
+        return accounts;
+    }
+    public static ArrayList<Account> findAccountsWithoutType(int userid, String type){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: findAccounts(userid)){
+            if(!account.isType(type))
+                accounts.add(account);
+        }
+        return accounts;
+    }
+    public static ArrayList<Account> findClosedAccounts(){
+        ArrayList<Account> accounts = new ArrayList<>();
+        for(Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), TABLE_NAME))
+            if(account.isClosed())
+                accounts.add(account);
+        return accounts;
+    }
+
     @Override
     public String toString(){
         return getType() + ": " + aid + "\nBank Name: " + bank_name + "\nBalance: " + balance + "\n" + (isClosed() ? "Closed" : "Open") ;
+    }
+
+    public static class NotEnoughMoneyException extends Exception{
+        public NotEnoughMoneyException(){
+            super("Not Enough Money!");
+        }
     }
 }

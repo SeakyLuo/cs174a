@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Owns implements Serializable {
     public static final String TABLE_NAME = "Owns", CID = "cid", AID = "aid", ISPRIMARY = "isPrimary";
@@ -26,6 +27,9 @@ public class Owns implements Serializable {
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
                 "VALUES (" + cid + ", " + aid + ", " + isPrimary + ")";
+    }
+    public String deleteQuery(){
+        return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + AID + "=" + aid;
     }
     public static String InsertQuery(int cid, int aid, boolean isPrimary){
         return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +

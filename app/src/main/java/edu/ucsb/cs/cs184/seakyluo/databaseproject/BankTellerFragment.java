@@ -1,7 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,49 +35,66 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void EnterCheckTransaction(){
-
+        // TODO
     }
 
     public void GenerateMonthlyStatement(){
-        // TODO: get monthly transactions
-        ArrayList<Transaction> data = new ArrayList<>();
-        ShowListDialog dialog = new ShowListDialog();
-        dialog.setData(data);
+        final ShowListDialog dialog = new ShowListDialog();
+        dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
+            @Override
+            public void EditFinish(String text) {
+                ArrayList<Transaction> data = Transaction.MonthlyStatement(Integer.parseInt(text));
+                dialog.setData(data);
+            }
+        });
         dialog.show(getFragmentManager(), "GenerateMonthlyStatement");
     }
 
     public void ListClosedAccounts(){
-        // TODO: get closed accounts
-        ArrayList<Account> data = new ArrayList<>();
+        ArrayList<Account> data = Account.findClosedAccounts();
         ShowListDialog dialog = new ShowListDialog();
         dialog.setData(data);
         dialog.show(getFragmentManager(), "ListClosedAccounts");
     }
 
     public void CustomerReport(){
-        ArrayList<Account> data = Account.findAccounts(0);
-        ShowListDialog dialog = new ShowListDialog();
-        dialog.setData(data);
+        final ShowListDialog dialog = new ShowListDialog();
+        dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
+            @Override
+            public void EditFinish(String text) {
+                ArrayList<Account> data = Account.findAccounts(Integer.parseInt(text));
+                dialog.setData(data);
+            }
+        });
         dialog.show(getFragmentManager(), "CustomerReport");
     }
 
     public void DTER(){
-        // TODO: get accounts
-        ArrayList<Account> data = new ArrayList<>();
+        // TODO: get customers
+        ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
         dialog.setData(data);
         dialog.show(getFragmentManager(), "DTER");
     }
 
     public void AddInterest(){
-
+        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME))
+            Transaction.AccrueInterest(account);
     }
+
     public void DeleteAccounts(){
-
+        for (Account account: Account.findClosedAccounts())
+            DatabaseHelper.run(account.deleteQuery());
+        for (Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
+            if (Account.findAccounts(customer.getId()).size() == 0)
+                DatabaseHelper.run(customer.deleteQuery());
     }
 
-    public void DeleteTrasactions(){
-
+    public void DeleteTransactions(){
+        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
+            if (DatabaseHelper.time.getMonth() - transaction.getTime().getMonth() > 1)
+                DatabaseHelper.run(transaction.deleteQuery());
+        // TODO: description seems to say delete all?
     }
 
     @Nullable
@@ -158,7 +174,7 @@ public class BankTellerFragment extends Fragment {
         view.findViewById(R.id.delete_transaction).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeleteTrasactions();
+                DeleteTransactions();
             }
         });
         return view;

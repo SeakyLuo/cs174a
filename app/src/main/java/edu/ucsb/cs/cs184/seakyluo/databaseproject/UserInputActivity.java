@@ -9,14 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.jude.swipbackhelper.SwipeBackHelper;
-
 import java.util.ArrayList;
 
 public class UserInputActivity extends AppCompatActivity {
 
-    public static final String TITLE = "Title", FROM = "from", TO = "to", AMOUNT = "amount";
+    public static final String TITLE = "Title", FROM = "from", TO = "to";
     public static final String FROM_ACCOUNTS = "from_account", TO_ACCOUNTS = "to_account";
     public static final String FROM_VISIBLE = "fv", TO_VISIBLE = "tv";
     public static final String FROM_TYPE = "ft", TO_TYPE = "tt";
@@ -25,9 +23,10 @@ public class UserInputActivity extends AppCompatActivity {
     private EditText fromAccount, toAccount, amount;
     private ImageButton back;
     private Button confirm;
+    private int from, to;
     private Account selected_from, selected_to;
     private boolean fromVisible = true, toVisible = true;
-    private String from_type, to_type;
+    private String[] from_type, to_type;
     private Intent callerIntent;
 
     @Override
@@ -51,10 +50,10 @@ public class UserInputActivity extends AppCompatActivity {
         toAccount.setVisibility(toVisible ? View.VISIBLE : View.INVISIBLE);
         ArrayList<Account> fromAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(FROM_ACCOUNTS);
         ArrayList<Account> toAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(TO_ACCOUNTS);
-        from_type = callerIntent.getStringExtra(FROM_TYPE);
-        to_type = callerIntent.getStringExtra(TO_TYPE);
-        setFromEditable(fromAccounts);
-        setToEditable(toAccounts);
+        from_type = (String[]) callerIntent.getSerializableExtra(FROM_TYPE);
+        to_type = (String [])  callerIntent.getSerializableExtra(TO_TYPE);
+        setEditable(FROM, fromAccounts);
+        setEditable(TO, toAccounts);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,35 +65,69 @@ public class UserInputActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                if (fromVisible){
-                    if (from_type != null && Account.findAccount(Integer.parseInt(fromAccount.getText().toString())).isType(from_type)){
-                        fromAccount.setError(from_type + " required.");
-                        return;
-                    }
-                    intent.putExtra(FROM,  Integer.parseInt(fromAccount.getText().toString()));
-                }
-                if (toVisible){
-                    if (to_type != null && Account.findAccount(Integer.parseInt(toAccount.getText().toString())).isType(to_type)){
-                        toAccount.setError(to_type + " required.");
-                        return;
-                    }
-                    intent.putExtra(TO, Integer.parseInt(toAccount.getText().toString()));
-                }
-                intent.putExtra(AMOUNT, Double.parseDouble(amount.getText().toString()));
-                setResult(RESULT_OK, intent);
-                finish();
+                Confirm();
             }
         });
     }
 
-    private void setFromEditable(final ArrayList<Account> accounts){
-        if (accounts == null){
-            fromAccount.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+    private void Confirm(){
+        if (fromVisible && from_type != null && !findTypeIn(selected_from, from_type)){
+            fromAccount.setError(selected_from.getType() + " NOT Supported!");
             return;
         }
-        fromAccount.setInputType(InputType.TYPE_NULL);
-        fromAccount.setOnClickListener(new View.OnClickListener() {
+        if (toVisible && to_type != null && !findTypeIn(selected_to, to_type)){
+            toAccount.setError(selected_to.getType() + " NOT Supported!");
+            return;
+        }
+        MakeTransaction();
+    }
+
+    private void MakeTransaction(){
+        double amount = Double.parseDouble(this.amount.getText().toString());
+        try{
+            switch (title.getText().toString()){
+                case Transaction.DEPOSIT:
+                    Transaction.Deposit(to, amount);
+                case Transaction.TOP_UP:
+                    Transaction.TopUp(from, to, amount);
+                case Transaction.WITHDRAW:
+                    Transaction.Withdraw(from, amount);
+                case Transaction.PURCHASE:
+                    Transaction.Purchase(from, amount);
+                case Transaction.TRANSFER:
+                    Transaction.Transfer(from, to, amount);
+                case Transaction.COLLECT:
+                    Transaction.Collect(from, to, amount);
+                case Transaction.WIRE:
+                    Transaction.Wire(from, to, amount);
+                case Transaction.PAY_FRIEND:
+                    Transaction.PayFriend(from, to, amount);
+                case Transaction.QUICK_CASH:
+                    Transaction.QuickCash(from, amount);
+                case Transaction.QUICK_REFILL:
+                    Transaction.QuickRefill(from, amount);
+            }
+        }catch (Exception e){
+            this.amount.setError(e.toString());
+        }
+        finish();
+    }
+
+    private void setEditable(final String type, final ArrayList<Account> accounts){
+        EditText e = null;
+        switch (type){
+            case FROM:
+                e = fromAccount;
+            case TO:
+                e = toAccount;
+        }
+        final EditText editText = e;
+        if (accounts == null){
+            editText.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+            return;
+        }
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SelectAccountDialog dialog = new SelectAccountDialog();
@@ -103,35 +136,26 @@ public class UserInputActivity extends AppCompatActivity {
                 dialog.addOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
                     @Override
                     public void onConfirm(Account account) {
-                        selected_from = account;
-                        fromAccount.setText(account.getId() + "");
+                        switch (type){
+                            case FROM:
+                                selected_from = account;
+                                from = account.getId();
+                            case TO:
+                                selected_to = account;
+                                to = account.getId();
+                        }
+                        editText.setText(account.getId() + "");
                     }
                 });
             }
         });
     }
 
-    private void setToEditable(final ArrayList<Account> accounts){
-        if (accounts == null){
-            toAccount.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
-            return;
-        }
-        toAccount.setInputType(InputType.TYPE_NULL);
-        toAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SelectAccountDialog dialog = new SelectAccountDialog();
-                dialog.setAccounts(accounts);
-                dialog.showNow(getSupportFragmentManager(), "SelectAccount");
-                dialog.addOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
-                    @Override
-                    public void onConfirm(Account account) {
-                        selected_to = account;
-                        toAccount.setText(account.getId() + "");
-                    }
-                });
-            }
-        });
+    private boolean findTypeIn(Account account, String[] types){
+        for (String type: types)
+            if (account.isType(type))
+                return true;
+        return false;
     }
 
     @Override

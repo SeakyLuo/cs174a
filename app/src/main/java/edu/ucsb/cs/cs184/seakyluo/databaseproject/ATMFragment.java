@@ -15,8 +15,7 @@ import android.widget.Toast;
 import static android.app.Activity.RESULT_OK;
 
 public class ATMFragment extends Fragment {
-    public static final int LOGIN = 0, DEPOSIT = 1, TOP_UP = 2, WITHDRAW = 3, PURCHASE = 4,
-                            TRANSFER = 5, COLLECT = 6, WIRE = 7, PAY_FRIEND = 8, QUICK_CASH = 9, QUICK_REFILL = 10;
+    public static final int LOGIN = 0;
     private Button login;
 
     public void Deposit(){
@@ -29,7 +28,7 @@ public class ATMFragment extends Fragment {
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, DEPOSIT);
+        startActivity(intent);
     }
 
     public void TopUp(){
@@ -42,7 +41,7 @@ public class ATMFragment extends Fragment {
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, TOP_UP);
+        startActivity(intent);
     }
 
     public void Withdraw(){
@@ -55,7 +54,7 @@ public class ATMFragment extends Fragment {
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, WITHDRAW);
+        startActivity(intent);
     }
 
     public void Purchase(){
@@ -68,7 +67,7 @@ public class ATMFragment extends Fragment {
         ;
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.SAVINGS));
-        startActivityForResult(intent, PURCHASE);
+        startActivity(intent);
     }
 
     public void Transfer(){
@@ -81,7 +80,7 @@ public class ATMFragment extends Fragment {
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, TRANSFER);
+        startActivity(intent);
     }
 
     public void Collect(){
@@ -94,7 +93,7 @@ public class ATMFragment extends Fragment {
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, COLLECT);
+        startActivity(intent);
     }
 
     public void Wire(){
@@ -106,7 +105,8 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, DEPOSIT);
+        intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.CHECKING, Account.SAVINGS});
+        startActivity(intent);
     }
 
     public void PayFriend(){
@@ -118,7 +118,8 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.PAY_FRIEND);
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET));
-        startActivityForResult(intent, PAY_FRIEND);
+        intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.POCKET});
+        startActivity(intent);
     }
 
     public void QuickCash(){
@@ -130,7 +131,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_CASH);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        startActivityForResult(intent, QUICK_CASH);
+        startActivity(intent);
     }
 
     public void QuickRefill(){
@@ -142,7 +143,7 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_REFILL);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        startActivityForResult(intent, QUICK_REFILL);
+        startActivity(intent);
     }
 
     public void Login(){
@@ -158,32 +159,9 @@ public class ATMFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
-        int from = data.getIntExtra(UserInputActivity.FROM, 0);
-        int to = data.getIntExtra(UserInputActivity.TO, 0);
-        double amount =data.getDoubleExtra(UserInputActivity.AMOUNT, 0);
         switch (requestCode){
             case LOGIN:
                 login.setText(R.string.logout);
-            case DEPOSIT:
-                Transaction.Deposit(to, amount);
-            case TOP_UP:
-                Transaction.TopUp(from, to, amount);
-            case WITHDRAW:
-                Transaction.Withdraw(from, amount);
-            case PURCHASE:
-                Transaction.Purchase(from, amount);
-            case TRANSFER:
-                Transaction.Transfer(from, to, amount);
-            case COLLECT:
-                Transaction.Collect(from, to, amount);
-            case WIRE:
-                Transaction.Wire(from, to, amount);
-            case PAY_FRIEND:
-                Transaction.PayFriend(from, to, amount);
-            case QUICK_CASH:
-                Transaction.QuickCash(from, amount);
-            case QUICK_REFILL:
-                Transaction.QuickRefill(from, amount);
         }
     }
 

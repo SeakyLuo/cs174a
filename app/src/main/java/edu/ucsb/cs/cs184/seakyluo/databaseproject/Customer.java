@@ -28,6 +28,9 @@ public class Customer implements Serializable {
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
     }
+    public String deleteQuery(){
+        return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + id;
+    }
     public static String InsertQuery(int id, String name, String address, String pin){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
                 "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
