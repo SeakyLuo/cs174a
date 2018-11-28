@@ -15,7 +15,6 @@
             android:layout_margin="16dp"
             android:hint="Customer ID"
             android:inputType="numberSigned"
-            android:visibility=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -40,6 +40,7 @@ public class BankTellerFragment extends Fragment {
 
     public void GenerateMonthlyStatement(){
         final ShowListDialog dialog = new ShowListDialog();
+        dialog.showNow(getFragmentManager(), "GenerateMonthlyStatement");
         dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
             @Override
             public void EditFinish(String text) {
@@ -47,18 +48,18 @@ public class BankTellerFragment extends Fragment {
                 dialog.setData(data);
             }
         });
-        dialog.show(getFragmentManager(), "GenerateMonthlyStatement");
     }
 
     public void ListClosedAccounts(){
         ArrayList<Account> data = Account.findClosedAccounts();
         ShowListDialog dialog = new ShowListDialog();
+        dialog.showNow(getFragmentManager(), "ListClosedAccounts");
         dialog.setData(data);
-        dialog.show(getFragmentManager(), "ListClosedAccounts");
     }
 
     public void CustomerReport(){
         final ShowListDialog dialog = new ShowListDialog();
+        dialog.showNow(getFragmentManager(), "CustomerReport");
         dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
             @Override
             public void EditFinish(String text) {
@@ -66,15 +67,14 @@ public class BankTellerFragment extends Fragment {
                 dialog.setData(data);
             }
         });
-        dialog.show(getFragmentManager(), "CustomerReport");
     }
 
     public void DTER(){
         // TODO: get customers
         ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
+        dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);
-        dialog.show(getFragmentManager(), "DTER");
     }
 
     public void AddInterest(){
