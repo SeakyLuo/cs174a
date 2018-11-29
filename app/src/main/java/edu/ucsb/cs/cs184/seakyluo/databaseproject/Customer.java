@@ -49,8 +49,9 @@ public class Customer implements Serializable {
         }
     }
 
-    public static boolean VerifyPin(String PIN){
-        return DatabaseHelper.user.pin.equals(PIN);
+    public static boolean VerifyPin(int id, String pin){
+        if (DatabaseHelper.user != null && DatabaseHelper.user.getId() == id) return DatabaseHelper.user.getPin().equals(pin);
+        return DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id + " AND c." + PIN + "=" + pin, TABLE_NAME).size() > 0;
     }
 
     public void SetPin(String pin){

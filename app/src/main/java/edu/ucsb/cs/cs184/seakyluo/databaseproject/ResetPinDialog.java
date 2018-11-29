@@ -18,7 +18,7 @@ public class ResetPinDialog extends DialogFragment {
         view.findViewById(R.id.reset_pin_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Customer.VerifyPin(oldPIN.getText().toString())){
+                if (Customer.VerifyPin(DatabaseHelper.user.getId(), oldPIN.getText().toString())){
                     DatabaseHelper.user.SetPin(newPIN.getText().toString());
                 }else{
                     oldPIN.setError("Incorrect Pin!");

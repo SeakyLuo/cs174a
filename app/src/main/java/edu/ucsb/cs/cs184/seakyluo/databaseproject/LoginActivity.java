@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity{
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Customer.VerifyPin(_pinText.getText().toString())) {
+                if (Customer.VerifyPin(Integer.parseInt(_idText.getText().toString()), _pinText.getText().toString())) {
                     onLoginSuccess();
                 } else{
                     onLoginFailed();
