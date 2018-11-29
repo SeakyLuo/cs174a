@@ -5,6 +5,11 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Transaction implements Serializable {
     public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from_account", TO = "to_account", TIME = "time", TYPE = "type", AMOUNT = "amount";
@@ -13,7 +18,9 @@ public class Transaction implements Serializable {
                                                                                         TYPE + " CHAR(30), " +
                                                                                         AMOUNT + " REAL, " +
                                                                                         FROM + " INTEGER, " +
-                                                                                        TO + " INTEGER)";
+                                                                                        TO + " INTEGER, " +
+                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
+                                                                                        "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
             COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest",
@@ -47,15 +54,14 @@ public class Transaction implements Serializable {
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + TIME + "=" + time;
     }
     public static String InsertQuery(int cid, Date time, String type, double amount, int from, int to){
-        return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ", " + FROM + ", " + TO + ") " +
-                "VALUES (" + cid + ", " + DatabaseHelper.TimeQuery(time) + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
+        return InsertQuery(cid, time.getYear(), time.getMonth(), time.getDay(), type, amount, from, to);
     }
     public static String InsertQuery(int cid, int year, int month, int day, String type, double amount, int from, int to){
-        return InsertQuery(cid, new Date(year, month, day), type, amount, from ,to);
+        return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ", " + FROM + ", " + TO + ") " +
+                "VALUES (" + cid + ", " + DatabaseHelper.TimeQuery(year, month, day) + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
     }
     public static String getQuery(){
-        return "SELECT t." + CID + ", t." + TIME + ", t." + TYPE + ", t." + AMOUNT + ", t." + FROM + ", t." + TO + " " +
-                "FROM " + TABLE_NAME + " t";
+        return "SELECT * FROM " + TABLE_NAME + " t";
     }
     public static ArrayList<Transaction> MonthlyStatement(int cid){
         // TODO: you wen ti
@@ -100,14 +106,52 @@ public class Transaction implements Serializable {
     public static void WriteCheck(int from, double amount)  throws Account.NotEnoughMoneyException{
         Account.findAccount(from).modifyBalance(-amount);
     }
-    public static void AccrueInterest(Account account){
+    public static void AccrueInterest(Account account) throws Account.NotEnoughMoneyException {
         // TODO: see project description
-        try {
-            account.modifyBalance(account.getBalance() * account.getMonthlyInterest());
-        } catch (Account.NotEnoughMoneyException e) {
-            e.printStackTrace();
-        }
+
+            double sum = 0;
+            double average = 0;
+            int days = 0;
+            Integer[] thirty_one = new Integer[]{ 1, 3, 5, 7, 8, 10, 12 };
+            HashSet<Integer> month_31 = new HashSet<>();
+            month_31.addAll( Arrays.asList( thirty_one));
+
+            double last_day_balance = account.getBalance();
+
+            ArrayList<Transaction> account_transactions = new ArrayList<>();
+            for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(getQuery(), TABLE_NAME)) {
+                if (account.getId() == transaction.from || account.getId() == transaction.to
+                        && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth()) {
+                    account_transactions.add(transaction);
+                }
+            }
+            int month = account_transactions.get(0).time.getMonth();
+            if(month==2){
+                days=28;
+            }
+            else if(month_31.contains(month)){
+                days=31;
+            }
+            else{
+                days=30;
+            }
+            int today=days;
+            Collections.sort(account_transactions, new Comparator<Transaction>() {
+                @Override
+                public int compare(Transaction o1, Transaction o2) {
+                    return o2.getTime().getDay() - o1.getTime().getDay();
+                }
+            });
+            for(int i = 0; i<account_transactions.size();i++){
+                sum+=last_day_balance * (today - account_transactions.get(i).getTime().getDay()+1);
+                today=account_transactions.get(i).getTime().getDay();
+                last_day_balance=account_transactions.get(i).getAmount();
+            }
+            sum+=(today-1)*last_day_balance;
+            average=sum/days;
+            account.modifyBalance(average * account.getMonthlyInterest());
     }
+
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
         // TODO: see project description
         Account.findAccount(from).modifyBalance(-amount);
@@ -120,24 +164,34 @@ public class Transaction implements Serializable {
         switch (type){
             case Transaction.DEPOSIT:
                 Transaction.Deposit(to, amount);
+                break;
             case Transaction.TOP_UP:
                 Transaction.TopUp(from, to, amount);
+                break;
             case Transaction.WITHDRAW:
                 Transaction.Withdraw(from, amount);
+                break;
             case Transaction.PURCHASE:
                 Transaction.Purchase(from, amount);
+                break;
             case Transaction.TRANSFER:
                 Transaction.Transfer(from, to, amount);
+                break;
             case Transaction.COLLECT:
                 Transaction.Collect(from, to, amount);
+                break;
             case Transaction.WIRE:
                 Transaction.Wire(from, to, amount);
+                break;
             case Transaction.PAY_FRIEND:
                 Transaction.PayFriend(from, to, amount);
+                break;
             case Transaction.QUICK_CASH:
                 Transaction.QuickCash(from, amount);
+                break;
             case Transaction.QUICK_REFILL:
                 Transaction.QuickRefill(from, amount);
+                break;
         }
     }
     @Override

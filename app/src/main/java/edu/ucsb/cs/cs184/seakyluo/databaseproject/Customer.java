@@ -39,8 +39,7 @@ public class Customer implements Serializable {
                 "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
     }
     public static String getQuery(){
-        return "SELECT c." + ID + ", c." + NAME + ", c." + ADDRESS + ", c." + PIN + " " +
-                "FROM " + TABLE_NAME + " c";
+        return "SELECT * FROM " + TABLE_NAME + " c";
     }
     public static Customer findCustomer(int id){
         try{

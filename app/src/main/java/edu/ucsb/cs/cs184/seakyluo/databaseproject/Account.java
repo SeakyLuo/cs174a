@@ -81,8 +81,7 @@ public class Account implements Serializable {
                 "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
     }
     public static String getQuery(){
-        return "SELECT a." + ID + ", a." + BANK_NAME + ", a." + TYPE + ", a." + BALANCE + ", a." + INTEREST + " " +
-                "FROM " + TABLE_NAME + " a";
+        return "SELECT * FROM " + TABLE_NAME + " a";
     }
 
     public boolean isClosed() { return balance <= 0.01 && DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME).size() > 0; }

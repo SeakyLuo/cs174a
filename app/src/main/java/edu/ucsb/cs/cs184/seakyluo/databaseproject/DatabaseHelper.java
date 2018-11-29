@@ -64,17 +64,18 @@ public class DatabaseHelper {
             rs = statement.executeQuery(sql);
             //STEP 5: Extract data from result set
             while(rs.next()){
-                Log.d("fuck", "fuck you");
                 switch (table_name){
                     case Customer.TABLE_NAME:
                         objects.add(new Customer(rs.getInt(Customer.ID),
                                                 rs.getString(Customer.NAME),
                                                 rs.getString(Customer.ADDRESS),
                                                 rs.getString(Customer.PIN)));
+                        break;
                     case Account.TABLE_NAME:
                         objects.add(new Account(rs.getInt(Account.ID),
                                                 rs.getString(Account.BANK_NAME),
                                                 rs.getString(Account.TYPE)));
+                        break;
                     case Transaction.TABLE_NAME:
                         objects.add(new Transaction(rs.getInt(Transaction.CID),
                                                     rs.getDate(Transaction.TIME),
@@ -82,21 +83,24 @@ public class DatabaseHelper {
                                                     rs.getDouble(Transaction.AMOUNT),
                                                     rs.getInt(Transaction.FROM),
                                                     rs.getInt(Transaction.TO)));
+                        break;
                     case Owns.TABLE_NAME:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
                                             rs.getInt(Owns.ISPRIMARY)));
+                        break;
                     case TIME:
                         time = rs.getDate("time");
+                        break;
                     case ACOUNT:
                         acount = rs.getInt(ACOUNT);
+                        break;
                     case CCOUNT:
                         ccount = rs.getInt(CCOUNT);
+                        break;
                 }
-                Log.d("fuck", "fuck you:" +objects.get(objects.size() - 1).toString());
             }
         } catch (SQLException e) {
-            Log.d("fuck", "DBHSQLException: " + e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -125,7 +129,6 @@ public class DatabaseHelper {
             statement = connection.createStatement();
             rs = statement.executeQuery(sql);
         } catch (SQLException e) {
-            Log.d("fuck", e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -171,12 +174,12 @@ public class DatabaseHelper {
 
     public static void clear(){
         // Drop all tables
-        run("DROP TABLE " + TIME);
-        run("DROP TABLE " + COUNTER);
-        run(Account.DROP_TABLE);
-        run(Customer.DROP_TABLE);
+//        run("DROP TABLE " + TIME);
+//        run("DROP TABLE " + COUNTER);
+//        run(Account.DROP_TABLE);
+//        run(Customer.DROP_TABLE);
         run(Owns.DROP_TABLE);
-        run(Transaction.DROP_TABLE);
+//        run(Transaction.DROP_TABLE);
     }
 
     public static void close(){

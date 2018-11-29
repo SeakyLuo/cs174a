@@ -12,7 +12,7 @@ public class DBInit {
 //        DatabaseHelper.run(DatabaseHelper.CREATE_TABLE_COUNTER);
 //        DatabaseHelper.run(Customer.CREATE_TABLE);
 //        DatabaseHelper.run(Account.CREATE_TABLE);
-//        DatabaseHelper.run(Owns.CREATE_TABLE);
+        DatabaseHelper.run(Owns.CREATE_TABLE);
 //        DatabaseHelper.run(Transaction.CREATE_TABLE);
 //         Insert Time
 //        DatabaseHelper.insertTime(2018,11,28);
@@ -51,50 +51,50 @@ public class DBInit {
 //        DatabaseHelper.run(new Account(60413, "Santa Cruz", "Pocket").insertQuery());
 //        DatabaseHelper.run(new Account(67521, "Santa Barbara", "Pocket").insertQuery());
         // Insert Owns
-//        DatabaseHelper.run(Owns.InsertQuery(17431, 344151573, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(17431, 412231856, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(17431, 322175130, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(54321, 212431965, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(54321, 412231856, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(54321, 122219876, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(54321, 203491209, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(12121, 207843218, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(41725, 201674933, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(41725, 401605312, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(41725, 231403227, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(76543 , 212116070, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(76543 , 188212217, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(93156, 209378521, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(93156, 188212217, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(93156, 210389768, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(93156, 122219876, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(93156, 203491209, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(43942, 361721022, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(43942, 400651982, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(43942, 212431965, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(43942, 322175130, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(29107, 209378521, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(29107, 212116070, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(29107, 210389768, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(19023, 412231856, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(19023, 201674933, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(19023, 401605312, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 188212217, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 207843218, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 122219876, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 344151573, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 203491209, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(32156, 210389768, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(53027, 207843218, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(43947, 212116070, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(43947, 210389768, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(60413, 361721022, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(60413, 400651982, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(60413, 122219876, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(60413, 231403227, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(67521, 209378521, 1));
-//        DatabaseHelper.run(Owns.InsertQuery(67521, 401605312, 0));
-//        DatabaseHelper.run(Owns.InsertQuery(67521, 212431965, 0));
+        DatabaseHelper.run(Owns.InsertQuery(17431, 344151573, 1));
+        DatabaseHelper.run(Owns.InsertQuery(17431, 412231856, 0));
+        DatabaseHelper.run(Owns.InsertQuery(17431, 322175130, 0));
+        DatabaseHelper.run(Owns.InsertQuery(54321, 212431965, 1));
+        DatabaseHelper.run(Owns.InsertQuery(54321, 412231856, 0));
+        DatabaseHelper.run(Owns.InsertQuery(54321, 122219876, 0));
+        DatabaseHelper.run(Owns.InsertQuery(54321, 203491209, 0));
+        DatabaseHelper.run(Owns.InsertQuery(12121, 207843218, 1));
+        DatabaseHelper.run(Owns.InsertQuery(41725, 201674933, 1));
+        DatabaseHelper.run(Owns.InsertQuery(41725, 401605312, 0));
+        DatabaseHelper.run(Owns.InsertQuery(41725, 231403227, 0));
+        DatabaseHelper.run(Owns.InsertQuery(76543 , 212116070, 1));
+        DatabaseHelper.run(Owns.InsertQuery(76543 , 188212217, 0));
+        DatabaseHelper.run(Owns.InsertQuery(93156, 209378521, 1));
+        DatabaseHelper.run(Owns.InsertQuery(93156, 188212217, 0));
+        DatabaseHelper.run(Owns.InsertQuery(93156, 210389768, 0));
+        DatabaseHelper.run(Owns.InsertQuery(93156, 122219876, 0));
+        DatabaseHelper.run(Owns.InsertQuery(93156, 203491209, 0));
+        DatabaseHelper.run(Owns.InsertQuery(43942, 361721022, 1));
+        DatabaseHelper.run(Owns.InsertQuery(43942, 400651982, 0));
+        DatabaseHelper.run(Owns.InsertQuery(43942, 212431965, 0));
+        DatabaseHelper.run(Owns.InsertQuery(43942, 322175130, 0));
+        DatabaseHelper.run(Owns.InsertQuery(29107, 209378521, 1));
+        DatabaseHelper.run(Owns.InsertQuery(29107, 212116070, 0));
+        DatabaseHelper.run(Owns.InsertQuery(29107, 210389768, 0));
+        DatabaseHelper.run(Owns.InsertQuery(19023, 412231856, 1));
+        DatabaseHelper.run(Owns.InsertQuery(19023, 201674933, 0));
+        DatabaseHelper.run(Owns.InsertQuery(19023, 401605312, 0));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 188212217, 1));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 207843218, 0));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 122219876, 0));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 344151573, 0));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 203491209, 0));
+        DatabaseHelper.run(Owns.InsertQuery(32156, 210389768, 0));
+        DatabaseHelper.run(Owns.InsertQuery(53027, 207843218, 1));
+        DatabaseHelper.run(Owns.InsertQuery(43947, 212116070, 1));
+        DatabaseHelper.run(Owns.InsertQuery(43947, 210389768, 0));
+        DatabaseHelper.run(Owns.InsertQuery(60413, 361721022, 1));
+        DatabaseHelper.run(Owns.InsertQuery(60413, 400651982, 0));
+        DatabaseHelper.run(Owns.InsertQuery(60413, 122219876, 0));
+        DatabaseHelper.run(Owns.InsertQuery(60413, 231403227, 0));
+        DatabaseHelper.run(Owns.InsertQuery(67521, 209378521, 1));
+        DatabaseHelper.run(Owns.InsertQuery(67521, 401605312, 0));
+        DatabaseHelper.run(Owns.InsertQuery(67521, 212431965, 0));
         // Insert Transactions on Account Creation
 //        DatabaseHelper.run(Transaction.InsertQuery(322175130, 2011, 3, 2, Transaction.DEPOSIT, 200, 0, 17431));
 //        DatabaseHelper.run(Transaction.InsertQuery(212431965, 2011, 3, 3, Transaction.DEPOSIT, 21000, 0, 54321));
@@ -110,7 +110,7 @@ public class DBInit {
 //        DatabaseHelper.run(Transaction.InsertQuery(188212217, 2011, 3, 5, Transaction.DEPOSIT, 8456, 0, 76543));
 //        DatabaseHelper.run(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.TOP_UP, 30, 29107, 43947));
 //        DatabaseHelper.run(Transaction.InsertQuery(401605312, 2011, 3, 6, Transaction.TOP_UP, 100, 19023, 67521));
-        // Insert Other Transactions
+//        // Insert Other Transactions
 //        DatabaseHelper.run(Transaction.InsertQuery(344151573, 2011, 3, 2, Transaction.DEPOSIT, 8800, 0, 17431));
 //        DatabaseHelper.run(Transaction.InsertQuery(122219876, 2011, 3, 3, Transaction.WITHDRAW, 3000, 54321, 0));
 //        DatabaseHelper.run(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.WITHDRAW, 2000, 76543, 0));
@@ -139,17 +139,17 @@ public class DBInit {
     }
 
     public static void Verification(){
-        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME)){
-            Log.d("fuck", account.toString());
-        }
-        for (Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
-            Log.d("fuck", customer.toString());
-        }
+//        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME)){
+//            Log.d("fuck", account.toString());
+//        }
+//        for (Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
+//            Log.d("fuck", customer.toString());
+//        }
         for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery(), Owns.TABLE_NAME)){
             Log.d("fuck", owns.toString());
         }
-        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME)){
-            Log.d("fuck", transaction.toString());
-        }
+//        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME)){
+//            Log.d("fuck", transaction.toString());
+//        }
     }
 }
