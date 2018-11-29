@@ -136,7 +136,7 @@ public class Transaction implements Serializable {
         for (Transaction transaction: account_transactions){
             sum += last_day_balance * (today - transaction.getTime().getDay() + 1);
             today = transaction.getTime().getDay();
-            last_day_balance = transaction.getAmount();
+            last_day_balance = last_day_balance - transaction.getAmount();
         }
         sum += (today - 1) * last_day_balance;
         average = sum/days;
