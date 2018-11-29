@@ -35,6 +35,10 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void EnterCheckTransaction(){
+        if (DatabaseHelper.user == null){
+            Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
 

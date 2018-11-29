@@ -127,9 +127,10 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        // TODO: to be changed
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_CASH);
-
+        // TODO: to be changed
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         startActivity(intent);
     }

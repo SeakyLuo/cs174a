@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Account implements Serializable {
-    public static final String TABLE_NAME = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
+    public static final String TABLE_NAME = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type", QUICK_AMOUNT = "quick_amount";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     BANK_NAME + " CHAR(40), " +
                                                                                     TYPE + " CHAR(30) NOT NULL, " +
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
+                                                                                    QUICK_AMOUNT + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
     public static final String CHECKING = "Checking", STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
@@ -19,7 +20,7 @@ public class Account implements Serializable {
             VT_POCKET = {Transaction.TOP_UP, Transaction.PURCHASE, Transaction.COLLECT, Transaction.PAY_FRIEND};
     private int aid;
     private String bank_name, type;
-    private Double balance, interest;
+    private Double balance, interest, quick_amount;
     public Account(int aid, String bank_name, String type){
         this.aid = aid;
         this.bank_name = bank_name.trim();
@@ -28,13 +29,18 @@ public class Account implements Serializable {
         switch (type){
             case INTEREST_CHECKING:
                 interest = 0.055;
+                break;
             case STUDENT_CHECKING:
                 interest = 0d;
+                break;
             case SAVINGS:
                 interest = 0.075;
+                break;
             case POCKET:
                 interest = 0d;
+                break;
         }
+        this.quick_amount = 0d;
     }
 
     public int getId() { return aid; }
@@ -48,13 +54,18 @@ public class Account implements Serializable {
     public String getBankName() { return bank_name; }
     public double getBalance() { return balance; }
     public double getInterest() { return interest; }
+    public double getQuickAmount() { return quick_amount; }
     public double getMonthlyInterest() { return interest / 12; }
     public void setBalance(double balance) {
         this.balance = balance;
         DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
     }
+    public void setQuickAmount(double amount) {
+        this.quick_amount = amount;
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + QUICK_AMOUNT + "=" + amount + "WHERE a." + ID + "=" + aid);
+    }
     public void modifyBalance(double delta) throws NotEnoughMoneyException {
-        if (this.balance < delta){
+        if (this.balance + delta < 0){
             throw new NotEnoughMoneyException();
         }
         this.balance += delta;
@@ -65,8 +76,8 @@ public class Account implements Serializable {
         DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + "WHERE a." + ID + "=" + aid);
     }
     public String insertQuery(){
-        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
-                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
+        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + QUICK_AMOUNT + ") " +
+                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ", " + quick_amount + ")";
     }
     public ArrayList<Owns> findOwners(){
         ArrayList<Owns> owners = new ArrayList<>();
@@ -76,9 +87,9 @@ public class Account implements Serializable {
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + aid;
     }
-    public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest){
+    public static String InsertQuery(int aid, String bank_name, String type, double balance, double interest, double quick_amount){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + BANK_NAME + ", " + TYPE + ", " + BALANCE + ", " + INTEREST + ") " +
-                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ")";
+                "VALUES (" + aid + ", '" + bank_name + "', '" + type + "', " + balance + ", " + interest + ", " + quick_amount + ")";
     }
     public static String getQuery(){
         return "SELECT * FROM " + TABLE_NAME + " a";

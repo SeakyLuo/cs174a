@@ -71,8 +71,12 @@ public class Transaction implements Serializable {
                 transactions.add(transaction);
         return transactions;
     }
-    public static void Deposit(int toAccount, double amount) throws Account.NotEnoughMoneyException{
-        Account.findAccount(toAccount).modifyBalance(amount);
+    public static void Deposit(int toAccount, double amount){
+        try {
+            Account.findAccount(toAccount).modifyBalance(amount);
+        } catch (Account.NotEnoughMoneyException e) {
+            e.printStackTrace();
+        }
     }
     public static void TopUp(int from, int to, double amount) throws Account.NotEnoughMoneyException{
         Account.findAccount(from).modifyBalance(-amount);
@@ -106,7 +110,7 @@ public class Transaction implements Serializable {
     public static void WriteCheck(int from, double amount)  throws Account.NotEnoughMoneyException{
         Account.findAccount(from).modifyBalance(-amount);
     }
-    public static void AccrueInterest(Account account) throws Account.NotEnoughMoneyException {
+    public static void AccrueInterest(Account account){
         // TODO: see project description
         double sum = 0;
         double average = 0;
@@ -137,15 +141,17 @@ public class Transaction implements Serializable {
         }
         sum += (today - 1) * last_day_balance;
         average = sum/days;
-        account.modifyBalance(average * account.getMonthlyInterest());
+        try {
+            account.modifyBalance(average * account.getMonthlyInterest());
+        } catch (Account.NotEnoughMoneyException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
-        // TODO: see project description
         Account.findAccount(from).modifyBalance(-amount);
     }
     public static void QuickRefill(int from, double amount) throws Account.NotEnoughMoneyException{
-        // TODO: see project description
         Account.findAccount(from).modifyBalance(amount);
     }
     public static void MakeTransation(String type, int from, int to, double amount) throws Exception {

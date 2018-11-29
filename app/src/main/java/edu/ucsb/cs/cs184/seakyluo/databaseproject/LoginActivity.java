@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity{
     public void onLoginSuccess() {
         DatabaseHelper.user = Customer.findCustomer(Integer.parseInt(_idText.getText().toString()));
         setResult(RESULT_OK);
+        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
         finish();
     }
 

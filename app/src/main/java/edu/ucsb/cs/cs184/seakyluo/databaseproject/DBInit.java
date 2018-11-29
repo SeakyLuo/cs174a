@@ -12,18 +12,19 @@ import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.run;
 
 public class DBInit {
     public static void Init(){
-        DropTables();
-        CreateTables();
-//         Insert Time
+//        DropTables();
+//        CreateTables();
+//        // Insert Time
 //        DatabaseHelper.insertTime(2018,11,28);
-//         Insert Counter
+//        // Insert Counter
 //        DatabaseHelper.insertCounter();
+//        // Insert Sample data
 //        InsertCustomers();
 //        InsertAccounts();
-        InsertOwns();
+//        InsertOwns();
 //        InsertTransactions();
-        // Verify Insertion is Successful
-        Verification();
+//        // Verify Insertion is Successful
+//        Verification();
     }
 
     public static void CreateTables(){
