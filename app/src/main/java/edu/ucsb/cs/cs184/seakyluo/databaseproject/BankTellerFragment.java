@@ -92,8 +92,8 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void AddInterest(){
-        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME))
-            Transaction.AccrueInterest(account);
+//        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME))
+//            Transaction.AccrueInterest(account);
     }
 
     public void DeleteAccounts(){

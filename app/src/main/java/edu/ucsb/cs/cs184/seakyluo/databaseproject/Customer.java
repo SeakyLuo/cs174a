@@ -4,35 +4,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Customer implements Serializable {
-    public static final String TABLE_NAME = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
+    public static final String TABLE_NAME = "Customer", ID = "cid", NAME = "name", ADDRESS = "address", PIN = "pin";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     NAME + " CHAR(40), " +
                                                                                     ADDRESS +" CHAR(40), " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
                                                                                     "PRIMARY KEY(" + ID +"))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
-    private int id;
+    private int cid;
     private String name, address, pin = "1717";
 
-    public Customer(int id, String name, String address, String pin){
-        this.id = id;
+    public Customer(int cid, String name, String address, String pin){
+        this.cid = cid;
         this.name = name.trim();
         this.address = address.trim();
         this.pin = pin;
     }
-    public int getId() { return id; }
+    public int getId() { return cid; }
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getPin() { return pin; }
     public String insertQuery(){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
-                "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
+                "VALUES (" + cid + ", '" + name + "', '" + address + "', '" + pin + "')";
     }
     public String deleteQuery(){
-        return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + id;
+        return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;
     }
     public boolean OwnsAcount(int accountid){
-        return DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + id + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
+        return DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
     }
     public static String InsertQuery(int id, String name, String address, String pin){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
@@ -59,6 +59,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString(){
-        return name.trim() + "---" + id;
+        return name.trim() + "---" + cid;
     }
 }

@@ -42,11 +42,11 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
-//            clear();
+            clear();
             DBInit.Init();
-//            get(GET_TIME, TIME);
-//            get(GET_ACOUNT, ACOUNT);
-//            get(GET_CCOUNT, CCOUNT);
+            get(GET_TIME, TIME);
+            get(GET_ACOUNT, ACOUNT);
+            get(GET_CCOUNT, CCOUNT);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -174,12 +174,12 @@ public class DatabaseHelper {
 
     public static void clear(){
         // Drop all tables
-//        run("DROP TABLE " + TIME);
-//        run("DROP TABLE " + COUNTER);
-//        run(Account.DROP_TABLE);
-//        run(Customer.DROP_TABLE);
+        run("DROP TABLE " + TIME);
+        run("DROP TABLE " + COUNTER);
+        run(Account.DROP_TABLE);
+        run(Customer.DROP_TABLE);
         run(Owns.DROP_TABLE);
-//        run(Transaction.DROP_TABLE);
+        run(Transaction.DROP_TABLE);
     }
 
     public static void close(){
