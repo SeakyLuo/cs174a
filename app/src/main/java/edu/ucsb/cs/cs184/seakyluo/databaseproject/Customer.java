@@ -59,6 +59,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString(){
-        return name.trim() + "---" + cid;
+        return name + "---" + cid;
     }
 }

@@ -119,9 +119,10 @@ public class Transaction implements Serializable {
             }
         }
         int year = account_transactions.get(0).time.getYear();
+        int month = account_transactions.get(0).time.getMonth();
         Integer[] day_array = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        int days = day_array[account_transactions.get(0).time.getMonth() - 1];
-        days += (year % 4 == 0 && year % 400 != 0) ? 1 : 0;
+        int days = day_array[month - 1];
+        days += (month == 2 && year % 4 == 0 && year % 400 != 0) ? 1 : 0;
         int today = days;
         Collections.sort(account_transactions, new Comparator<Transaction>() {
             @Override

@@ -42,7 +42,6 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
-            clear();
             DBInit.Init();
             get(GET_TIME, TIME);
             get(GET_ACOUNT, ACOUNT);
@@ -170,16 +169,6 @@ public class DatabaseHelper {
     public static int getCcount() { return ccount; }
     public static void insertCounter(){
         run("INSERT INTO " + COUNTER + "(" + ACOUNT + ", " + CCOUNT + ") VALUES (10000, 10000)");
-    }
-
-    public static void clear(){
-        // Drop all tables
-        run("DROP TABLE " + TIME);
-        run("DROP TABLE " + COUNTER);
-        run(Account.DROP_TABLE);
-        run(Customer.DROP_TABLE);
-        run(Owns.DROP_TABLE);
-        run(Transaction.DROP_TABLE);
     }
 
     public static void close(){
