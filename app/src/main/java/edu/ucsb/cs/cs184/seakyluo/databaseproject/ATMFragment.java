@@ -23,14 +23,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        deposit.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
-        deposit.setClickable(true);
     }
 
     public void TopUp(){
@@ -38,14 +36,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        top_up.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TOP_UP);
 
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
-        top_up.setClickable(true);
     }
 
     public void Withdraw(){
@@ -53,14 +49,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        withdraw.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
-        withdraw.setClickable(true);
     }
 
     public void Purchase(){
@@ -68,14 +62,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        purchase.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
-
+        ;
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.SAVINGS, false));
         startActivity(intent);
-        purchase.setClickable(true);
     }
 
     public void Transfer(){
@@ -83,14 +75,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        transfer.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
-        transfer.setClickable(true);
     }
 
     public void Collect(){
@@ -98,14 +88,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        collect.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.COLLECT);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
-        collect.setClickable(true);
     }
 
     public void Wire(){
@@ -113,14 +101,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        wire.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.CHECKING, Account.SAVINGS});
         startActivity(intent);
-        wire.setClickable(true);
     }
 
     public void PayFriend(){
@@ -128,14 +114,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        pay_friend.setClickable(false);
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PAY_FRIEND);
 
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.POCKET});
         startActivity(intent);
-        pay_friend.setClickable(true);
     }
 
     public void QuickCash(){
@@ -143,11 +127,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        quick_cash.setClickable(false);
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), "QuickCash");
         dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
-        quick_cash.setClickable(true);
     }
 
     public void QuickRefill(){
@@ -155,15 +137,12 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        quick_refill.setClickable(false);
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), "QuickRefill");
         dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
-        quick_refill.setClickable(true);
     }
 
     public void Login(){
-        login.setClickable(false);
         if (login.getText().toString().equals(getString(R.string.login))){
             startActivityForResult(new Intent(getContext(), LoginActivity.class), LOGIN);
         } else{
@@ -171,7 +150,6 @@ public class ATMFragment extends Fragment {
             login.setText(getString(R.string.login));
             Toast.makeText(getContext(), "Logout Successful!", Toast.LENGTH_SHORT).show();
         }
-        login.setClickable(true);
     }
 
     @Override
