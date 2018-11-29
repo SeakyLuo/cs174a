@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Owns implements Serializable {
     public static final String TABLE_NAME = "Owns", CID = "cid", AID = "aid", ISPRIMARY = "isPrimary";
@@ -24,6 +25,16 @@ public class Owns implements Serializable {
     public boolean isPrimary() { return isPrimary == 1; }
     public String insertQuery(){
         return InsertQuery(cid, aid, isPrimary);
+    }
+    public static ArrayList<Customer> findOwners(int aid){
+        return (ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid, Customer.TABLE_NAME);
+    }
+    public static Customer findPrimaryOwner(int aid){
+        try{
+            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND " + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
+        }catch (IndexOutOfBoundsException e){
+            return null;
+        }
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + AID + "=" + aid;

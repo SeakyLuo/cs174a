@@ -88,7 +88,7 @@
         android:ems="10"
         android:focusableInTouchMode="true"
         android:hint="Amount"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <Button
         android:id="@+id/ui_confirm"

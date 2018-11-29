@@ -73,15 +73,31 @@ public class UserInputActivity extends AppCompatActivity {
     }
 
     private void Confirm(){
-        if (fromVisible && from_type != null && !findTypeIn(selected_from, from_type)){
-            fromAccount.setError(selected_from.getType() + " NOT Supported!");
+        if (fromVisible){
+            if (fromAccount.getText().toString().isEmpty()){
+                fromAccount.setError("Empty!");
+                return;
+            }
+            if (from_type != null && !findTypeIn(selected_from, from_type)){
+                fromAccount.setError(selected_from.getType() + " NOT Supported!");
+                return;
+            }
+        }
+        if (toVisible){
+            if (toAccount.getText().toString().isEmpty()){
+                toAccount.setError("Empty!");
+                return;
+            }
+            if (to_type != null && !findTypeIn(selected_to, to_type)){
+                toAccount.setError(selected_to.getType() + " NOT Supported!");
+                return;
+            }
+        }
+        if (amount.getText().toString().isEmpty()){
+            amount.setError("Empty!");
             return;
         }
-        if (toVisible && to_type != null && !findTypeIn(selected_to, to_type)){
-            toAccount.setError(selected_to.getType() + " NOT Supported!");
-            return;
-        }
-        MakeTransaction(from, to, Double.parseDouble(this.amount.getText().toString()));
+        MakeTransaction(from, to, Double.parseDouble(amount.getText().toString()));
     }
 
     private void MakeTransaction(int from, int to, double amount){

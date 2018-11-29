@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 
 import com.jude.swipbackhelper.SwipeBackHelper;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -95,12 +94,16 @@ public class CreateAccountActivity extends AppCompatActivity {
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.ca_ichecking:
                         type = Account.INTEREST_CHECKING;
+                        break;
                     case R.id.ca_schecking:
                         type = Account.STUDENT_CHECKING;
+                        break;
                     case R.id.ca_savings:
                         type = Account.SAVINGS;
+                        break;
                     case R.id.ca_pocket:
                         type = selected_account.getId() + "";
+                        break;
                 }
                 DatabaseHelper.run(new Account(acount, bank_name.getText().toString(), type).insertQuery());
                 DatabaseHelper.run(Owns.InsertQuery(DatabaseHelper.user.getId(), acount, 1));

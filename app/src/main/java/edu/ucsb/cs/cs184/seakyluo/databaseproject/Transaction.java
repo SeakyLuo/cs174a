@@ -22,9 +22,9 @@ public class Transaction implements Serializable {
                                                                                         "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
                                                                                         "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
-    public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
-            COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest",
-            QUICK_CASH = "quick-cash", QUICK_REFILL = "quick-refill";
+    public static final String DEPOSIT = "Deposit", TOP_UP = "Top-up", WITHDRAW = "Withdraw", PURCHASE = "Purchase", TRANSFER = "Transfer",
+            COLLECT = "Collect", PAY_FRIEND = "Pay-Friend", WIRE = "Wire", WRITE_CHECK = "Write-Check", ACCRUE_INTEREST = "Accrue-Interest",
+            QUICK_CASH = "Quick-Cash", QUICK_REFILL = "Quick-Refill";
     private int cid, from = 0, to = 0;
     private Date time;
     private String type;
@@ -63,7 +63,7 @@ public class Transaction implements Serializable {
         return "SELECT * FROM " + TABLE_NAME + " t";
     }
     public static ArrayList<Transaction> MonthlyStatement(int cid){
-        // TODO: you wen ti
+        // TODO: you wen ti, change to primary owned account?
         ArrayList<Transaction> transactions = new ArrayList<>();
         for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(getQuery(), TABLE_NAME))
             if (cid == transaction.cid && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth())
@@ -120,6 +120,14 @@ public class Transaction implements Serializable {
                     && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth()) {
                 account_transactions.add(transaction);
             }
+        }
+        if (account_transactions.isEmpty()){
+            try {
+                account.modifyBalance(account.getBalance() * account.getMonthlyInterest());
+            } catch (Account.NotEnoughMoneyException e) {
+                e.printStackTrace();
+            }
+            return;
         }
         int year = account_transactions.get(0).time.getYear();
         int month = account_transactions.get(0).time.getMonth();

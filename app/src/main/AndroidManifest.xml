@@ -32,6 +32,14 @@
             android:name=".LoginActivity"
             android:label="LoginActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:label="CreateAccountActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserInputActivity"
+            android:label="UserInputActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
