@@ -25,7 +25,7 @@ public class ShowListDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_show_list,container,false);
         linearLayout = view.findViewById(R.id.sl_layout);
         editText = view.findViewById(R.id.sl_edit_text);
-        editText.setVisibility(View.INVISIBLE);
+        editText.setVisibility(View.GONE);
         params = new ViewGroup.MarginLayoutParams(linearLayout.getLayoutParams());
         params.setMargins(0, 16, 0, 16);
         return view;
