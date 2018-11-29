@@ -36,8 +36,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         select_account = findViewById(R.id.ca_select_account);
 
         ArrayList<Owns> owns = DatabaseHelper.get(Owns.getQuery() + " WHERE o.cid = " + DatabaseHelper.user.getId() , Owns.TABLE_NAME);
-        pocket.setVisibility(owns.size() > 0 ? View.VISIBLE : View.INVISIBLE);
-        select_account.setVisibility(View.INVISIBLE);
+        pocket.setVisibility(owns.size() > 0 ? View.VISIBLE : View.GONE);
+        select_account.setVisibility(View.GONE);
         select_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,10 +58,10 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.ca_pocket){
                     select_account.setVisibility(View.VISIBLE);
-                    bank_name.setVisibility(View.INVISIBLE);
+                    bank_name.setVisibility(View.GONE);
                     input_amount.setHint("TopUp");
                 }else{
-                    select_account.setVisibility(View.INVISIBLE);
+                    select_account.setVisibility(View.GONE);
                     bank_name.setVisibility(View.VISIBLE);
                     input_amount.setHint("Deposit");
                 }

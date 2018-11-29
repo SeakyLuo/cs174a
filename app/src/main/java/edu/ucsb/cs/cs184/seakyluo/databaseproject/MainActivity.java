@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        DBInit.Init();
-//        DBInit.Verification();
+        DatabaseHelper.init();
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));

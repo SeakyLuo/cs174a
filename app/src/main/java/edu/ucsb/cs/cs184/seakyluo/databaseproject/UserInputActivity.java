@@ -48,8 +48,8 @@ public class UserInputActivity extends AppCompatActivity {
         title_text.setText(title);
         fromVisible = callerIntent.getBooleanExtra(FROM_VISIBLE, true);
         toVisible = callerIntent.getBooleanExtra(TO_VISIBLE, true);
-        fromAccount.setVisibility(fromVisible ? View.VISIBLE : View.INVISIBLE);
-        toAccount.setVisibility(toVisible ? View.VISIBLE : View.INVISIBLE);
+        fromAccount.setVisibility(fromVisible ? View.VISIBLE : View.GONE);
+        toAccount.setVisibility(toVisible ? View.VISIBLE : View.GONE);
         ArrayList<Account> fromAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(FROM_ACCOUNTS);
         ArrayList<Account> toAccounts =  (ArrayList<Account>) callerIntent.getSerializableExtra(TO_ACCOUNTS);
         from_type = (String[]) callerIntent.getSerializableExtra(FROM_TYPE);

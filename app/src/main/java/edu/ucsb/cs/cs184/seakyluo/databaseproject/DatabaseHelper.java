@@ -22,6 +22,16 @@ public class DatabaseHelper {
     private static final String USERNAME = "haitianluo";
     private static final String PASSWORD = "4608659";
 
+    public static void init(){
+        get(GET_TIME, TIME);
+        get(GET_ACOUNT, ACOUNT);
+        get(GET_CCOUNT, CCOUNT);
+        insertTime(2011, 4, 1);
+        insertCounter();
+//        DBInit.Init();
+//        DBInit.Verification();
+    }
+
     private static ArrayList Get(Connection connection, String sql, String table_name){
         ArrayList<Object> objects = new ArrayList<>();
         Statement statement = null;
@@ -180,6 +190,7 @@ public class DatabaseHelper {
     }
     public static void insertTime(int year, int month, int day){
         run("INSERT INTO " + TIME + "(time) VALUES (" + TimeQuery(year, month, day) + ")");
+        time = new Date(year, month, day);
     }
     public static String TimeQuery(Date date){
         return TimeQuery(date.getYear(), date.getMonth(), date.getDay());
