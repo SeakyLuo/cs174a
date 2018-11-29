@@ -42,11 +42,11 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
+//            clear();
             DBInit.Init();
 //            get(GET_TIME, TIME);
 //            get(GET_ACOUNT, ACOUNT);
 //            get(GET_CCOUNT, CCOUNT);
-//            clear();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -64,6 +64,7 @@ public class DatabaseHelper {
             rs = statement.executeQuery(sql);
             //STEP 5: Extract data from result set
             while(rs.next()){
+                Log.d("fuck", "fuck you");
                 switch (table_name){
                     case Customer.TABLE_NAME:
                         objects.add(new Customer(rs.getInt(Customer.ID),
@@ -92,8 +93,10 @@ public class DatabaseHelper {
                     case CCOUNT:
                         ccount = rs.getInt(CCOUNT);
                 }
+                Log.d("fuck", "fuck you:" +objects.get(objects.size() - 1).toString());
             }
         } catch (SQLException e) {
+            Log.d("fuck", "DBHSQLException: " + e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -144,11 +147,17 @@ public class DatabaseHelper {
 
     public static boolean isInitFinished() { return initFinished; }
     public static void setTime(int year, int month, int day){
-        run("UPDATE " + TIME + " t SET t.time = ('" + year + "-" + day + "-" + month + "')");
+        run("UPDATE " + TIME + " t SET t.time=" + TimeQuery(year, month, day));
         time = new Date(year, month, day);
     }
     public static void insertTime(int year, int month, int day){
-        run("INSERT INTO " + TIME + "(time) VALUES ('" + year + "-" + day + "-" + month + "')");
+        run("INSERT INTO " + TIME + "(time) VALUES (" + TimeQuery(year, month, day) + ")");
+    }
+    public static String TimeQuery(Date date){
+        return TimeQuery(date.getYear(), date.getMonth(), date.getDay());
+    }
+    public static String TimeQuery(int year, int month, int day){
+        return "TO_DATE('" + year + ((month < 10) ? "0": "") + month + ((day < 10) ? "0": "") + day + "', 'YYYYMMDD')";
     }
     public static void updateCounter(String variable){
         if (variable.equals(ACOUNT) || variable.equals(CCOUNT))

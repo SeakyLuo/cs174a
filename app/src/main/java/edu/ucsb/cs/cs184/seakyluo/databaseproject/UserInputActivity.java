@@ -81,34 +81,12 @@ public class UserInputActivity extends AppCompatActivity {
             toAccount.setError(selected_to.getType() + " NOT Supported!");
             return;
         }
-        MakeTransaction();
+        MakeTransaction(from, to, Double.parseDouble(this.amount.getText().toString()));
     }
 
-    private void MakeTransaction(){
-        double amount = Double.parseDouble(this.amount.getText().toString());
+    private void MakeTransaction(int from, int to, double amount){
         try{
-            switch (title){
-                case Transaction.DEPOSIT:
-                    Transaction.Deposit(to, amount);
-                case Transaction.TOP_UP:
-                    Transaction.TopUp(from, to, amount);
-                case Transaction.WITHDRAW:
-                    Transaction.Withdraw(from, amount);
-                case Transaction.PURCHASE:
-                    Transaction.Purchase(from, amount);
-                case Transaction.TRANSFER:
-                    Transaction.Transfer(from, to, amount);
-                case Transaction.COLLECT:
-                    Transaction.Collect(from, to, amount);
-                case Transaction.WIRE:
-                    Transaction.Wire(from, to, amount);
-                case Transaction.PAY_FRIEND:
-                    Transaction.PayFriend(from, to, amount);
-                case Transaction.QUICK_CASH:
-                    Transaction.QuickCash(from, amount);
-                case Transaction.QUICK_REFILL:
-                    Transaction.QuickRefill(from, amount);
-            }
+            Transaction.MakeTransation(title, from, to, amount);
         } catch (Account.NotEnoughMoneyException e){
             this.amount.setError(e.toString());
             return;

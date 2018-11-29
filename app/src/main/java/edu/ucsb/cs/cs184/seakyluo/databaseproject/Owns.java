@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Owns implements Serializable {
     public static final String TABLE_NAME = "Owns", CID = "cid", AID = "aid", ISPRIMARY = "isPrimary";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + CID + " INTEGER NOT NULL, " +
-                                                                                AID + " INTEGER NOT NULL, " +
-                                                                                ISPRIMARY +" INTEGER, "+
-                                                                                "PRIMARY KEY(" + CID + ", " + AID +"), " +
-                                                                                "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + " ON DELETE CASCADE, " +
-                                                                                "FOREIGN KEY(" + AID + ") REFERENCES " + Account.TABLE_NAME + " ON DELETE CASCADE)";
+                                                                                    AID + " INTEGER NOT NULL, " +
+                                                                                    ISPRIMARY +" INTEGER, "+
+                                                                                    "PRIMARY KEY(" + CID + ", " + AID +"), " +
+                                                                                    "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + " ON DELETE CASCADE, " +
+                                                                                    "FOREIGN KEY(" + AID + ") REFERENCES " + Account.TABLE_NAME + " ON DELETE CASCADE)";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     private int cid, aid;
     private int isPrimary;

@@ -16,8 +16,8 @@ public class Customer implements Serializable {
 
     public Customer(int id, String name, String address, String pin){
         this.id = id;
-        this.name = name;
-        this.address = address;
+        this.name = name.trim();
+        this.address = address.trim();
         this.pin = pin;
     }
     public int getId() { return id; }
@@ -30,6 +30,9 @@ public class Customer implements Serializable {
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + id;
+    }
+    public boolean OwnsAcount(int accountid){
+        return DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + id + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
     }
     public static String InsertQuery(int id, String name, String address, String pin){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
@@ -57,6 +60,6 @@ public class Customer implements Serializable {
 
     @Override
     public String toString(){
-        return name + "---" + id;
+        return name.trim() + "---" + id;
     }
 }

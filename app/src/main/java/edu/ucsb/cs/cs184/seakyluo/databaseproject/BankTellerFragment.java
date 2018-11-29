@@ -77,18 +77,18 @@ public class BankTellerFragment extends Fragment {
     public void DTER(){
         ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
-
         for(Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
             double sum = 0;
             for(Transaction transaction: Transaction.MonthlyStatement(customer.getId())){
-                if (transaction.getType().equals(Transaction.DEPOSIT) || transaction.getType().equals(Transaction.TRANSFER) || transaction.getType().equals(Transaction.WIRE))
+                if (transaction.isType(Transaction.DEPOSIT) ||
+                        transaction.isType(Transaction.TRANSFER) && customer.OwnsAcount(transaction.getTo()) ||
+                        transaction.isType(Transaction.WIRE) && customer.OwnsAcount(transaction.getTo()))
                     sum += Math.abs(transaction.getAmount());
             }
             if (sum > 10000) data.add(customer);
         }
         dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);
-
     }
 
     public void AddInterest(){

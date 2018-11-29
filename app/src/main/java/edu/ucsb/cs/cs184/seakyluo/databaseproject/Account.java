@@ -22,8 +22,8 @@ public class Account implements Serializable {
     private Double balance, interest;
     public Account(int aid, String bank_name, String type){
         this.aid = aid;
-        this.bank_name = bank_name;
-        this.type = type;
+        this.bank_name = bank_name.trim();
+        this.type = type.trim();
         this.balance = 0d;
         switch (type){
             case INTEREST_CHECKING:
@@ -85,7 +85,7 @@ public class Account implements Serializable {
                 "FROM " + TABLE_NAME + " a";
     }
 
-    public boolean isClosed() { return balance <= 0.01; }
+    public boolean isClosed() { return balance <= 0.01 && DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME).size() > 0; }
     public boolean isPocket() {
         try{
             Integer.parseInt(type);
