@@ -12,19 +12,22 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class BankTellerFragment extends Fragment {
 
     public void SetNewDate(){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            DatePickerDialog dialog = new DatePickerDialog(getContext());
-            dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog dialog = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    DatabaseHelper.setTime(year, month, dayOfMonth);
+                    if (new Date(year, month, dayOfMonth).getTime() < DatabaseHelper.time.getTime()){
+                        Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
+                    }else
+                        DatabaseHelper.setTime(year, month, dayOfMonth);
                 }
-            });
+            }, DatabaseHelper.time.getYear(), DatabaseHelper.time.getMonth(), DatabaseHelper.time.getDay());
             dialog.show();
         }
     }

@@ -51,6 +51,9 @@ public class Customer implements Serializable {
 
     public static boolean VerifyPin(int id, String pin){
         if (DatabaseHelper.user != null && DatabaseHelper.user.getId() == id) return DatabaseHelper.user.getPin().equals(pin);
+        for(Customer customer: (ArrayList<Customer>) DatabaseHelper.get(getQuery(), TABLE_NAME))
+            android.util.Log.d("fuck", customer.toString());
+        android.util.Log.d("fuck", "fuckyou");
         return DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id + " AND c." + PIN + "=" + pin, TABLE_NAME).size() > 0;
     }
 

@@ -12,39 +12,39 @@ import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.run;
 
 public class DBInit {
     public static void Init(){
-//        DropTables();
-//        CreateTables();
-//        // Insert Time
-//        DatabaseHelper.insertTime(2018,11,28);
-//        // Insert Counter
-//        DatabaseHelper.insertCounter();
-//        // Insert Sample data
-//        InsertCustomers();
-//        InsertAccounts();
-//        InsertOwns();
-//        InsertTransactions();
-//        // Verify Insertion is Successful
-//        Verification();
+        DropTables();
+        CreateTables();
+        // Insert Time
+        DatabaseHelper.insertTime(2011,4,1);
+        // Insert Counter
+        DatabaseHelper.insertCounter();
+        // Insert Sample data
+        InsertCustomers();
+        InsertAccounts();
+        InsertOwns();
+        InsertTransactions();
+        // Verify Insertion was Successful
+        Verification();
     }
 
     public static void CreateTables(){
         // Create Tables
-//        run(DatabaseHelper.CREATE_TABLE_TIME);
-//        run(DatabaseHelper.CREATE_TABLE_COUNTER);
-//        run(Customer.CREATE_TABLE);
-//        run(Account.CREATE_TABLE);
+        run(DatabaseHelper.CREATE_TABLE_TIME);
+        run(DatabaseHelper.CREATE_TABLE_COUNTER);
+        run(Customer.CREATE_TABLE);
+        run(Account.CREATE_TABLE);
         run(Owns.CREATE_TABLE);
-//        run(Transaction.CREATE_TABLE);
+        run(Transaction.CREATE_TABLE);
     }
 
     public static void DropTables(){
         // Drop all tables
-//        run("DROP TABLE " + TIME);
-//        run("DROP TABLE " + COUNTER);
-//        run(Account.DROP_TABLE);
-//        run(Customer.DROP_TABLE);
+        run("DROP TABLE " + TIME);
+        run("DROP TABLE " + COUNTER);
+        run(Account.DROP_TABLE);
+        run(Customer.DROP_TABLE);
         run(Owns.DROP_TABLE);
-//        run(Transaction.DROP_TABLE);
+        run(Transaction.DROP_TABLE);
     }
 
     public static void InsertCustomers(){
@@ -68,7 +68,7 @@ public class DBInit {
     }
 
     public static void InsertAccounts(){
-//         Insert Accounts
+        // Insert Accounts
         run(new Account(17431, "San Fransisco", "Student-Checking").insertQuery());
         run(new Account(54321, "Los Angeles", "Student-Checking").insertQuery());
         run(new Account(12121, "Goleta", "Student-Checking").insertQuery());
@@ -149,7 +149,7 @@ public class DBInit {
         run(Transaction.InsertQuery(188212217, 2011, 3, 5, Transaction.DEPOSIT, 8456, 0, 76543));
         run(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.TOP_UP, 30, 29107, 43947));
         run(Transaction.InsertQuery(401605312, 2011, 3, 6, Transaction.TOP_UP, 100, 19023, 67521));
-//        // Insert Other Transactions
+        // Insert Other Transactions
         run(Transaction.InsertQuery(344151573, 2011, 3, 2, Transaction.DEPOSIT, 8800, 0, 17431));
         run(Transaction.InsertQuery(122219876, 2011, 3, 3, Transaction.WITHDRAW, 3000, 54321, 0));
         run(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.WITHDRAW, 2000, 76543, 0));
@@ -176,17 +176,13 @@ public class DBInit {
     }
 
     public static void Verification(){
-//        for (Account data: (ArrayList<Account>) get(Account.getQuery(), Account.TABLE_NAME)){
-//            Log.d("fuck", data.toString());
-//        }
-//        for (Customer data: (ArrayList<Customer>) get(Customer.getQuery(), Customer.TABLE_NAME)){
-//            Log.d("fuck", data.toString());
-//        }
-        for (Owns data: (ArrayList<Owns>) get(Owns.getQuery(), Owns.TABLE_NAME)){
+        for (Account data: (ArrayList<Account>) get(Account.getQuery(), Account.TABLE_NAME))
             Log.d("fuck", data.toString());
-        }
-//        for (Transaction data: (ArrayList<Transaction>) get(Transaction.getQuery(), Transaction.TABLE_NAME)){
-//            Log.d("fuck", data.toString());
-//        }
+        for (Customer data: (ArrayList<Customer>) get(Customer.getQuery(), Customer.TABLE_NAME))
+            Log.d("fuck", data.toString());
+        for (Owns data: (ArrayList<Owns>) get(Owns.getQuery(), Owns.TABLE_NAME))
+            Log.d("fuck", data.toString());
+        for (Transaction data: (ArrayList<Transaction>) get(Transaction.getQuery(), Transaction.TABLE_NAME))
+            Log.d("fuck", data.toString());
     }
 }

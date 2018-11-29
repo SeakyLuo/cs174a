@@ -42,7 +42,8 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
-            DBInit.Init();
+//            DBInit.Init();
+            DBInit.Verification();
             get(GET_TIME, TIME);
             get(GET_ACOUNT, ACOUNT);
             get(GET_CCOUNT, CCOUNT);
@@ -177,6 +178,7 @@ public class DatabaseHelper {
             Log.d("fuck", "Connection Closed");
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.d("fuck", "Closing Connection Failed");
         }
     }
 }
