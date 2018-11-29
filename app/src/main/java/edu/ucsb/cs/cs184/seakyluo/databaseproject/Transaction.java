@@ -7,15 +7,15 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class Transaction implements Serializable {
-    public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from", TO = "to", TIME = "time", TYPE = "type", AMOUNT = "amount";
+    public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from_account", TO = "to_account", TIME = "time", TYPE = "type", AMOUNT = "amount";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + CID + " INTEGER NOT NULL, " +
                                                                                         TIME + " DATE, " +
-                                                                                        TYPE + " TEXT, " +
+                                                                                        TYPE + " CHAR(30), " +
                                                                                         AMOUNT + " REAL, " +
                                                                                         FROM + " INTEGER, " +
                                                                                         TO + " INTEGER, " +
                                                                                         "PRIMARY KEY(" + CID + ", " + TIME + "), " +
-                                                                                        "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
+                                                                                        "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + " ON DELETE CASCADE)";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "deposit", TOP_UP = "top-up", WITHDRAW = "withdraw", PURCHASE = "purchase", TRANSFER = "transfer",
             COLLECT = "collect", PAY_FRIEND = "pay-friend", WIRE = "wire", WRITE_CHECK = "write-check", ACCRUE_INTEREST = "accrue-interest",

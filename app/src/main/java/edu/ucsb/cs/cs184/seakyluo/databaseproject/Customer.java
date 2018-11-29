@@ -6,11 +6,11 @@ import java.util.ArrayList;
 public class Customer implements Serializable {
     public static final String TABLE_NAME = "Customer", ID = "id", NAME = "name", ADDRESS = "address", PIN = "pin";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
-                                                                                    NAME + " TEXT, " +
-                                                                                    ADDRESS +" TEXT, " +
+                                                                                    NAME + " CHAR(40), " +
+                                                                                    ADDRESS +" CHAR(40), " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
-                                                                                    " PRIMARY KEY(" + ID +"))";
-    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
+                                                                                    "PRIMARY KEY(" + ID +"))";
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
     private int id;
     private String name, address, pin = "1717";
 

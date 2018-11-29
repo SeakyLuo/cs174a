@@ -7,12 +7,12 @@ import java.util.Arrays;
 public class Account implements Serializable {
     public static final String TABLE_NAME = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
-                                                                                    BANK_NAME + " TEXT, " +
-                                                                                    TYPE + " TEXT NOT NULL, " +
+                                                                                    BANK_NAME + " CHAR(40), " +
+                                                                                    TYPE + " CHAR(30) NOT NULL, " +
                                                                                     BALANCE + " REAL, " +
                                                                                     INTEREST + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID + "))";
-    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
+    public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
     public static final String CHECKING = "Checking", STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
     private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
             VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},

@@ -43,9 +43,10 @@ public class DatabaseHelper {
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
             DBInit.Init();
-            get(GET_TIME, TIME);
-            get(GET_ACOUNT, ACOUNT);
-            get(GET_CCOUNT, CCOUNT);
+//            get(GET_TIME, TIME);
+//            get(GET_ACOUNT, ACOUNT);
+//            get(GET_CCOUNT, CCOUNT);
+//            clear();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -83,7 +84,7 @@ public class DatabaseHelper {
                     case Owns.TABLE_NAME:
                         objects.add(new Owns(rs.getInt(Owns.CID),
                                             rs.getInt(Owns.AID),
-                                            rs.getBoolean(Owns.ISPRIMARY)));
+                                            rs.getInt(Owns.ISPRIMARY)));
                     case TIME:
                         time = rs.getDate("time");
                     case ACOUNT:
@@ -143,11 +144,11 @@ public class DatabaseHelper {
 
     public static boolean isInitFinished() { return initFinished; }
     public static void setTime(int year, int month, int day){
-        run("UPDATE " + TIME + " t SET t.time = TO_DATE('" + day + "/" + month + "/" + year + "', 'DD/MM/YYYY')");
+        run("UPDATE " + TIME + " t SET t.time = ('" + year + "-" + day + "-" + month + "')");
         time = new Date(year, month, day);
     }
     public static void insertTime(int year, int month, int day){
-        run("INSERT INTO " + TIME + "(time) VALUES TO_DATE('" + day + "/" + month + "/" + year + "', 'DD/MM/YYYY')");
+        run("INSERT INTO " + TIME + "(time) VALUES ('" + year + "-" + day + "-" + month + "')");
     }
     public static void updateCounter(String variable){
         if (variable.equals(ACOUNT) || variable.equals(CCOUNT))
@@ -161,6 +162,8 @@ public class DatabaseHelper {
 
     public static void clear(){
         // Drop all tables
+        run("DROP TABLE " + TIME);
+        run("DROP TABLE " + COUNTER);
         run(Account.DROP_TABLE);
         run(Customer.DROP_TABLE);
         run(Owns.DROP_TABLE);
