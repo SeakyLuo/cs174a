@@ -127,12 +127,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        // TODO: to be changed
-        Intent intent = new Intent(getContext(), UserInputActivity.class);
-        intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_CASH);
-
-        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        startActivity(intent);
+        QuickAmountDialog dialog = new QuickAmountDialog();
+        dialog.showNow(getFragmentManager(), "QuickCash");
+        dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
     }
 
     public void QuickRefill(){
@@ -140,12 +137,9 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        // TODO: to be changed
-        Intent intent = new Intent(getContext(), UserInputActivity.class);
-        intent.putExtra(UserInputActivity.TITLE, Transaction.QUICK_REFILL);
-
-        intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        startActivity(intent);
+        QuickAmountDialog dialog = new QuickAmountDialog();
+        dialog.showNow(getFragmentManager(), "QuickRefill");
+        dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
     }
 
     public void Login(){

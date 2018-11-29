@@ -4,15 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Customer implements Serializable {
-    public static final String TABLE_NAME = "Customer", ID = "cid", NAME = "name", ADDRESS = "address", PIN = "pin";
+    public static final String TABLE_NAME = "Customer", ID = "cid", NAME = "name", ADDRESS = "address", PIN = "pin", PREACCOUNT = "preset_account", PREAMOUNT = "preset_amount";
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +"(" + ID + " INTEGER NOT NULL, " +
                                                                                     NAME + " CHAR(40), " +
                                                                                     ADDRESS +" CHAR(40), " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
+            PREACCOUNT + " INTEGER, " +
+                                                                                    PREAMOUNT + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID +"))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
-    private int cid;
+    private int cid, preaccount = 0;
     private String name, address, pin = "1717";
+    private double preamount = 0;
 
     public Customer(int cid, String name, String address, String pin){
         this.cid = cid;
@@ -24,9 +27,18 @@ public class Customer implements Serializable {
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getPin() { return pin; }
+    public double getPreamount() { return preamount; }
+    public int getPreaccount() { return preaccount; }
+    public void setPreaccount(int preaccount){
+        this.preaccount = preaccount;
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREACCOUNT + "=" + preaccount + " WHERE " + ID + "=" + cid);
+    }
+    public void setPreamount(double preamount){
+        this.preamount = preamount;
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREAMOUNT + "=" + preamount + " WHERE " + ID + "=" + cid);
+    }
     public String insertQuery(){
-        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
-                "VALUES (" + cid + ", '" + name + "', '" + address + "', '" + pin + "')";
+        return InsertQuery(cid, name, address, pin, preaccount, preamount);
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;
@@ -34,9 +46,9 @@ public class Customer implements Serializable {
     public boolean OwnsAcount(int accountid){
         return DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
     }
-    public static String InsertQuery(int id, String name, String address, String pin){
-        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ") " +
-                "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "')";
+    public static String InsertQuery(int id, String name, String address, String pin, int preaccount, double preamount){
+        return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ", " + PREACCOUNT + ", " + PREAMOUNT + ") " +
+                "VALUES (" + id + ", '" + name + "', '" + address + "', '" + pin + "', " + preaccount + ", " + preamount +")";
     }
     public static String getQuery(){
         return "SELECT * FROM " + TABLE_NAME + " c";
@@ -51,9 +63,6 @@ public class Customer implements Serializable {
 
     public static boolean VerifyPin(int id, String pin){
         if (DatabaseHelper.user != null && DatabaseHelper.user.getId() == id) return DatabaseHelper.user.getPin().equals(pin);
-        for(Customer customer: (ArrayList<Customer>) DatabaseHelper.get(getQuery(), TABLE_NAME))
-            android.util.Log.d("fuck", customer.toString());
-        android.util.Log.d("fuck", "fuckyou");
         return DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id + " AND c." + PIN + "=" + pin, TABLE_NAME).size() > 0;
     }
 

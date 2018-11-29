@@ -16,8 +16,6 @@ import com.jude.swipbackhelper.SwipeBackHelper;
  */
 public class LoginActivity extends AppCompatActivity{
 
-    public static final int SIGNUP = 0;
-
     private EditText _idText, _pinText;
     private Button _loginButton;
 

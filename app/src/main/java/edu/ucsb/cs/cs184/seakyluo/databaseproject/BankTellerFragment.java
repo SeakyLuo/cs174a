@@ -22,9 +22,9 @@ public class BankTellerFragment extends Fragment {
             DatePickerDialog dialog = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    if (new Date(year, month, dayOfMonth).getTime() < DatabaseHelper.time.getTime()){
+                    if (new Date(year, month, dayOfMonth).getTime() < DatabaseHelper.time.getTime())
                         Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
-                    }else
+                    else
                         DatabaseHelper.setTime(year, month, dayOfMonth);
                 }
             }, DatabaseHelper.time.getYear(), DatabaseHelper.time.getMonth(), DatabaseHelper.time.getDay());

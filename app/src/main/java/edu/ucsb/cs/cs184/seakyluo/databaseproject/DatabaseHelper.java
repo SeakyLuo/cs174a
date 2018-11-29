@@ -42,7 +42,7 @@ public class DatabaseHelper {
             Log.d("fuck","Connecting...");
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             Log.d("fuck","Connected!");
-//            DBInit.Init();
+            DBInit.Init();
             DBInit.Verification();
             get(GET_TIME, TIME);
             get(GET_ACOUNT, ACOUNT);

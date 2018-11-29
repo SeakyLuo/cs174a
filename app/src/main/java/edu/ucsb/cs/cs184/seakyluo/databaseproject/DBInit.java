@@ -12,19 +12,19 @@ import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.run;
 
 public class DBInit {
     public static void Init(){
-        DropTables();
-        CreateTables();
-        // Insert Time
-        DatabaseHelper.insertTime(2011,4,1);
-        // Insert Counter
-        DatabaseHelper.insertCounter();
-        // Insert Sample data
-        InsertCustomers();
+//        DropTables();
+//        CreateTables();
+//        // Insert Time
+//        DatabaseHelper.insertTime(2011,4,1);
+//        // Insert Counter
+//        DatabaseHelper.insertCounter();
+//        // Insert Sample data
+//        InsertCustomers();
         InsertAccounts();
         InsertOwns();
-        InsertTransactions();
-        // Verify Insertion was Successful
-        Verification();
+//        InsertTransactions();
+//        // Verify Insertion was Successful
+//        Verification();
     }
 
     public static void CreateTables(){
@@ -49,22 +49,22 @@ public class DBInit {
 
     public static void InsertCustomers(){
         // Insert Customers
-        run(Customer.InsertQuery(361721022, "Alfred Hitchcock", "6667 El Colegio #40", "1234"));
-        run(Customer.InsertQuery(231403227, "Billy Clinton", "5777 Hollister", "1468"));
-        run(Customer.InsertQuery(412231856, "Cindy Laugher", "7000 Hollister", "3764"));
-        run(Customer.InsertQuery(207843218, "David Copperfill", "1357 State St", "8582"));
-        run(Customer.InsertQuery(122219876, "Elizabeth Sailor", "4321 State St", "3856"));
-        run(Customer.InsertQuery(401605312, "Fatal Castro", "3756 La Cumbre Plaza", "8193"));
-        run(Customer.InsertQuery(201674933, "George Brush", "5346 Foothill Av", "9824"));
-        run(Customer.InsertQuery(212431965, "Hurryson Ford", "678 State St", "3532"));
-        run(Customer.InsertQuery(322175130, "Ivan Lendme", "1235 Johnson Dr", "8471"));
-        run(Customer.InsertQuery(344151573, "Joe Pepsi", "3210 State St", "3692"));
-        run(Customer.InsertQuery(209378521, "Kelvin Coster", "Santa Cruz #3579", "4659"));
-        run(Customer.InsertQuery(212116070, "Li Kung", "2 People''s Rd Beijing", "9173"));
-        run(Customer.InsertQuery(188212217, "Magic Jordon", "3852 Court Rd", "7351"));
-        run(Customer.InsertQuery(203491209, "Nam-hoi Chung", "1997 People''s St HK", "5340"));
-        run(Customer.InsertQuery(210389768, "Olive Stoner", "6689 El Colegio #151", "8452"));
-        run(Customer.InsertQuery(400651982, "Pit Wilson", "911 State St", "1821"));
+        run(new Customer(361721022, "Alfred Hitchcock", "6667 El Colegio #40", "1234").insertQuery());
+        run(new Customer(231403227, "Billy Clinton", "5777 Hollister", "1468").insertQuery());
+        run(new Customer(412231856, "Cindy Laugher", "7000 Hollister", "3764").insertQuery());
+        run(new Customer(207843218, "David Copperfill", "1357 State St", "8582").insertQuery());
+        run(new Customer(122219876, "Elizabeth Sailor", "4321 State St", "3856").insertQuery());
+        run(new Customer(401605312, "Fatal Castro", "3756 La Cumbre Plaza", "8193").insertQuery());
+        run(new Customer(201674933, "George Brush", "5346 Foothill Av", "9824").insertQuery());
+        run(new Customer(212431965, "Hurryson Ford", "678 State St", "3532").insertQuery());
+        run(new Customer(322175130, "Ivan Lendme", "1235 Johnson Dr", "8471").insertQuery());
+        run(new Customer(344151573, "Joe Pepsi", "3210 State St", "3692").insertQuery());
+        run(new Customer(209378521, "Kelvin Coster", "Santa Cruz #3579", "4659").insertQuery());
+        run(new Customer(212116070, "Li Kung", "2 People''s Rd Beijing", "9173").insertQuery());
+        run(new Customer(188212217, "Magic Jordon", "3852 Court Rd", "7351").insertQuery());
+        run(new Customer(203491209, "Nam-hoi Chung", "1997 People''s St HK", "5340").insertQuery());
+        run(new Customer(210389768, "Olive Stoner", "6689 El Colegio #151", "8452").insertQuery());
+        run(new Customer(400651982, "Pit Wilson", "911 State St", "1821").insertQuery());
     }
 
     public static void InsertAccounts(){

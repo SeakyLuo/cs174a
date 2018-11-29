@@ -23,8 +23,7 @@ public class Owns implements Serializable {
     public int getAid() { return aid; }
     public boolean isPrimary() { return isPrimary == 1; }
     public String insertQuery(){
-        return "INSERT INTO " + TABLE_NAME +" (" + CID + ", " + AID + ", " + ISPRIMARY + ") " +
-                "VALUES (" + cid + ", " + aid + ", " + isPrimary + ")";
+        return InsertQuery(cid, aid, isPrimary);
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + AID + "=" + aid;

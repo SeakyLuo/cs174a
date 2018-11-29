@@ -47,8 +47,7 @@ public class Transaction implements Serializable {
     public boolean isType(String type) { return this.type.equals(type); }
     public double getAmount() { return amount; }
     public String insertQuery(){
-        return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT+ ", " + FROM + ", " + TO + ") " +
-                "VALUES (" + cid + ", " + time + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
+        return InsertQuery(cid, time, type, amount, from, to);
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + TIME + "=" + time;
