@@ -19,8 +19,9 @@ public class ResetPinDialog extends DialogFragment {
         view.findViewById(R.id.reset_pin_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Customer.VerifyPin(Integer.parseInt(cid.getText().toString()), oldPIN.getText().toString())){
-                    DbHelper.user.SetPin(newPIN.getText().toString());
+                int id = Integer.parseInt(cid.getText().toString());
+                if (Customer.VerifyPin(id, oldPIN.getText().toString())){
+                    Customer.findCustomer(id).SetPin(newPIN.getText().toString());
                     Toast.makeText(getContext(), "Reset Successful!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }else{
