@@ -21,7 +21,7 @@ public class DbInit {
         InsertOwns();
         DbHelper.run(queries);
         // Insert Time
-        DbHelper.insertTime(2011,4,1);
+        DbHelper.insertTime(2011,3,15);
         // Insert Counter
         DbHelper.insertCounter();
         InsertTransactions();
