@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,9 +36,11 @@ public class ShowListDialog extends DialogFragment {
     public void setData(ArrayList data){
         for (Object obj: data){
             TextView textView = new TextView(getContext());
-            textView.setText(obj.toString());
-//            if (obj)
             linearLayout.addView(textView, params);
+            textView.setText(obj.toString());
+            textView.setTextColor(Color.BLACK);
+            textView.setTextSize(16);
+//            if (obj)
         }
     }
 

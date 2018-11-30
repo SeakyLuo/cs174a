@@ -81,6 +81,7 @@ public class Customer implements Serializable {
 
     public void SetPin(String pin){
         this.pin = pin;
+        DbHelper.run("UPDATE SET " + Customer.PIN + "=" + pin + " WHERE " + ID + "=" + cid);
     }
 
     @Override
