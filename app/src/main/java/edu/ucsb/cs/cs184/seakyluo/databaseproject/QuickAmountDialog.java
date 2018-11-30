@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,12 @@ public class QuickAmountDialog extends DialogFragment {
     private ArrayList<Account> accounts = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_select_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_quick_amount, container, false);
         editText = view.findViewById(R.id.qa_input);
         radioGroup = view.findViewById(R.id.qa_radioGroup);
         set = view.findViewById(R.id.qa_set);
         quick = view.findViewById(R.id.qa_quick);
+        Log.d("fuck", (radioGroup == null ? "Null" : "Found"));
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

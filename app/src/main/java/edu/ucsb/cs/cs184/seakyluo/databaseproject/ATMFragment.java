@@ -145,7 +145,7 @@ public class ATMFragment extends Fragment {
         }
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), "QuickCash");
-        dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
+        dialog.setAccounts(Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
     }
 
     public void QuickRefill(){
@@ -153,9 +153,14 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have a Pocket account!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), "QuickRefill");
-        dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
+        dialog.setAccounts(accounts);
     }
 
     public void Login(){

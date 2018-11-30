@@ -31,7 +31,7 @@ public class Owns implements Serializable {
     }
     public static Customer findPrimaryOwner(int aid){
         try{
-            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND " + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
+            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
         }catch (IndexOutOfBoundsException e){
             return null;
         }

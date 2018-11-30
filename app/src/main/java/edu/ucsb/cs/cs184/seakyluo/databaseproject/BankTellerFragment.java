@@ -42,11 +42,15 @@ public class BankTellerFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.CHECKING, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have a Checking account!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
-        intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
-
+        intent.putExtra(UserInputActivity.TITLE, Transaction.WRITE_CHECK);
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.CHECKING, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         startActivity(intent);
     }
 
