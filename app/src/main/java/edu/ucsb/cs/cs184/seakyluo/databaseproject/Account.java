@@ -76,6 +76,13 @@ public class Account implements Serializable {
         DatabaseHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
         return owners;
     }
+    public static ArrayList<Transaction> findTransactions(int aid){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
+            if (transaction.getFrom() == aid || transaction.getTo() == aid)
+                transactions.add(transaction);
+        return transactions;
+    }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + aid;
     }
@@ -87,7 +94,9 @@ public class Account implements Serializable {
         return "SELECT * FROM " + TABLE_NAME + " a";
     }
 
-    public boolean isClosed() { return balance <= 0.01 && DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME).size() > 0; }
+    public boolean isClosed() {
+        return balance <= 0.01 && DatabaseHelper.get(Transaction.getQuery() + " WHERE t." + Transaction.FROM , Transaction.TABLE_NAME).size() > 0;
+    }
     public boolean isPocket() {
         try{
             Integer.parseInt(type);

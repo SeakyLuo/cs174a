@@ -10,7 +10,7 @@ public class DatabaseHelper {
     private static int acount, ccount;
 
     public static final String TIME = "Time", COUNTER = "Counter", ACOUNT = "AccountCounter", CCOUNT = "CustomerCounter";
-    public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE)";
+    public static final String CREATE_TABLE_TIME = "CREATE TABLE " + TIME + "(time DATE PRIMARY KEY)";
     public static final String CREATE_TABLE_COUNTER = "CREATE TABLE " + COUNTER + "(" + ACOUNT + " INTEGER" + ", " + CCOUNT + " INTEGER" + ")";
     private static final String GET_TIME = "SELECT t.time FROM " + TIME + " t";
     private static final String GET_ACOUNT = "SELECT c." + ACOUNT + " FROM " + COUNTER + " c";
@@ -28,8 +28,8 @@ public class DatabaseHelper {
         get(GET_CCOUNT, CCOUNT);
         insertTime(2011, 4, 1);
         insertCounter();
-//        DBInit.Init();
-//        DBInit.Verification();
+        DBInit.Init();
+        DBInit.Verification();
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){

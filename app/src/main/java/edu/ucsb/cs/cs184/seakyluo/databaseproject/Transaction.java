@@ -20,7 +20,9 @@ public class Transaction implements Serializable {
                                                                                         FROM + " INTEGER, " +
                                                                                         TO + " INTEGER, " +
                                                                                         "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
-                                                                                        "FOREIGN KEY(" + CID +") REFERENCES "+ Customer.TABLE_NAME + ")";
+                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ", " +
+                                                                                        "FOREIGN KEY(" + FROM + ") REFERENCES " + Account.TABLE_NAME + ", " +
+                                                                                        "FOREIGN KEY(" + TO + ") REFERENCES " + Account.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "Deposit", TOP_UP = "Top-up", WITHDRAW = "Withdraw", PURCHASE = "Purchase", TRANSFER = "Transfer",
             COLLECT = "Collect", PAY_FRIEND = "Pay-Friend", WIRE = "Wire", WRITE_CHECK = "Write-Check", ACCRUE_INTEREST = "Accrue-Interest",
@@ -63,11 +65,12 @@ public class Transaction implements Serializable {
         return "SELECT * FROM " + TABLE_NAME + " t";
     }
     public static ArrayList<Transaction> MonthlyStatement(int cid){
-        // TODO: you wen ti, change to primary owned account?
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(getQuery(), TABLE_NAME))
-            if (cid == transaction.cid && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth())
-                transactions.add(transaction);
+        for (Account account: Account.findAccounts(cid))
+            if (Owns.findPrimaryOwner(account.getId()).getId() == cid)
+                for (Transaction transaction: Account.findTransactions(account.getId()))
+                    if (transaction.getTime().getMonth() == DatabaseHelper.time.getMonth() - 1)
+                        transactions.add(transaction);
         return transactions;
     }
     public static void Deposit(int toAccount, double amount){
@@ -154,7 +157,6 @@ public class Transaction implements Serializable {
             e.printStackTrace();
         }
     }
-
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
         Account.findAccount(from).modifyBalance(-amount);
     }

@@ -13,29 +13,19 @@ public class DBInit {
     
     public static void Init(){
         queries = new ArrayList<>();
-//        DropTables();
-//        CreateTables();
-//        // Insert Sample data
-//        InsertCustomers();
-//        InsertAccounts();
+        DropTables();
+        CreateTables();
+        // Insert Sample data
+        InsertCustomers();
+        InsertAccounts();
         InsertOwns();
-//        InsertTransactions();
-//        // Insert Time
-//        DatabaseHelper.insertTime(2011,4,1);
-//        // Insert Counter
-//        DatabaseHelper.insertCounter();
+        InsertTransactions();
+        // Insert Time
+        DatabaseHelper.insertTime(2011,4,1);
+        // Insert Counter
+        DatabaseHelper.insertCounter();
 
         DatabaseHelper.run(queries);
-    }
-
-    public static void CreateTables(){
-        // Create Tables
-        queries.add(DatabaseHelper.CREATE_TABLE_TIME);
-        queries.add(DatabaseHelper.CREATE_TABLE_COUNTER);
-        queries.add(Customer.CREATE_TABLE);
-        queries.add(Account.CREATE_TABLE);
-        queries.add(Owns.CREATE_TABLE);
-        queries.add(Transaction.CREATE_TABLE);
     }
 
     public static void DropTables(){
@@ -46,6 +36,16 @@ public class DBInit {
         queries.add(Customer.DROP_TABLE);
         queries.add(Owns.DROP_TABLE);
         queries.add(Transaction.DROP_TABLE);
+    }
+
+    public static void CreateTables(){
+        // Create Tables
+        queries.add(DatabaseHelper.CREATE_TABLE_TIME);
+        queries.add(DatabaseHelper.CREATE_TABLE_COUNTER);
+        queries.add(Customer.CREATE_TABLE);
+        queries.add(Account.CREATE_TABLE);
+        queries.add(Owns.CREATE_TABLE);
+        queries.add(Transaction.CREATE_TABLE);
     }
 
     public static void InsertCustomers(){
@@ -88,50 +88,50 @@ public class DBInit {
 
     public static void InsertOwns(){
         // Insert Owns
-        queries.add(Owns.InsertQuery(17431, 344151573, 1));
-        queries.add(Owns.InsertQuery(17431, 412231856, 0));
-        queries.add(Owns.InsertQuery(17431, 322175130, 0));
-        queries.add(Owns.InsertQuery(54321, 212431965, 1));
-        queries.add(Owns.InsertQuery(54321, 412231856, 0));
-        queries.add(Owns.InsertQuery(54321, 122219876, 0));
-        queries.add(Owns.InsertQuery(54321, 203491209, 0));
-        queries.add(Owns.InsertQuery(12121, 207843218, 1));
-        queries.add(Owns.InsertQuery(41725, 201674933, 1));
-        queries.add(Owns.InsertQuery(41725, 401605312, 0));
-        queries.add(Owns.InsertQuery(41725, 231403227, 0));
-        queries.add(Owns.InsertQuery(76543 , 212116070, 1));
-        queries.add(Owns.InsertQuery(76543 , 188212217, 0));
-        queries.add(Owns.InsertQuery(93156, 209378521, 1));
-        queries.add(Owns.InsertQuery(93156, 188212217, 0));
-        queries.add(Owns.InsertQuery(93156, 210389768, 0));
-        queries.add(Owns.InsertQuery(93156, 122219876, 0));
-        queries.add(Owns.InsertQuery(93156, 203491209, 0));
-        queries.add(Owns.InsertQuery(43942, 361721022, 1));
-        queries.add(Owns.InsertQuery(43942, 400651982, 0));
-        queries.add(Owns.InsertQuery(43942, 212431965, 0));
-        queries.add(Owns.InsertQuery(43942, 322175130, 0));
-        queries.add(Owns.InsertQuery(29107, 209378521, 1));
-        queries.add(Owns.InsertQuery(29107, 212116070, 0));
-        queries.add(Owns.InsertQuery(29107, 210389768, 0));
-        queries.add(Owns.InsertQuery(19023, 412231856, 1));
-        queries.add(Owns.InsertQuery(19023, 201674933, 0));
-        queries.add(Owns.InsertQuery(19023, 401605312, 0));
-        queries.add(Owns.InsertQuery(32156, 188212217, 1));
-        queries.add(Owns.InsertQuery(32156, 207843218, 0));
-        queries.add(Owns.InsertQuery(32156, 122219876, 0));
-        queries.add(Owns.InsertQuery(32156, 344151573, 0));
-        queries.add(Owns.InsertQuery(32156, 203491209, 0));
-        queries.add(Owns.InsertQuery(32156, 210389768, 0));
-        queries.add(Owns.InsertQuery(53027, 207843218, 1));
-        queries.add(Owns.InsertQuery(43947, 212116070, 1));
-        queries.add(Owns.InsertQuery(43947, 210389768, 0));
-        queries.add(Owns.InsertQuery(60413, 361721022, 1));
-        queries.add(Owns.InsertQuery(60413, 400651982, 0));
-        queries.add(Owns.InsertQuery(60413, 122219876, 0));
-        queries.add(Owns.InsertQuery(60413, 231403227, 0));
-        queries.add(Owns.InsertQuery(67521, 209378521, 1));
-        queries.add(Owns.InsertQuery(67521, 401605312, 0));
-        queries.add(Owns.InsertQuery(67521, 212431965, 0));
+        queries.add(Owns.InsertQuery(344151573, 17431, 1));
+        queries.add(Owns.InsertQuery(412231856, 17431, 0));
+        queries.add(Owns.InsertQuery(322175130, 17431, 0));
+        queries.add(Owns.InsertQuery(212431965, 54321, 1));
+        queries.add(Owns.InsertQuery(412231856, 54321, 0));
+        queries.add(Owns.InsertQuery(122219876, 54321, 0));
+        queries.add(Owns.InsertQuery(203491209, 54321, 0));
+        queries.add(Owns.InsertQuery(207843218, 12121, 1));
+        queries.add(Owns.InsertQuery(201674933, 41725, 1));
+        queries.add(Owns.InsertQuery(401605312, 41725, 0));
+        queries.add(Owns.InsertQuery(231403227, 41725, 0));
+        queries.add(Owns.InsertQuery(212116070, 76543 , 1));
+        queries.add(Owns.InsertQuery(188212217, 76543 , 0));
+        queries.add(Owns.InsertQuery(209378521, 93156, 1));
+        queries.add(Owns.InsertQuery(188212217, 93156, 0));
+        queries.add(Owns.InsertQuery(210389768, 93156, 0));
+        queries.add(Owns.InsertQuery(122219876, 93156, 0));
+        queries.add(Owns.InsertQuery(203491209, 93156, 0));
+        queries.add(Owns.InsertQuery(361721022, 43942, 1));
+        queries.add(Owns.InsertQuery(400651982, 43942, 0));
+        queries.add(Owns.InsertQuery(212431965, 43942, 0));
+        queries.add(Owns.InsertQuery(322175130, 43942, 0));
+        queries.add(Owns.InsertQuery(209378521, 29107, 1));
+        queries.add(Owns.InsertQuery(212116070, 29107, 0));
+        queries.add(Owns.InsertQuery(210389768, 29107, 0));
+        queries.add(Owns.InsertQuery(412231856, 19023, 1));
+        queries.add(Owns.InsertQuery(201674933, 19023, 0));
+        queries.add(Owns.InsertQuery(401605312, 19023, 0));
+        queries.add(Owns.InsertQuery(188212217, 32156, 1));
+        queries.add(Owns.InsertQuery(207843218, 32156, 0));
+        queries.add(Owns.InsertQuery(122219876, 32156, 0));
+        queries.add(Owns.InsertQuery(344151573, 32156, 0));
+        queries.add(Owns.InsertQuery(203491209, 32156, 0));
+        queries.add(Owns.InsertQuery(210389768, 32156, 0));
+        queries.add(Owns.InsertQuery(207843218, 53027, 1));
+        queries.add(Owns.InsertQuery(212116070, 43947, 1));
+        queries.add(Owns.InsertQuery(210389768, 43947, 0));
+        queries.add(Owns.InsertQuery(361721022, 60413, 1));
+        queries.add(Owns.InsertQuery(400651982, 60413, 0));
+        queries.add(Owns.InsertQuery(122219876, 60413, 0));
+        queries.add(Owns.InsertQuery(231403227, 60413, 0));
+        queries.add(Owns.InsertQuery(209378521, 67521, 1));
+        queries.add(Owns.InsertQuery(401605312, 67521, 0));
+        queries.add(Owns.InsertQuery(212431965, 67521, 0));
     }
 
     public static void InsertTransactions(){
