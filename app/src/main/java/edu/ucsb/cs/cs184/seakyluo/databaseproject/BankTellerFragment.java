@@ -18,6 +18,11 @@ import java.util.ArrayList;
 
 public class BankTellerFragment extends Fragment {
 
+    public void SetInterest(){
+        SetInterestDialog dialog = new SetInterestDialog();
+        dialog.showNow(getFragmentManager(), "SetInterest");
+    }
+
     public void SetNewDate(){
         PickDateDialog dialog = new PickDateDialog();
         dialog.showNow(getFragmentManager(), "DatePicker");
@@ -147,6 +152,12 @@ public class BankTellerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SetNewDate();
+            }
+        });
+        view.findViewById(R.id.set_interest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetInterest();
             }
         });
         view.findViewById(R.id.reset_pin).setOnClickListener(new View.OnClickListener() {

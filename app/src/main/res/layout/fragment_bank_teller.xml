@@ -31,6 +31,13 @@
             android:textAllCaps="false"
             android:text="Set New Date"/>
         <Button
+            android:id="@+id/set_interest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAllCaps="false"
+            android:text="Set Interest"/>
+        <Button
             android:id="@+id/reset_pin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
