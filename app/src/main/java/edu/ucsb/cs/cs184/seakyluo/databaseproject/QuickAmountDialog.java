@@ -56,9 +56,9 @@ public class QuickAmountDialog extends DialogFragment {
             public void onClick(View v) {
                 try {
                     if (title.equals(QUICK_CASH))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_CASH, Double.parseDouble(editText.getText().toString()), getAccount().getId(), 0);
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_CASH, DatabaseHelper.user.getPreAmount(), getAccount().getId(), 0);
                     else if (title.equals(QUICK_REFILL))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_REFILL, Double.parseDouble(editText.getText().toString()), 0, getAccount().getId());
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_REFILL, DatabaseHelper.user.getPreAmount(), 0, getAccount().getId());
                     else
                         Log.d("fuck", "QuickAmountDialog has an incorrect title: " + title);
                     Toast.makeText(getContext(), quick.getText() + " Successful!", Toast.LENGTH_SHORT).show();
