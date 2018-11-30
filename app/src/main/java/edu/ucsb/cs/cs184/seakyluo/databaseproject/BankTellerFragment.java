@@ -20,18 +20,6 @@ public class BankTellerFragment extends Fragment {
 
     public void SetNewDate(){
         PickDateDialog dialog = new PickDateDialog();
-        dialog.setTime(DbHelper.time);
-        dialog.setListener(new PickDateDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(int year, int month, int dayOfMonth) {
-                if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
-                    Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
-                else{
-                    Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
-                    DbHelper.setTime(year, month, dayOfMonth);
-                }
-            }
-        });
         dialog.showNow(getFragmentManager(), "DatePicker");
     }
 

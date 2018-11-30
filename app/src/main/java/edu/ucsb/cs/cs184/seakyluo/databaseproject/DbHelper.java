@@ -29,6 +29,7 @@ public class DbHelper {
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
 //        DbInit.Verification();
+        Log.d("fuck", time.toString());
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
@@ -189,11 +190,11 @@ public class DbHelper {
 
     public static void setTime(int year, int month, int day){
         run("UPDATE " + TIME + " t SET t.time=" + TimeQuery(year, month, day));
-        time = new Date(year, month, day);
+        get(GET_TIME, TIME);
     }
     public static void insertTime(int year, int month, int day){
         run("INSERT INTO " + TIME + "(time) VALUES (" + TimeQuery(year, month, day) + ")");
-        time = new Date(year, month, day);
+        get(GET_TIME, TIME);
     }
     public static String TimeQuery(Date date){
         return TimeQuery(getYear(date), getMonth(date), getDay(date));
@@ -212,10 +213,11 @@ public class DbHelper {
     }
 
     public static int getYear(Date date){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal.get(Calendar.YEAR);
-//        return Integer.parseInt(date.toString().substring(0, 3));
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(date);
+//        return cal.get(Calendar.YEAR);
+        Log.d("fuck", date.toString().substring(0, 4));
+        return Integer.parseInt(date.toString().substring(0, 4));
     }
     public static int getYear(){
         return getYear(time);
@@ -224,7 +226,7 @@ public class DbHelper {
     public static int getMonth(Date date){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return cal.get(Calendar.MONTH);
+        return cal.get(Calendar.MONTH) + 1;
 //        return Integer.parseInt(date.toString().substring(5, 6));
     }
     public static int getMonth(){
