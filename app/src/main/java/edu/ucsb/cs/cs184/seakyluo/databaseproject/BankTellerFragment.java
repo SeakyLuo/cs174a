@@ -145,17 +145,23 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void DeleteAccounts(){
-        for (Account account: Account.findClosedAccounts())
+        ArrayList<Account> accounts = Account.findClosedAccounts();
+        for (Account account: accounts)
             DbHelper.run(account.deleteQuery());
+        int count = 0;
         for (Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
-            if (Account.findAccounts(customer.getId()).size() == 0)
+            if (Account.findAccounts(customer.getId()).size() == 0){
                 DbHelper.run(customer.deleteQuery());
+                count++;
+            }
+        Toast.makeText(getContext(), accounts.size() + "Accounts and " + count + " Customers deleted", Toast.LENGTH_SHORT).show();
     }
 
     public void DeleteTransactions(){
         // Delete All
         for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
             DbHelper.run(transaction.deleteQuery());
+        Toast.makeText(getContext(), "Delete Successful!", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
