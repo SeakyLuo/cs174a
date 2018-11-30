@@ -41,11 +41,11 @@ public class Customer implements Serializable {
     public int getPreAccount() { return preAccount; }
     public void setPreAccount(int preAccount){
         this.preAccount = preAccount;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREACCOUNT + "=" + preAccount + " WHERE " + ID + "=" + cid);
+        DbHelper.run("UPDATE " + TABLE_NAME + " SET " + PREACCOUNT + "=" + preAccount + " WHERE " + ID + "=" + cid);
     }
     public void setPreAmount(double preAmount){
         this.preAmount = preAmount;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREAMOUNT + "=" + preAmount + " WHERE " + ID + "=" + cid);
+        DbHelper.run("UPDATE " + TABLE_NAME + " SET " + PREAMOUNT + "=" + preAmount + " WHERE " + ID + "=" + cid);
     }
     public String insertQuery(){
         return InsertQuery(cid, name, address, pin, preAccount, preAmount);
@@ -54,7 +54,7 @@ public class Customer implements Serializable {
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;
     }
     public boolean OwnsAcount(int accountid){
-        return DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
+        return DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
     }
     public static String InsertQuery(int id, String name, String address, String pin, int preaccount, double preamount){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ", " + PREACCOUNT + ", " + PREAMOUNT + ") " +
@@ -65,15 +65,15 @@ public class Customer implements Serializable {
     }
     public static Customer findCustomer(int id){
         try{
-            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id, TABLE_NAME)).get(0);
+            return ((ArrayList<Customer>) DbHelper.get(getQuery() + " WHERE c." + ID + "=" + id, TABLE_NAME)).get(0);
         }catch (IndexOutOfBoundsException e) {
             return null;
         }
     }
 
     public static boolean VerifyPin(int id, String pin){
-        if (DatabaseHelper.user != null && DatabaseHelper.user.getId() == id) return DatabaseHelper.user.getPin().equals(pin);
-        return DatabaseHelper.get(getQuery() + " WHERE c." + ID + "=" + id + " AND c." + PIN + "=" + pin, TABLE_NAME).size() > 0;
+        if (DbHelper.user != null && DbHelper.user.getId() == id) return DbHelper.user.getPin().equals(pin);
+        return DbHelper.get(getQuery() + " WHERE c." + ID + "=" + id + " AND c." + PIN + "=" + pin, TABLE_NAME).size() > 0;
     }
 
     public void SetPin(String pin){

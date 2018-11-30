@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ResetPinDialog extends DialogFragment {
@@ -21,7 +20,7 @@ public class ResetPinDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (Customer.VerifyPin(Integer.parseInt(cid.getText().toString()), oldPIN.getText().toString())){
-                    DatabaseHelper.user.SetPin(newPIN.getText().toString());
+                    DbHelper.user.SetPin(newPIN.getText().toString());
                     Toast.makeText(getContext(), "Reset Successful!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }else{

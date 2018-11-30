@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,14 @@ public class BankTellerFragment extends Fragment {
             DatePickerDialog dialog = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    if (new Date(year, month, dayOfMonth).getTime() < DatabaseHelper.time.getTime())
+                    if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
                         Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
-                    else
-                        DatabaseHelper.setTime(year, month, dayOfMonth);
+                    else{
+                        Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
+                        DbHelper.setTime(year, month, dayOfMonth);
+                    }
                 }
-            }, DatabaseHelper.time.getYear(), DatabaseHelper.time.getMonth(), DatabaseHelper.time.getDay());
+            }, DbHelper.getYear(DbHelper.time), DbHelper.getMonth(DbHelper.time), DbHelper.getDay(DbHelper.time));
             dialog.show();
         }
     }
@@ -38,11 +41,11 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void EnterCheckTransaction(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.CHECKING, false);
+        ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.CHECKING, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Checking account!", Toast.LENGTH_SHORT).show();
             return;
@@ -67,7 +70,16 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void ListClosedAccounts(){
-        ArrayList<Account> data = Account.findClosedAccounts();
+        ArrayList<Account> data = new ArrayList<>();
+        for(Account account: Account.findClosedAccounts()){
+            if(account.isClosed()){
+                for (Transaction transaction: Account.findTransactions(account.getId()))
+                    if (DbHelper.getMonth() - DbHelper.getMonth(transaction.getTime()) == 1){
+                        data.add(account);
+                        break;
+                    }
+            }
+        }
         ShowListDialog dialog = new ShowListDialog();
         dialog.showNow(getFragmentManager(), "ListClosedAccounts");
         dialog.setData(data);
@@ -88,12 +100,11 @@ public class BankTellerFragment extends Fragment {
     public void DTER(){
         ArrayList<Customer> data = new ArrayList<>();
         ShowListDialog dialog = new ShowListDialog();
-        for(Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
+        for(Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
             double sum = 0;
-            for(Transaction transaction: Transaction.MonthlyStatement(customer.getId())){
-                if (transaction.isType(Transaction.DEPOSIT) ||
-                        transaction.isType(Transaction.TRANSFER) && customer.OwnsAcount(transaction.getTo()) ||
-                        transaction.isType(Transaction.WIRE) && customer.OwnsAcount(transaction.getTo()))
+            for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery() + " WHERE o." + Owns.CID + "=" + customer.getId(), Transaction.TABLE_NAME)){
+                if (DbHelper.getMonth(transaction.getTime()) == DbHelper.getMonth() && customer.OwnsAcount(transaction.getTo()) &&
+                    (transaction.isType(Transaction.DEPOSIT) || transaction.isType(Transaction.TRANSFER) || transaction.isType(Transaction.WIRE)))
                     sum += Math.abs(transaction.getAmount());
             }
             if (sum > 10000) data.add(customer);
@@ -103,26 +114,22 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void AddInterest(){
-        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), Account.TABLE_NAME))
+        for (Account account: (ArrayList<Account>) DbHelper.get(Account.getQuery(), Account.TABLE_NAME))
             Transaction.AccrueInterest(account);
     }
 
     public void DeleteAccounts(){
         for (Account account: Account.findClosedAccounts())
-            DatabaseHelper.run(account.deleteQuery());
-        for (Customer customer: (ArrayList<Customer>) DatabaseHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
+            DbHelper.run(account.deleteQuery());
+        for (Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
             if (Account.findAccounts(customer.getId()).size() == 0)
-                DatabaseHelper.run(customer.deleteQuery());
+                DbHelper.run(customer.deleteQuery());
     }
 
     public void DeleteTransactions(){
-        // Delete All but Last Month
-//        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
-//            if (DatabaseHelper.time.getMonth() - transaction.getTime().getMonth() > 1)
-//                DatabaseHelper.run(transaction.deleteQuery());
         // Delete All
-        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
-            DatabaseHelper.run(transaction.deleteQuery());
+        for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
+            DbHelper.run(transaction.deleteQuery());
     }
 
     @Nullable
@@ -138,7 +145,7 @@ public class BankTellerFragment extends Fragment {
         view.findViewById(R.id.create_account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DatabaseHelper.user == null){
+                if (DbHelper.user == null){
                     Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
                     return;
                 }

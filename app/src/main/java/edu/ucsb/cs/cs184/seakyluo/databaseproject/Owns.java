@@ -27,11 +27,11 @@ public class Owns implements Serializable {
         return InsertQuery(cid, aid, isPrimary);
     }
     public static ArrayList<Customer> findOwners(int aid){
-        return (ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid, Customer.TABLE_NAME);
+        return (ArrayList<Customer>) DbHelper.get(getQuery() + " WHERE o." + AID + "=" + aid, Customer.TABLE_NAME);
     }
     public static Customer findPrimaryOwner(int aid){
         try{
-            return ((ArrayList<Customer>) DatabaseHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
+            return ((ArrayList<Customer>) DbHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
         }catch (IndexOutOfBoundsException e){
             return null;
         }

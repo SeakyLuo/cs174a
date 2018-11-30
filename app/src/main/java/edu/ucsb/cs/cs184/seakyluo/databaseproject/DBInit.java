@@ -4,9 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.COUNTER;
-import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.TIME;
-import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DatabaseHelper.get;
+import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.COUNTER;
+import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.TIME;
+import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.get;
 
 public class DBInit {
     private static ArrayList<String> queries;
@@ -19,11 +19,11 @@ public class DBInit {
         InsertCustomers();
         InsertAccounts();
         InsertOwns();
-        DatabaseHelper.run(queries);
+        DbHelper.run(queries);
         // Insert Time
-        DatabaseHelper.insertTime(2011,4,1);
+        DbHelper.insertTime(2011,4,1);
         // Insert Counter
-        DatabaseHelper.insertCounter();
+        DbHelper.insertCounter();
         InsertTransactions();
         Verification();
     }
@@ -40,8 +40,8 @@ public class DBInit {
 
     public static void CreateTables(){
         // Create Tables
-        queries.add(DatabaseHelper.CREATE_TABLE_TIME);
-        queries.add(DatabaseHelper.CREATE_TABLE_COUNTER);
+        queries.add(DbHelper.CREATE_TABLE_TIME);
+        queries.add(DbHelper.CREATE_TABLE_COUNTER);
         queries.add(Customer.CREATE_TABLE);
         queries.add(Account.CREATE_TABLE);
         queries.add(Owns.CREATE_TABLE);

@@ -106,7 +106,7 @@ public class UserInputActivity extends AppCompatActivity {
 
     private void MakeTransaction(double amount, int from, int to){
         try{
-            Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, title, amount, from, to);
+            Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, title, amount, from, to);
         } catch (Account.NotEnoughMoneyException e){
             this.amount.setError(e.toString());
             return;

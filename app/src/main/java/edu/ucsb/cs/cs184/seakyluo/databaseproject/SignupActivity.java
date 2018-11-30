@@ -1,6 +1,5 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,11 +40,11 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
-        int ccount = DatabaseHelper.getCcount();
-        DatabaseHelper.updateCounter(DatabaseHelper.CCOUNT);
+        int ccount = DbHelper.getCcount();
+        DbHelper.updateCounter(DbHelper.CCOUNT);
         Customer customer = new Customer(ccount, _nameText.getText().toString(), _addressText.getText().toString(), _pinText.getText().toString());
-        DatabaseHelper.run(customer.insertQuery());
-        DatabaseHelper.user = customer;
+        DbHelper.run(customer.insertQuery());
+        DbHelper.user = customer;
         UseridDialog fragment = new UseridDialog();
         fragment.showNow(getSupportFragmentManager(), "UserID");
         fragment.setCaller(SignupActivity.this);

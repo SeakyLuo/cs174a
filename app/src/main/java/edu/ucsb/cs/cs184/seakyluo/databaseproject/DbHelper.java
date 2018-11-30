@@ -3,8 +3,9 @@ import android.util.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class DatabaseHelper {
+public class DbHelper {
     public static Customer user;
     public static Date time;
     private static int acount, ccount;
@@ -194,7 +195,7 @@ public class DatabaseHelper {
         time = new Date(year, month, day);
     }
     public static String TimeQuery(Date date){
-        return TimeQuery(date.getYear(), date.getMonth(), date.getDay());
+        return TimeQuery(getYear(date), getMonth(date), getDay(date));
     }
     public static String TimeQuery(int year, int month, int day){
         return "TO_DATE('" + year + ((month < 10) ? "0": "") + month + ((day < 10) ? "0": "") + day + "', 'YYYYMMDD')";
@@ -207,6 +208,33 @@ public class DatabaseHelper {
     public static int getCcount() { return ccount; }
     public static void insertCounter(){
         run("INSERT INTO " + COUNTER + "(" + ACOUNT + ", " + CCOUNT + ") VALUES (10000, 10000)");
+    }
+
+    public static int getYear(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR);
+    }
+    public static int getYear(){
+        return getYear(time);
+    }
+
+    public static int getMonth(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MONTH);
+    }
+    public static int getMonth(){
+        return getMonth(time);
+    }
+
+    public static int getDay(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_MONTH);
+    }
+    public static int getDay(){
+        return getDay(time);
     }
 
     public interface OnConnectionBuiltListener {

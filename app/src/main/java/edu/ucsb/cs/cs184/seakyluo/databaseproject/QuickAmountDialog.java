@@ -32,7 +32,7 @@ public class QuickAmountDialog extends DialogFragment {
         radioGroup = view.findViewById(R.id.qa_radioGroup);
         set = view.findViewById(R.id.qa_set);
         quick = view.findViewById(R.id.qa_quick);
-        if(DatabaseHelper.user.getPreAmount() != 0) editText.setText(DatabaseHelper.user.getPreAmount() + "");
+        if(DbHelper.user.getPreAmount() != 0) editText.setText(DbHelper.user.getPreAmount() + "");
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +46,8 @@ public class QuickAmountDialog extends DialogFragment {
                     valid = false;
                 }
                 if (!valid) return;
-                DatabaseHelper.user.setPreAccount(getAccount().getId());
-                DatabaseHelper.user.setPreAmount(Double.parseDouble(editText.getText().toString()));
+                DbHelper.user.setPreAccount(getAccount().getId());
+                DbHelper.user.setPreAmount(Double.parseDouble(editText.getText().toString()));
                 Toast.makeText(getContext(), "Set Successful!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -56,9 +56,9 @@ public class QuickAmountDialog extends DialogFragment {
             public void onClick(View v) {
                 try {
                     if (title.equals(QUICK_CASH))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_CASH, DatabaseHelper.user.getPreAmount(), getAccount().getId(), 0);
+                        Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, Transaction.QUICK_CASH, DbHelper.user.getPreAmount(), getAccount().getId(), 0);
                     else if (title.equals(QUICK_REFILL))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_REFILL, DatabaseHelper.user.getPreAmount(), 0, getAccount().getId());
+                        Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, Transaction.QUICK_REFILL, DbHelper.user.getPreAmount(), 0, getAccount().getId());
                     else
                         Log.d("fuck", "QuickAmountDialog has an incorrect title: " + title);
                     Toast.makeText(getContext(), quick.getText() + " Successful!", Toast.LENGTH_SHORT).show();
@@ -90,7 +90,7 @@ public class QuickAmountDialog extends DialogFragment {
             button.setPadding(16,8,16,8);
             button.setText(account.toString());
             radioGroup.addView(button);
-            if (account.getId() == DatabaseHelper.user.getPreAccount())
+            if (account.getId() == DbHelper.user.getPreAccount())
                 button.setChecked(true);
         }
     }

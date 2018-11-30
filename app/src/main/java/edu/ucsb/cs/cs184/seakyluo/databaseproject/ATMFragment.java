@@ -1,6 +1,5 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,25 +20,25 @@ public class ATMFragment extends Fragment {
     private Button login, deposit, top_up, withdraw, purchase, transfer, collect, wire, pay_friend, quick_cash, quick_refill;
 
     public void Deposit(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         startActivity(intent);
     }
 
     public void TopUp(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Pocket Account!", Toast.LENGTH_SHORT).show();
             return;
@@ -52,7 +51,7 @@ public class ATMFragment extends Fragment {
     }
 
     public void Withdraw(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -60,12 +59,12 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
 
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
         startActivity(intent);
     }
 
     public void Purchase(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -73,30 +72,30 @@ public class ATMFragment extends Fragment {
         intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
         ;
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.SAVINGS, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.SAVINGS, false));
         startActivity(intent);
     }
 
     public void Transfer(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
 
-        ArrayList<Account> accounts = Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, accounts);
         startActivity(intent);
     }
 
     public void Collect(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Pocket account!", Toast.LENGTH_SHORT).show();
             return;
@@ -109,24 +108,24 @@ public class ATMFragment extends Fragment {
     }
 
     public void Wire(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
 
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.CHECKING, Account.SAVINGS});
         startActivity(intent);
     }
 
     public void PayFriend(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Pocket account!", Toast.LENGTH_SHORT).show();
             return;
@@ -139,21 +138,21 @@ public class ATMFragment extends Fragment {
     }
 
     public void QuickCash(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), QuickAmountDialog.QUICK_CASH);
-        dialog.setAccounts(Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false), QuickAmountDialog.QUICK_CASH);
+        dialog.setAccounts(Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false), QuickAmountDialog.QUICK_CASH);
     }
 
     public void QuickRefill(){
-        if (DatabaseHelper.user == null){
+        if (DbHelper.user == null){
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-        ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
+        ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Pocket account!", Toast.LENGTH_SHORT).show();
             return;
@@ -167,7 +166,7 @@ public class ATMFragment extends Fragment {
         if (login.getText().toString().equals(getString(R.string.login))){
             startActivityForResult(new Intent(getContext(), LoginActivity.class), LOGIN);
         } else{
-            DatabaseHelper.user = null;
+            DbHelper.user = null;
             login.setText(getString(R.string.login));
             Toast.makeText(getContext(), "Logout Successful!", Toast.LENGTH_SHORT).show();
         }

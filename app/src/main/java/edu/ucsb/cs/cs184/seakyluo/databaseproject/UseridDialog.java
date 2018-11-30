@@ -19,7 +19,7 @@ public class UseridDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_userid,container,false);
         setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
-        ((TextView) view.findViewById(R.id.userid_userid)).setText(DatabaseHelper.user.getId() + "");
+        ((TextView) view.findViewById(R.id.userid_userid)).setText(DbHelper.user.getId() + "");
         view.findViewById(R.id.userid_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

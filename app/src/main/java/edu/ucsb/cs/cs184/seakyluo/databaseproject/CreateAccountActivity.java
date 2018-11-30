@@ -35,7 +35,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         create_account = findViewById(R.id.ca_create_account);
         select_account = findViewById(R.id.ca_select_account);
 
-        ArrayList<Owns> owns = DatabaseHelper.get(Owns.getQuery() + " WHERE o.cid = " + DatabaseHelper.user.getId() , Owns.TABLE_NAME);
+        ArrayList<Owns> owns = DbHelper.get(Owns.getQuery() + " WHERE o.cid = " + DbHelper.user.getId() , Owns.TABLE_NAME);
         pocket.setVisibility(owns.size() > 0 ? View.VISIBLE : View.GONE);
         select_account.setVisibility(View.GONE);
         select_account.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SelectAccountDialog dialog = new SelectAccountDialog();
                 dialog.showNow(getSupportFragmentManager(), "SelectAccount");
-                dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
+                dialog.setAccounts(Account.findAccounts(DbHelper.user.getId()));
                 dialog.setOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
                     @Override
                     public void onConfirm(Account account) {
@@ -88,8 +88,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     }
                 }
                 balance = Double.parseDouble(input_amount.getText().toString());
-                int acount = DatabaseHelper.getAcount();
-                DatabaseHelper.updateCounter(DatabaseHelper.ACOUNT);
+                int acount = DbHelper.getAcount();
+                DbHelper.updateCounter(DbHelper.ACOUNT);
                 String type = "";
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.ca_ichecking:
@@ -105,13 +105,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                         type = selected_account.getId() + "";
                         break;
                 }
-                DatabaseHelper.run((new Account(acount, bank_name.getText().toString(), type)).insertQuery());
-                DatabaseHelper.run(Owns.InsertQuery(DatabaseHelper.user.getId(), acount, 1));
+                DbHelper.run((new Account(acount, bank_name.getText().toString(), type)).insertQuery());
+                DbHelper.run(Owns.InsertQuery(DbHelper.user.getId(), acount, 1));
                 try {
                     if (isPocket)
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.TOP_UP, balance, selected_account.getId(), acount);
+                        Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, Transaction.TOP_UP, balance, selected_account.getId(), acount);
                     else
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.DEPOSIT, balance, 0, acount);
+                        Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, Transaction.DEPOSIT, balance, 0, acount);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

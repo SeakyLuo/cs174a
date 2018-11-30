@@ -1,10 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Account implements Serializable {
     public static final String TABLE_NAME = "Account", ID = "aid", BANK_NAME = "bank_name", BALANCE = "balance", INTEREST = "interest", TYPE = "type", QUICK_AMOUNT = "quick_amount";
@@ -60,29 +57,30 @@ public class Account implements Serializable {
     public double getBalance() { return balance; }
     public double getInterest() { return interest; }
     public double getMonthlyInterest() { return interest / 12; }
-    public void setBalance(double balance) {
-        this.balance = balance;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + " WHERE a." + ID + "=" + aid);
+    public void setBalance(double new_balance) {
+        balance = round(new_balance);
+        DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + " WHERE a." + ID + "=" + aid);
     }
     public void modifyBalance(double delta) throws NotEnoughMoneyException {
-        if (this.balance + delta < 0){
+        if (balance + delta < 0){
             throw new NotEnoughMoneyException();
         }
-        this.balance += delta;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance  + " WHERE a." + ID + "=" + aid);
+        balance += delta;
+        balance = round(balance);
+        DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance  + " WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
-        this.interest = interest;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + " WHERE a." + ID + "=" + aid);
+        this.interest = round(interest);
+        DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + " WHERE a." + ID + "=" + aid);
     }
     public ArrayList<Owns> findOwners(){
         ArrayList<Owns> owners = new ArrayList<>();
-        DatabaseHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
+        DbHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
         return owners;
     }
     public static ArrayList<Transaction> findTransactions(int aid){
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
+        for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery(), Transaction.TABLE_NAME))
             if (transaction.getFrom() == aid || transaction.getTo() == aid)
                 transactions.add(transaction);
         return transactions;
@@ -112,18 +110,20 @@ public class Account implements Serializable {
             return false;
         }
     }
+    private double round(double number){
+        return Math.round(number * 100.0) / 100.0;
+    }
     public static int getPocketLinkedAccount(int aid){
         Account account = Account.findAccount(aid);
         if (account.isType(POCKET)) return Integer.parseInt(account.getType());
         else return 0;
     }
-
     public static Account findAccount(int aid){
-        return ((ArrayList<Account>) DatabaseHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
+        return ((ArrayList<Account>) DbHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
     }
     public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();
-        for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
+        for (Owns owns: (ArrayList<Owns>) DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
             accounts.add(findAccount(owns.getAid()));
         return accounts;
     }
@@ -143,7 +143,7 @@ public class Account implements Serializable {
     }
     public static ArrayList<Account> findClosedAccounts(){
         ArrayList<Account> accounts = new ArrayList<>();
-        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), TABLE_NAME))
+        for (Account account: (ArrayList<Account>) DbHelper.get(Account.getQuery(), TABLE_NAME))
             if(account.isClosed())
                 accounts.add(account);
         return accounts;

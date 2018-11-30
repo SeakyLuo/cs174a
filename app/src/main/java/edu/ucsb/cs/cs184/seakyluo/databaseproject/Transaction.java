@@ -60,20 +60,20 @@ public class Transaction implements Serializable {
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + TIME + "=" + time;
     }
     public static String InsertQuery(int cid, Date time, String type, double amount, int from, int to){
-        return InsertQuery(cid, time.getYear(), time.getMonth(), time.getDay(), type, amount, from, to);
+        return InsertQuery(cid, DbHelper.getYear(time), DbHelper.getMonth(time), DbHelper.getDay(time), type, amount, from, to);
     }
     public static String InsertQuery(int cid, int year, int month, int day, String type, double amount, int from, int to){
         return "INSERT INTO " + TABLE_NAME +" (" + CID  + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ", " + FROM + ", " + TO + ") " +
-                "VALUES (" + cid + ", " + DatabaseHelper.TimeQuery(year, month, day) + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
+                "VALUES (" + cid + ", " + DbHelper.TimeQuery(year, month, day) + ", '" + type + "', " + amount + ", " + from + ", " + to + ")";
     }
     public static String getQuery(){
         return "SELECT * FROM " + TABLE_NAME + " t";
     }
     public static ArrayList<Transaction> MonthlyStatement(int cid){
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + CID + "=" + cid + " AND " + Owns.ISPRIMARY + "=1", Owns.TABLE_NAME))
+        for (Owns owns: (ArrayList<Owns>) DbHelper.get(Owns.getQuery() + " WHERE o." + CID + "=" + cid + " AND " + Owns.ISPRIMARY + "=1", Owns.TABLE_NAME))
             for (Transaction transaction: Account.findTransactions(owns.getAid()))
-                if (transaction.getTime().getMonth() == DatabaseHelper.time.getMonth() - 1)
+                if (DbHelper.getMonth(transaction.getTime()) == DbHelper.getMonth() - 1)
                     transactions.add(transaction);
         return transactions;
     }
@@ -121,14 +121,14 @@ public class Transaction implements Serializable {
         double sum = 0;
         double average = 0;
         double last_day_balance = account.getBalance();
-        ArrayList<Transaction> account_transactions = new ArrayList<>();
-        for (Transaction transaction: (ArrayList<Transaction>) DatabaseHelper.get(getQuery(), TABLE_NAME)) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(getQuery(), TABLE_NAME)) {
             if (account.getId() == transaction.from || account.getId() == transaction.to
-                    && DatabaseHelper.time.getMonth() - 1 == transaction.time.getMonth()) {
-                account_transactions.add(transaction);
+                    && DbHelper.getMonth() - 1 == DbHelper.getMonth(transaction.time)) {
+                transactions.add(transaction);
             }
         }
-        if (account_transactions.isEmpty()){
+        if (transactions.isEmpty()){
             try {
                 account.modifyBalance(account.getBalance() * account.getMonthlyInterest());
             } catch (Account.NotEnoughMoneyException e) {
@@ -136,21 +136,21 @@ public class Transaction implements Serializable {
             }
             return;
         }
-        int year = account_transactions.get(0).time.getYear();
-        int month = account_transactions.get(0).time.getMonth();
+        int year = DbHelper.getYear(transactions.get(0).time);
+        int month = DbHelper.getMonth(transactions.get(0).time);
         Integer[] day_array = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int days = day_array[month - 1];
         days += (month == 2 && year % 4 == 0 && year % 400 != 0) ? 1 : 0;
         int today = days;
-        Collections.sort(account_transactions, new Comparator<Transaction>() {
+        Collections.sort(transactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction o1, Transaction o2) {
-                return o2.getTime().getDay() - o1.getTime().getDay();
+                return (int) (o2.getTime().getTime() - o1.getTime().getTime());
             }
         });
-        for (Transaction transaction: account_transactions){
-            sum += last_day_balance * (today - transaction.getTime().getDay() + 1);
-            today = transaction.getTime().getDay();
+        for (Transaction transaction: transactions){
+            sum += last_day_balance * (today - DbHelper.getDay(transaction.getTime()) + 1);
+            today = DbHelper.getDay(transaction.getTime());
             last_day_balance = last_day_balance - transaction.getAmount();
         }
         sum += (today - 1) * last_day_balance;
@@ -170,7 +170,7 @@ public class Transaction implements Serializable {
         Account.findAccount(to).modifyBalance(amount);
     }
     public static void MakeTransaction(int cid, Date time, String type, double amount, int from, int to) throws Exception {
-        MakeTransaction(cid, time.getYear(), time.getMonth(), time.getDay(), type, amount, from, to);
+        MakeTransaction(cid, DbHelper.getYear(time), DbHelper.getMonth(time), DbHelper.getDay(time), type, amount, from, to);
     }
     public static void MakeTransaction(int cid, int year, int month, int day, String type, double amount, int from, int to) throws Exception {
         switch (type){
@@ -206,7 +206,7 @@ public class Transaction implements Serializable {
                 Transaction.QuickRefill(to, amount);
                 break;
         }
-        DatabaseHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));
+        DbHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));
     }
     @Override
     public String toString(){
