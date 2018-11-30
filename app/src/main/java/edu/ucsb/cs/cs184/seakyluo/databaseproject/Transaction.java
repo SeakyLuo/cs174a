@@ -20,9 +20,17 @@ public class Transaction implements Serializable {
                                                                                         FROM + " INTEGER, " +
                                                                                         TO + " INTEGER, " +
                                                                                         "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
-                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ", " +
-                                                                                        "FOREIGN KEY(" + FROM + ") REFERENCES " + Account.TABLE_NAME + ", " +
-                                                                                        "FOREIGN KEY(" + TO + ") REFERENCES " + Account.TABLE_NAME + ")";
+                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ")";
+//    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + CID + " INTEGER NOT NULL, " +
+//                                                                                        TIME + " DATE, " +
+//                                                                                        TYPE + " CHAR(30), " +
+//                                                                                        AMOUNT + " REAL, " +
+//                                                                                        FROM + " INTEGER, " +
+//                                                                                        TO + " INTEGER, " +
+//                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
+//                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ", " +
+//                                                                                        "FOREIGN KEY(" + FROM + ") REFERENCES " + Account.TABLE_NAME + ", " +
+//                                                                                        "FOREIGN KEY(" + TO + ") REFERENCES " + Account.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "Deposit", TOP_UP = "Top-up", WITHDRAW = "Withdraw", PURCHASE = "Purchase", TRANSFER = "Transfer",
             COLLECT = "Collect", PAY_FRIEND = "Pay-Friend", WIRE = "Wire", WRITE_CHECK = "Write-Check", ACCRUE_INTEREST = "Accrue-Interest",
@@ -163,7 +171,10 @@ public class Transaction implements Serializable {
     public static void QuickRefill(int from, double amount) throws Account.NotEnoughMoneyException{
         Account.findAccount(from).modifyBalance(amount);
     }
-    public static void MakeTransation(String type, int from, int to, double amount) throws Exception {
+    public static void MakeTransaction(int cid, Date time, String type, double amount, int from, int to) throws Exception {
+        MakeTransaction(cid, time.getYear(), time.getMonth(), time.getDay(), type, amount, from, to);
+    }
+    public static void MakeTransaction(int cid, int year, int month, int day, String type, double amount, int from, int to) throws Exception {
         switch (type){
             case Transaction.DEPOSIT:
                 Transaction.Deposit(to, amount);
@@ -196,6 +207,7 @@ public class Transaction implements Serializable {
                 Transaction.QuickRefill(from, amount);
                 break;
         }
+        DatabaseHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));
     }
     @Override
     public String toString(){

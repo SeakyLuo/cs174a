@@ -55,14 +55,14 @@ public class Account implements Serializable {
     public double getMonthlyInterest() { return interest / 12; }
     public void setBalance(double balance) {
         this.balance = balance;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + " WHERE a." + ID + "=" + aid);
     }
     public void modifyBalance(double delta) throws NotEnoughMoneyException {
         if (this.balance + delta < 0){
             throw new NotEnoughMoneyException();
         }
         this.balance += delta;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=a." + BALANCE + "=" + balance + "WHERE a." + ID + "=" + aid);
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + " WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
         this.interest = interest;
@@ -95,7 +95,7 @@ public class Account implements Serializable {
     }
 
     public boolean isClosed() {
-        return balance <= 0.01 && DatabaseHelper.get(Transaction.getQuery() + " WHERE t." + Transaction.FROM , Transaction.TABLE_NAME).size() > 0;
+        return balance <= 0.01 && findTransactions(aid).size() > 0;
     }
     public boolean isPocket() {
         try{

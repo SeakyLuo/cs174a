@@ -97,12 +97,12 @@ public class UserInputActivity extends AppCompatActivity {
             amount.setError("Empty!");
             return;
         }
-        MakeTransaction(from, to, Double.parseDouble(amount.getText().toString()));
+        MakeTransaction(Double.parseDouble(amount.getText().toString()), from, to);
     }
 
-    private void MakeTransaction(int from, int to, double amount){
+    private void MakeTransaction(double amount, int from, int to){
         try{
-            Transaction.MakeTransation(title, from, to, amount);
+            Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, title, amount, from, to);
         } catch (Account.NotEnoughMoneyException e){
             this.amount.setError(e.toString());
             return;
@@ -113,7 +113,6 @@ public class UserInputActivity extends AppCompatActivity {
             this.amount.setError(e.toString());
             return;
         }
-        Transaction.InsertQuery(DatabaseHelper.user.getId(), DatabaseHelper.time, title, amount, from, to);
         finish();
     }
 

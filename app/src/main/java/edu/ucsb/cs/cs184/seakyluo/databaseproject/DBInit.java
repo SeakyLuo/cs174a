@@ -19,13 +19,12 @@ public class DBInit {
         InsertCustomers();
         InsertAccounts();
         InsertOwns();
-        InsertTransactions();
         // Insert Time
         DatabaseHelper.insertTime(2011,4,1);
         // Insert Counter
         DatabaseHelper.insertCounter();
-
         DatabaseHelper.run(queries);
+        InsertTransactions();
     }
 
     public static void DropTables(){
@@ -136,44 +135,48 @@ public class DBInit {
 
     public static void InsertTransactions(){
         // Insert Transactions on Account Creation
-        queries.add(Transaction.InsertQuery(322175130, 2011, 3, 2, Transaction.DEPOSIT, 200, 0, 17431));
-        queries.add(Transaction.InsertQuery(212431965, 2011, 3, 3, Transaction.DEPOSIT, 21000, 0, 54321));
-        queries.add(Transaction.InsertQuery(207843218, 2011, 3, 3, Transaction.DEPOSIT, 1200, 0, 12121));
-        queries.add(Transaction.InsertQuery(201674933, 2011, 3, 3, Transaction.DEPOSIT, 15000, 0, 41725));
-        queries.add(Transaction.InsertQuery(122219876, 2011, 3, 3, Transaction.DEPOSIT, 2000000, 0, 93156));
-        queries.add(Transaction.InsertQuery(207843218, 2011, 3, 4, Transaction.TOP_UP, 50, 12121, 53027));
-        queries.add(Transaction.InsertQuery(212431965, 2011, 3, 4, Transaction.DEPOSIT, 1289, 0, 43942));
-        queries.add(Transaction.InsertQuery(209378521, 2011, 3, 4, Transaction.DEPOSIT, 34000, 0, 29107));
-        queries.add(Transaction.InsertQuery(412231856, 2011, 3, 5, Transaction.DEPOSIT, 2300, 0, 19023));
-        queries.add(Transaction.InsertQuery(400651982, 2011, 3, 5, Transaction.TOP_UP, 20, 43942, 60413));
-        queries.add(Transaction.InsertQuery(344151573, 2011, 3, 5, Transaction.DEPOSIT, 1000, 0, 32156));
-        queries.add(Transaction.InsertQuery(188212217, 2011, 3, 5, Transaction.DEPOSIT, 8456, 0, 76543));
-        queries.add(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.TOP_UP, 30, 29107, 43947));
-        queries.add(Transaction.InsertQuery(401605312, 2011, 3, 6, Transaction.TOP_UP, 100, 19023, 67521));
-        // Insert Other Transactions
-        queries.add(Transaction.InsertQuery(344151573, 2011, 3, 2, Transaction.DEPOSIT, 8800, 0, 17431));
-        queries.add(Transaction.InsertQuery(122219876, 2011, 3, 3, Transaction.WITHDRAW, 3000, 54321, 0));
-        queries.add(Transaction.InsertQuery(212116070, 2011, 3, 5, Transaction.WITHDRAW, 2000, 76543, 0));
-        queries.add(Transaction.InsertQuery(207843218, 2011, 3, 5, Transaction.PURCHASE, 5, 53027, 0));
-        queries.add(Transaction.InsertQuery(188212217, 2011, 3, 6, Transaction.WITHDRAW, 1000000, 93156, 0));
-        queries.add(Transaction.InsertQuery(209378521, 2011, 3, 6, Transaction.WRITE_CHECK, 950000, 93156, 0));
-        queries.add(Transaction.InsertQuery(212116070, 2011, 3, 6, Transaction.WITHDRAW, 4000, 29107, 0));
-        queries.add(Transaction.InsertQuery(210389768, 2011, 3, 6, Transaction.COLLECT, 10, 43947, 29107));
-        queries.add(Transaction.InsertQuery(212116070, 2011, 3, 6, Transaction.TOP_UP, 30, 29107, 43947));
-        queries.add(Transaction.InsertQuery(322175130, 2011, 3, 7, Transaction.TRANSFER, 289, 43942, 17431));
-        queries.add(Transaction.InsertQuery(400651982, 2011, 3, 7, Transaction.WITHDRAW, 289, 43942, 0));
-        queries.add(Transaction.InsertQuery(400651982, 2011, 3, 8, Transaction.PAY_FRIEND, 10, 60413, 67521));
-        queries.add(Transaction.InsertQuery(210389768, 2011, 3, 8, Transaction.DEPOSIT, 50000, 0, 93156));
-        queries.add(Transaction.InsertQuery(207843218, 2011, 3, 8, Transaction.WRITE_CHECK, 200, 12121, 0));
-        queries.add(Transaction.InsertQuery(201674933, 2011, 3, 8, Transaction.TRANSFER, 1000, 41725, 19023));
-        queries.add(Transaction.InsertQuery(401605312, 2011, 3, 9, Transaction.WIRE, 4000, 41725, 32156));
-        queries.add(Transaction.InsertQuery(207843218, 2011, 3, 9, Transaction.PAY_FRIEND, 10, 53027, 60413));
-        queries.add(Transaction.InsertQuery(122219876, 2011, 3, 10, Transaction.PURCHASE, 15, 60413, 0));
-        queries.add(Transaction.InsertQuery(203491209, 2011, 3, 12, Transaction.WITHDRAW, 20000, 93156, 0));
-        queries.add(Transaction.InsertQuery(188212217, 2011, 3, 12, Transaction.WRITE_CHECK, 456, 76543, 0));
-        queries.add(Transaction.InsertQuery(401605312, 2011, 3, 12, Transaction.TOP_UP, 50, 19023, 67521));
-        queries.add(Transaction.InsertQuery(212431965, 2011, 3, 14, Transaction.PAY_FRIEND, 20, 19023, 53027));
-        queries.add(Transaction.InsertQuery(210389768, 2011, 3, 14, Transaction.COLLECT, 15, 43947, 29107));
+        try {
+            Transaction.MakeTransaction(322175130, 2011, 3, 2, Transaction.DEPOSIT, 200, 0, 17431);
+            Transaction.MakeTransaction(212431965, 2011, 3, 3, Transaction.DEPOSIT, 21000, 0, 54321);
+            Transaction.MakeTransaction(207843218, 2011, 3, 3, Transaction.DEPOSIT, 1200, 0, 12121);
+            Transaction.MakeTransaction(201674933, 2011, 3, 3, Transaction.DEPOSIT, 15000, 0, 41725);
+            Transaction.MakeTransaction(122219876, 2011, 3, 3, Transaction.DEPOSIT, 2000000, 0, 93156);
+            Transaction.MakeTransaction(207843218, 2011, 3, 4, Transaction.TOP_UP, 50, 12121, 53027);
+            Transaction.MakeTransaction(212431965, 2011, 3, 4, Transaction.DEPOSIT, 1289, 0, 43942);
+            Transaction.MakeTransaction(209378521, 2011, 3, 4, Transaction.DEPOSIT, 34000, 0, 29107);
+            Transaction.MakeTransaction(412231856, 2011, 3, 5, Transaction.DEPOSIT, 2300, 0, 19023);
+            Transaction.MakeTransaction(400651982, 2011, 3, 5, Transaction.TOP_UP, 20, 43942, 60413);
+            Transaction.MakeTransaction(344151573, 2011, 3, 5, Transaction.DEPOSIT, 1000, 0, 32156);
+            Transaction.MakeTransaction(188212217, 2011, 3, 5, Transaction.DEPOSIT, 8456, 0, 76543);
+            Transaction.MakeTransaction(212116070, 2011, 3, 5, Transaction.TOP_UP, 30, 29107, 43947);
+            Transaction.MakeTransaction(401605312, 2011, 3, 6, Transaction.TOP_UP, 100, 19023, 67521);
+            // Insert Other Transactions
+            Transaction.MakeTransaction(344151573, 2011, 3, 2, Transaction.DEPOSIT, 8800, 0, 17431);
+            Transaction.MakeTransaction(122219876, 2011, 3, 3, Transaction.WITHDRAW, 3000, 54321, 0);
+            Transaction.MakeTransaction(212116070, 2011, 3, 5, Transaction.WITHDRAW, 2000, 76543, 0);
+            Transaction.MakeTransaction(207843218, 2011, 3, 5, Transaction.PURCHASE, 5, 53027, 0);
+            Transaction.MakeTransaction(188212217, 2011, 3, 6, Transaction.WITHDRAW, 1000000, 93156, 0);
+            Transaction.MakeTransaction(209378521, 2011, 3, 6, Transaction.WRITE_CHECK, 950000, 93156, 0);
+            Transaction.MakeTransaction(212116070, 2011, 3, 6, Transaction.WITHDRAW, 4000, 29107, 0);
+            Transaction.MakeTransaction(210389768, 2011, 3, 6, Transaction.COLLECT, 10, 43947, 29107);
+            Transaction.MakeTransaction(212116070, 2011, 3, 6, Transaction.TOP_UP, 30, 29107, 43947);
+            Transaction.MakeTransaction(322175130, 2011, 3, 7, Transaction.TRANSFER, 289, 43942, 17431);
+            Transaction.MakeTransaction(400651982, 2011, 3, 7, Transaction.WITHDRAW, 289, 43942, 0);
+            Transaction.MakeTransaction(400651982, 2011, 3, 8, Transaction.PAY_FRIEND, 10, 60413, 67521);
+            Transaction.MakeTransaction(210389768, 2011, 3, 8, Transaction.DEPOSIT, 50000, 0, 93156);
+            Transaction.MakeTransaction(207843218, 2011, 3, 8, Transaction.WRITE_CHECK, 200, 12121, 0);
+            Transaction.MakeTransaction(201674933, 2011, 3, 8, Transaction.TRANSFER, 1000, 41725, 19023);
+            Transaction.MakeTransaction(401605312, 2011, 3, 9, Transaction.WIRE, 4000, 41725, 32156);
+            Transaction.MakeTransaction(207843218, 2011, 3, 9, Transaction.PAY_FRIEND, 10, 53027, 60413);
+            Transaction.MakeTransaction(122219876, 2011, 3, 10, Transaction.PURCHASE, 15, 60413, 0);
+            Transaction.MakeTransaction(203491209, 2011, 3, 12, Transaction.WITHDRAW, 20000, 93156, 0);
+            Transaction.MakeTransaction(188212217, 2011, 3, 12, Transaction.WRITE_CHECK, 456, 76543, 0);
+            Transaction.MakeTransaction(401605312, 2011, 3, 12, Transaction.TOP_UP, 50, 19023, 67521);
+            Transaction.MakeTransaction(212431965, 2011, 3, 14, Transaction.PAY_FRIEND, 20, 19023, 53027);
+            Transaction.MakeTransaction(210389768, 2011, 3, 14, Transaction.COLLECT, 15, 43947, 29107);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void Verification(){
