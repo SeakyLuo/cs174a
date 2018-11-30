@@ -1,5 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,29 +123,27 @@ public class Account implements Serializable {
     }
     public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();
-        for(Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
+        for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
             accounts.add(findAccount(owns.getAid()));
         return accounts;
     }
     public static ArrayList<Account> findAccountsWithType(int userid, String type, boolean including_closed){
         ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: findAccounts(userid)){
-            if(account.isType(type) && including_closed || !account.isClosed())
+        for (Account account: findAccounts(userid))
+            if (account.isType(type) && (including_closed || !account.isClosed()))
                 accounts.add(account);
-        }
         return accounts;
     }
     public static ArrayList<Account> findAccountsWithoutType(int userid, String type, boolean including_closed){
         ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: findAccounts(userid)){
-            if(!account.isType(type) && including_closed || !account.isClosed())
+        for (Account account: findAccounts(userid))
+            if (!account.isType(type) && (including_closed || !account.isClosed()))
                 accounts.add(account);
-        }
         return accounts;
     }
     public static ArrayList<Account> findClosedAccounts(){
         ArrayList<Account> accounts = new ArrayList<>();
-        for(Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), TABLE_NAME))
+        for (Account account: (ArrayList<Account>) DatabaseHelper.get(Account.getQuery(), TABLE_NAME))
             if(account.isClosed())
                 accounts.add(account);
         return accounts;

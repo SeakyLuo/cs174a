@@ -121,8 +121,10 @@ public class UserInputActivity extends AppCompatActivity {
         switch (type){
             case FROM:
                 e = fromAccount;
+                break;
             case TO:
                 e = toAccount;
+                break;
         }
         final EditText editText = e;
         if (accounts == null){
@@ -136,16 +138,18 @@ public class UserInputActivity extends AppCompatActivity {
                 SelectAccountDialog dialog = new SelectAccountDialog();
                 dialog.showNow(getSupportFragmentManager(), "SelectAccount");
                 dialog.setAccounts(accounts);
-                dialog.addOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
+                dialog.setOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
                     @Override
                     public void onConfirm(Account account) {
                         switch (type){
                             case FROM:
                                 selected_from = account;
                                 from = account.getId();
+                                break;
                             case TO:
                                 selected_to = account;
                                 to = account.getId();
+                                break;
                         }
                         editText.setText(account.getId() + "");
                     }

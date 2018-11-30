@@ -41,7 +41,7 @@ public class ATMFragment extends Fragment {
 
         ArrayList<Account> accounts = Account.findAccountsWithType(DatabaseHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
-            Toast.makeText(getContext(), "You don't have a Pocket account!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "You don't have a Pocket Account!", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(getContext(), UserInputActivity.class);

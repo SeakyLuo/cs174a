@@ -44,7 +44,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 SelectAccountDialog dialog = new SelectAccountDialog();
                 dialog.showNow(getSupportFragmentManager(), "SelectAccount");
                 dialog.setAccounts(Account.findAccounts(DatabaseHelper.user.getId()));
-                dialog.addOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
+                dialog.setOnConfirmListener(new SelectAccountDialog.onConfirmListener() {
                     @Override
                     public void onConfirm(Account account) {
                         selected_account = account;

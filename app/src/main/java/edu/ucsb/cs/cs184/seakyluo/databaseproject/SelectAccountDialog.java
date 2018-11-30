@@ -19,7 +19,7 @@ public class SelectAccountDialog extends DialogFragment {
 
     private RadioGroup radioGroup;
     private Button confirm;
-    private ArrayList<onConfirmListener> listeners = new ArrayList<>();
+    private onConfirmListener listener;
     private ArrayList<Account> accounts = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,9 +29,8 @@ public class SelectAccountDialog extends DialogFragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (onConfirmListener listener: listeners){
+                if (listener != null)
                     listener.onConfirm(accounts.get(radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()))));
-                }
                 dismiss();
             }
         });
@@ -48,8 +47,8 @@ public class SelectAccountDialog extends DialogFragment {
         }
     }
 
-    public void addOnConfirmListener(onConfirmListener listener){
-        listeners.add(listener);
+    public void setOnConfirmListener(onConfirmListener listener){
+        this.listener = listener;
     }
 
     public interface onConfirmListener{
