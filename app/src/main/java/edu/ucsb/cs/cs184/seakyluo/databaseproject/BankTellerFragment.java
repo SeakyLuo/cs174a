@@ -34,6 +34,7 @@ public class BankTellerFragment extends Fragment {
                 if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
                     Toast.makeText(getContext(), "Cannot Set Date Earlier", Toast.LENGTH_SHORT).show();
                 else {
+                    int delta_months = DbHelper.getMonth() - month;
                     DbHelper.setTime(year, month, dayOfMonth);
                     Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
                 }

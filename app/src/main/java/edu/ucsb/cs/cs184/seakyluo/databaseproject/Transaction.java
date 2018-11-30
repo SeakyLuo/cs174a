@@ -122,12 +122,9 @@ public class Transaction implements Serializable {
         double average = 0;
         double last_day_balance = account.getBalance();
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(getQuery(), TABLE_NAME)) {
-            if (account.getId() == transaction.from || account.getId() == transaction.to
-                    && DbHelper.getMonth() - 1 == DbHelper.getMonth(transaction.time)) {
+        for (Transaction transaction: Account.findTransactions(account.getId()))
+            if (DbHelper.getMonth() - DbHelper.getMonth(transaction.getTime()) == 1)
                 transactions.add(transaction);
-            }
-        }
         if (transactions.isEmpty()){
             try {
                 account.modifyBalance(account.getBalance() * account.getMonthlyInterest());
@@ -162,9 +159,7 @@ public class Transaction implements Serializable {
         }
     }
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
-        Log.d("fuck", "before: " +Account.findAccount(from).getBalance());
         Account.findAccount(from).modifyBalance(-amount);
-        Log.d("fuck", "after: " +Account.findAccount(from).getBalance());
     }
     public static void QuickRefill(int to, double amount) throws Account.NotEnoughMoneyException{
         Account.findAccount(to).modifyBalance(amount);
