@@ -20,6 +20,7 @@ public class ShowListDialog extends DialogFragment {
     private LinearLayout linearLayout;
     private EditText editText;
     private ViewGroup.MarginLayoutParams params;
+    private String caller;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_show_list,container,false);
@@ -35,8 +36,13 @@ public class ShowListDialog extends DialogFragment {
         for (Object obj: data){
             TextView textView = new TextView(getContext());
             textView.setText(obj.toString());
+//            if (obj)
             linearLayout.addView(textView, params);
         }
+    }
+
+    public void setTitle(String caller){
+        this.caller = caller;
     }
 
     public void needsInput(String hint, final OnEditFinishListener listener){

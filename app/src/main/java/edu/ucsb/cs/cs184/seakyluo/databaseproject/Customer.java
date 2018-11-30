@@ -54,7 +54,7 @@ public class Customer implements Serializable {
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;
     }
     public boolean ownsAcount(int accountid){
-        return DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
+        return DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 1;
     }
     public static String InsertQuery(int id, String name, String address, String pin, int preaccount, double preamount){
         return "INSERT INTO " + TABLE_NAME +" (" + ID + ", " + NAME + ", " + ADDRESS + ", " + PIN + ", " + PREACCOUNT + ", " + PREAMOUNT + ") " +

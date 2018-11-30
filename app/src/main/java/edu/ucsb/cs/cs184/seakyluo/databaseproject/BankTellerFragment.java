@@ -69,6 +69,7 @@ public class BankTellerFragment extends Fragment {
     public void GenerateMonthlyStatement(){
         final ShowListDialog dialog = new ShowListDialog();
         dialog.showNow(getFragmentManager(), "GenerateMonthlyStatement");
+        dialog.setTitle("GenerateMonthlyStatement");
         dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
             @Override
             public void EditFinish(String text) {
@@ -118,12 +119,12 @@ public class BankTellerFragment extends Fragment {
         for(Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
             double sum = 0;
             for (Transaction transaction: Customer.findTransactions(customer.getId())){
-                String s = transaction.toString();
                 if (DbHelper.getMonth(transaction.getTime()) == DbHelper.getMonth() && customer.ownsAcount(transaction.getTo()) &&
                     (transaction.isType(Transaction.DEPOSIT) || transaction.isType(Transaction.TRANSFER) || transaction.isType(Transaction.WIRE)))
                     sum += transaction.getAmount();
             }
-            if (sum > 10000) data.add(customer);
+            if (sum > 10000)
+                data.add(customer);
         }
         dialog.showNow(getFragmentManager(), "DTER");
         dialog.setData(data);

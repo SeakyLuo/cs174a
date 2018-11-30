@@ -24,10 +24,8 @@ public class Transaction implements Serializable {
 //                                                                                        AMOUNT + " REAL, " +
 //                                                                                        FROM + " INTEGER, " +
 //                                                                                        TO + " INTEGER, " +
-//                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + "), " +
-//                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ", " +
-//                                                                                        "FOREIGN KEY(" + FROM + ") REFERENCES " + Account.TABLE_NAME + ", " +
-//                                                                                        "FOREIGN KEY(" + TO + ") REFERENCES " + Account.TABLE_NAME + ")";
+//                                                                                        "PRIMARY KEY(" + CID + ", " + TIME + ", " + TYPE + ", " + AMOUNT + ", " + FROM + ", " + TO + "), " +
+//                                                                                        "FOREIGN KEY(" + CID + ") REFERENCES " + Customer.TABLE_NAME + ")";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME;
     public static final String DEPOSIT = "Deposit", TOP_UP = "Top-up", WITHDRAW = "Withdraw", PURCHASE = "Purchase", TRANSFER = "Transfer",
             COLLECT = "Collect", PAY_FRIEND = "Pay-Friend", WIRE = "Wire", WRITE_CHECK = "Write-Check", ACCRUE_INTEREST = "Accrue-Interest",
@@ -168,6 +166,7 @@ public class Transaction implements Serializable {
         MakeTransaction(cid, DbHelper.getYear(time), DbHelper.getMonth(time), DbHelper.getDay(time), type, amount, from, to);
     }
     public static void MakeTransaction(int cid, int year, int month, int day, String type, double amount, int from, int to) throws Exception {
+        DbHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));
         switch (type){
             case Transaction.DEPOSIT:
                 Transaction.Deposit(to, amount);
@@ -202,7 +201,6 @@ public class Transaction implements Serializable {
                 Transaction.QuickRefill(to, amount);
                 break;
         }
-        DbHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));
     }
     @Override
     public String toString(){
