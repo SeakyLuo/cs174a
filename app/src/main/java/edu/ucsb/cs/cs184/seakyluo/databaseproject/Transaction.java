@@ -1,15 +1,10 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
-import android.widget.Toast;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Transaction implements Serializable {
     public static final String TABLE_NAME = "Transaction", CID = "cid", FROM = "from_account", TO = "to_account", TIME = "time", TYPE = "type", AMOUNT = "amount";

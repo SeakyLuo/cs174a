@@ -13,18 +13,19 @@ public class DBInit {
     
     public static void Init(){
         queries = new ArrayList<>();
-        DropTables();
-        CreateTables();
-        // Insert Sample data
-        InsertCustomers();
-        InsertAccounts();
-        InsertOwns();
-        // Insert Time
-        DatabaseHelper.insertTime(2011,4,1);
-        // Insert Counter
-        DatabaseHelper.insertCounter();
-        DatabaseHelper.run(queries);
-        InsertTransactions();
+//        DropTables();
+//        CreateTables();
+//        // Insert Sample data
+//        InsertCustomers();
+//        InsertAccounts();
+//        InsertOwns();
+//        DatabaseHelper.run(queries);
+//        // Insert Time
+//        DatabaseHelper.insertTime(2011,4,1);
+//        // Insert Counter
+//        DatabaseHelper.insertCounter();
+//        InsertTransactions();
+        Verification();
     }
 
     public static void DropTables(){
@@ -45,6 +46,17 @@ public class DBInit {
         queries.add(Account.CREATE_TABLE);
         queries.add(Owns.CREATE_TABLE);
         queries.add(Transaction.CREATE_TABLE);
+    }
+
+    public static void Verification(){
+        for (Account data: (ArrayList<Account>) get(Account.getQuery(), Account.TABLE_NAME))
+            Log.d("fuck", data.toString());
+        for (Customer data: (ArrayList<Customer>) get(Customer.getQuery(), Customer.TABLE_NAME))
+            Log.d("fuck", data.toString());
+        for (Owns data: (ArrayList<Owns>) get(Owns.getQuery(), Owns.TABLE_NAME))
+            Log.d("fuck", data.toString());
+        for (Transaction data: (ArrayList<Transaction>) get(Transaction.getQuery(), Transaction.TABLE_NAME))
+            Log.d("fuck", data.toString());
     }
 
     public static void InsertCustomers(){
@@ -177,16 +189,5 @@ public class DBInit {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void Verification(){
-        for (Account data: (ArrayList<Account>) get(Account.getQuery(), Account.TABLE_NAME))
-            Log.d("fuck", data.toString());
-        for (Customer data: (ArrayList<Customer>) get(Customer.getQuery(), Customer.TABLE_NAME))
-            Log.d("fuck", data.toString());
-        for (Owns data: (ArrayList<Owns>) get(Owns.getQuery(), Owns.TABLE_NAME))
-            Log.d("fuck", data.toString());
-        for (Transaction data: (ArrayList<Transaction>) get(Transaction.getQuery(), Transaction.TABLE_NAME))
-            Log.d("fuck", data.toString());
     }
 }

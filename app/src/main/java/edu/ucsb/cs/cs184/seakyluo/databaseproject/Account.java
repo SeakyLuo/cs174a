@@ -62,11 +62,11 @@ public class Account implements Serializable {
             throw new NotEnoughMoneyException();
         }
         this.balance += delta;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance + " WHERE a." + ID + "=" + aid);
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance  + " WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
         this.interest = interest;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + "WHERE a." + ID + "=" + aid);
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + " WHERE a." + ID + "=" + aid);
     }
     public String insertQuery(){
         return InsertQuery(aid, bank_name, type, balance, interest);

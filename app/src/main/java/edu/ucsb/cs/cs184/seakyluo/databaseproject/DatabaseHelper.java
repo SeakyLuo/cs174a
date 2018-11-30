@@ -27,7 +27,6 @@ public class DatabaseHelper {
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
-        DBInit.Verification();
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
@@ -142,12 +141,12 @@ public class DatabaseHelper {
                     Class.forName(JDBC_DRIVER);
 
                     //STEP 3: Open a connection
-                    Log.d("fuck","Connecting...");
+                    Log.d("Connection","Connecting...");
                     Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-                    Log.d("fuck","Connected!");
+                    Log.d("Connection","Connected!");
                     listener.OnBuilt(connection);
                     connection.close();
-                    Log.d("fuck", "Connection Closed");
+                    Log.d("Connection", "Connection Closed");
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
