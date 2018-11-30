@@ -8,7 +8,7 @@ import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.COUNTER;
 import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.TIME;
 import static edu.ucsb.cs.cs184.seakyluo.databaseproject.DbHelper.get;
 
-public class DBInit {
+public class DbInit {
     private static ArrayList<String> queries;
     
     public static void Init(){

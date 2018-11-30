@@ -24,11 +24,11 @@ public class DbHelper {
     private static final String PASSWORD = "4608659";
 
     public static void init(){
-//        DBInit.Init();
+//        DbInit.Init();
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
-        Log.d("fuck", time.toString());
+        DbInit.Verification();
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){

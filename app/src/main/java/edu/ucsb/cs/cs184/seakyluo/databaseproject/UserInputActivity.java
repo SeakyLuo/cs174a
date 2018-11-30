@@ -27,7 +27,6 @@ public class UserInputActivity extends AppCompatActivity {
     private Button confirm;
     private String title;
     private int from = 0, to = 0;
-    private Account selected_from, selected_to;
     private boolean fromVisible = true, toVisible = true;
     private String[] from_type, to_type;
     private Intent callerIntent;
@@ -81,6 +80,7 @@ public class UserInputActivity extends AppCompatActivity {
                 fromAccount.setError("Empty!");
                 isValid = false;
             }
+            Account selected_from = Account.findAccount(from);
             if (from_type != null && !findTypeIn(selected_from, from_type)){
                 fromAccount.setError(selected_from.getType() + " NOT Supported!");
                 isValid = false;
@@ -91,6 +91,7 @@ public class UserInputActivity extends AppCompatActivity {
                 toAccount.setError("Empty!");
                 isValid = false;
             }
+            Account selected_to = Account.findAccount(to);
             if (to_type != null && !findTypeIn(selected_to, to_type)){
                 toAccount.setError(selected_to.getType() + " NOT Supported!");
                 isValid = false;
@@ -149,11 +150,9 @@ public class UserInputActivity extends AppCompatActivity {
                     public void onConfirm(Account account) {
                         switch (type){
                             case FROM:
-                                selected_from = account;
                                 from = account.getId();
                                 break;
                             case TO:
-                                selected_to = account;
                                 to = account.getId();
                                 break;
                         }
