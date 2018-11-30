@@ -105,7 +105,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         type = selected_account.getId() + "";
                         break;
                 }
-                DatabaseHelper.run(new Account(acount, bank_name.getText().toString(), type).insertQuery());
+                DatabaseHelper.run((new Account(acount, bank_name.getText().toString(), type)).insertQuery());
                 DatabaseHelper.run(Owns.InsertQuery(DatabaseHelper.user.getId(), acount, 1));
                 try {
                     if (isPocket)

@@ -25,16 +25,16 @@ public class Account implements Serializable {
         this.balance = 0d;
         switch (type){
             case INTEREST_CHECKING:
-                interest = 0.055;
+                this.interest = 0.055;
                 break;
             case STUDENT_CHECKING:
-                interest = 0d;
+                this.interest = 0d;
                 break;
             case SAVINGS:
-                interest = 0.075;
+                this.interest = 0.075;
                 break;
             case POCKET:
-                interest = 0d;
+                this.interest = 0d;
                 break;
         }
     }
@@ -73,9 +73,6 @@ public class Account implements Serializable {
         this.interest = interest;
         DatabaseHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + " WHERE a." + ID + "=" + aid);
     }
-    public String insertQuery(){
-        return InsertQuery(aid, bank_name, type, balance, interest);
-    }
     public ArrayList<Owns> findOwners(){
         ArrayList<Owns> owners = new ArrayList<>();
         DatabaseHelper.get(Owns.getQuery() + " WHERE o.aid=" + aid, Owns.TABLE_NAME);
@@ -87,6 +84,9 @@ public class Account implements Serializable {
             if (transaction.getFrom() == aid || transaction.getTo() == aid)
                 transactions.add(transaction);
         return transactions;
+    }
+    public String insertQuery(){
+        return InsertQuery(aid, bank_name, type, balance, interest);
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + aid;
