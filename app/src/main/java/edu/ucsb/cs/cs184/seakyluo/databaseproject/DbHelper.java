@@ -28,7 +28,7 @@ public class DbHelper {
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
-        DbInit.Verification();
+//        DbInit.Verification();
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
