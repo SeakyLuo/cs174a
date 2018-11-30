@@ -120,8 +120,7 @@ public class Account implements Serializable {
     }
     public static int getPocketLinkedAccount(int aid){
         Account account = Account.findAccount(aid);
-        Log.d("fuck", account.toString());
-        if (account.isPocket()) return Integer.parseInt(account.getType());
+        if (account.isPocket()) return Integer.parseInt(account.type);
         else return 0;
     }
     public static Account findAccount(int aid){

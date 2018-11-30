@@ -103,7 +103,7 @@ public class UserInputActivity extends AppCompatActivity {
                 to = Integer.parseInt(toAccount.getText().toString());
                 Account account = Account.findAccount(to);
                 if (account == null){
-                    toAccount.setError(to + " NOT fount!");
+                    toAccount.setError(to + " NOT found!");
                     isValid = false;
                 }
                 else if (to_type != null && !findTypeIn(account, to_type)){
