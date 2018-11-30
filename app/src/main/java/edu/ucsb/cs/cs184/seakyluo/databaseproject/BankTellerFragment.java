@@ -35,7 +35,7 @@ public class BankTellerFragment extends Fragment {
                     Toast.makeText(getContext(), "Cannot Set More than 1 Month", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    AddInterest();
+                    addInterest();
                     DbHelper.setTime(year, month, dayOfMonth);
                     Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
                 }
@@ -136,9 +136,13 @@ public class BankTellerFragment extends Fragment {
         dialog.setData(data);
     }
 
-    public void AddInterest(){
+    private void addInterest(){
         for (Account account: (ArrayList<Account>) DbHelper.get(Account.getQuery(), Account.TABLE_NAME))
             Transaction.AccrueInterest(account);
+    }
+
+    public void AddInterest(){
+        Toast.makeText(getContext(), "This should be called automatically.", Toast.LENGTH_SHORT).show();
     }
 
     public void DeleteAccounts(){
