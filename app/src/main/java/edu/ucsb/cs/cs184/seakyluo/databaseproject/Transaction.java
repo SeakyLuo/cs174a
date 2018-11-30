@@ -186,7 +186,8 @@ public class Transaction implements Serializable {
                 Transaction.Transfer(from, to, amount);
                 break;
             case Transaction.COLLECT:
-                Transaction.Collect(from, to, amount);
+                if (to == 0) Transaction.TopUp(from, Account.getPocketLinkedAccount(from), amount);
+                else Transaction.Collect(from, to, amount);
                 break;
             case Transaction.WIRE:
                 Transaction.Wire(from, to, amount);
