@@ -108,13 +108,13 @@ public class UserInputActivity extends AppCompatActivity {
         try{
             Transaction.MakeTransaction(DbHelper.user.getId(), DbHelper.time, title, amount, from, to);
         } catch (Account.NotEnoughMoneyException e){
-            this.amount.setError(e.toString());
+            this.amount.setError(e.getMessage());
             return;
         } catch (Transaction.TransactionException e){
-            this.amount.setError(e.toString());
+            this.amount.setError(e.getMessage());
             return;
         } catch (Exception e) {
-            this.amount.setError(e.toString());
+            this.amount.setError(e.getMessage());
             return;
         }
         Toast.makeText(getApplicationContext(), title + " Successful!", Toast.LENGTH_SHORT).show();
