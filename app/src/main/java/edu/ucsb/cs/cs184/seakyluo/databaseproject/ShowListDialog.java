@@ -40,7 +40,6 @@ public class ShowListDialog extends DialogFragment {
             textView.setText(obj.toString());
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(16);
-//            if (obj)
         }
     }
 

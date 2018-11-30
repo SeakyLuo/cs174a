@@ -30,7 +30,6 @@ public class DbHelper {
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
 //        DbInit.Verification();
-        Log.d("fuck", time.toString());
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
