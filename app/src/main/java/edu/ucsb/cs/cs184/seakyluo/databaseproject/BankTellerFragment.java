@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ public class BankTellerFragment extends Fragment {
     public void SetNewDate(){
 //        PickDateDialog dialog = new PickDateDialog();
 //        dialog.showNow(getFragmentManager(), "DatePicker");
-        Toast.makeText(getContext(), DbHelper.time.toString(), Toast.LENGTH_SHORT).show();
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -119,10 +117,11 @@ public class BankTellerFragment extends Fragment {
         ShowListDialog dialog = new ShowListDialog();
         for(Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
             double sum = 0;
-            for (Transaction transaction: (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery() + " WHERE o." + Owns.CID + "=" + customer.getId(), Transaction.TABLE_NAME)){
-                if (DbHelper.getMonth(transaction.getTime()) == DbHelper.getMonth() && customer.OwnsAcount(transaction.getTo()) &&
+            for (Transaction transaction: Customer.findTransactions(customer.getId())){
+                String s = transaction.toString();
+                if (DbHelper.getMonth(transaction.getTime()) == DbHelper.getMonth() && customer.ownsAcount(transaction.getTo()) &&
                     (transaction.isType(Transaction.DEPOSIT) || transaction.isType(Transaction.TRANSFER) || transaction.isType(Transaction.WIRE)))
-                    sum += Math.abs(transaction.getAmount());
+                    sum += transaction.getAmount();
             }
             if (sum > 10000) data.add(customer);
         }

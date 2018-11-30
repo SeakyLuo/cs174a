@@ -53,7 +53,7 @@ public class Customer implements Serializable {
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;
     }
-    public boolean OwnsAcount(int accountid){
+    public boolean ownsAcount(int accountid){
         return DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + cid + " AND o." + Owns.AID + "=" + accountid, Owns.TABLE_NAME).size() == 0;
     }
     public static String InsertQuery(int id, String name, String address, String pin, int preaccount, double preamount){
@@ -69,6 +69,9 @@ public class Customer implements Serializable {
         }catch (IndexOutOfBoundsException e) {
             return null;
         }
+    }
+    public static ArrayList<Transaction> findTransactions(int cid){
+        return  (ArrayList<Transaction>) DbHelper.get(Transaction.getQuery() + " WHERE t." + Transaction.CID + "=" + cid, Transaction.TABLE_NAME);
     }
 
     public static boolean VerifyPin(int id, String pin){

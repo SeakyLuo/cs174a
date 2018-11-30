@@ -45,6 +45,7 @@ public class SignupActivity extends AppCompatActivity {
         Customer customer = new Customer(ccount, _nameText.getText().toString(), _addressText.getText().toString(), _pinText.getText().toString());
         DbHelper.run(customer.insertQuery());
         DbHelper.user = customer;
+        ATMFragment.setLogin("Logout");
         UseridDialog fragment = new UseridDialog();
         fragment.showNow(getSupportFragmentManager(), "UserID");
         fragment.setCaller(SignupActivity.this);

@@ -17,7 +17,12 @@ import static android.app.Activity.RESULT_OK;
 
 public class ATMFragment extends Fragment {
     public static final int LOGIN = 0;
-    private Button login, deposit, top_up, withdraw, purchase, transfer, collect, wire, pay_friend, quick_cash, quick_refill;
+    private static Button login;
+    private Button  deposit, top_up, withdraw, purchase, transfer, collect, wire, pay_friend, quick_cash, quick_refill;
+
+    public static void setLogin(String text){
+        login.setText(text);
+    }
 
     public void Deposit(){
         if (DbHelper.user == null){
