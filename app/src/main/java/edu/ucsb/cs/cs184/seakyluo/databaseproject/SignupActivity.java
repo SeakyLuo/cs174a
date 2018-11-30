@@ -44,11 +44,11 @@ public class SignupActivity extends AppCompatActivity {
         int ccount = DatabaseHelper.getCcount();
         DatabaseHelper.updateCounter(DatabaseHelper.CCOUNT);
         Customer customer = new Customer(ccount, _nameText.getText().toString(), _addressText.getText().toString(), _pinText.getText().toString());
-        DatabaseHelper.user = customer;
         DatabaseHelper.run(customer.insertQuery());
+        DatabaseHelper.user = customer;
         UseridDialog fragment = new UseridDialog();
-        fragment.setCaller(SignupActivity.this);
         fragment.showNow(getSupportFragmentManager(), "UserID");
+        fragment.setCaller(SignupActivity.this);
     }
 
     public void onSignupFailed() {
