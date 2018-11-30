@@ -70,8 +70,7 @@ public class Account implements Serializable {
         if (balance + delta < 0){
             throw new NotEnoughMoneyException();
         }
-        balance += delta;
-        balance = round(balance);
+        balance += round(delta);
         DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance  + " WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
@@ -133,8 +132,11 @@ public class Account implements Serializable {
     }
     public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();
-        for (Owns owns: (ArrayList<Owns>) DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME))
-            accounts.add(findAccount(owns.getAid()));
+        for (Owns owns: (ArrayList<Owns>) DbHelper.get(Owns.getQuery() + " WHERE o." + Owns.CID + "=" + userid, Owns.TABLE_NAME)){
+            Account account = findAccount(owns.getAid());
+            if (account != null)
+                accounts.add(account);
+        }
         return accounts;
     }
     public static ArrayList<Account> findAccountsWithType(int userid, String type, boolean including_closed){

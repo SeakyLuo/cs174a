@@ -149,12 +149,13 @@ public class BankTellerFragment extends Fragment {
         for (Account account: accounts)
             DbHelper.run(account.deleteQuery());
         int count = 0;
-        for (Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
+        for (Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME)){
             if (Account.findAccounts(customer.getId()).size() == 0){
                 DbHelper.run("DELETE FROM " + Owns.TABLE_NAME + " WHERE " + Owns.CID + "=" + customer.getId());
                 DbHelper.run(customer.deleteQuery());
                 count++;
             }
+        }
         Toast.makeText(getContext(), accounts.size() + " Accounts and " + count + " Customers deleted", Toast.LENGTH_SHORT).show();
     }
 

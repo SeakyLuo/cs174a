@@ -185,7 +185,7 @@ public class Transaction implements Serializable {
                 Transaction.Transfer(from, to, amount);
                 break;
             case Transaction.COLLECT:
-                if (to == 0) Transaction.TopUp(from, Account.getPocketLinkedAccount(from), amount);
+                if (to == 0) Transaction.Collect(from, Account.getPocketLinkedAccount(from), amount);
                 else Transaction.Collect(from, to, amount);
                 break;
             case Transaction.WIRE:
@@ -199,6 +199,9 @@ public class Transaction implements Serializable {
                 break;
             case Transaction.QUICK_REFILL:
                 Transaction.QuickRefill(to, amount);
+                break;
+            case Transaction.WRITE_CHECK:
+                Transaction.WriteCheck(from, amount);
                 break;
         }
     }

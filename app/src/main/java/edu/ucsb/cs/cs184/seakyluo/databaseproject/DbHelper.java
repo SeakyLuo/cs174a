@@ -25,11 +25,10 @@ public class DbHelper {
     private static final String PASSWORD = "4608659";
 
     public static void init(){
-//        DbInit.Init();
+        DbInit.Init();
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
-//        DbInit.Verification();
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
@@ -218,7 +217,6 @@ public class DbHelper {
 //        Calendar cal = Calendar.getInstance();
 //        cal.setTime(date);
 //        return cal.get(Calendar.YEAR);
-        Log.d("fuck", date.toString().substring(0, 4));
         return Integer.parseInt(date.toString().substring(0, 4));
     }
     public static int getYear(){
