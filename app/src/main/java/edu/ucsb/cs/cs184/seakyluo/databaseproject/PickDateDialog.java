@@ -61,7 +61,7 @@ public class PickDateDialog extends DialogFragment {
     }
 
     public void setListener(OnDateSetListener listener){
-        this.setListener(listener);
+        this.listener = listener;
     }
 
     public void setTime(Date time){
