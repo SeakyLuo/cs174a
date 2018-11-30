@@ -141,7 +141,7 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void AddInterest(){
-        Toast.makeText(getContext(), "This should be called automatically.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "This will be called automatically.", Toast.LENGTH_SHORT).show();
     }
 
     public void DeleteAccounts(){
@@ -151,10 +151,10 @@ public class BankTellerFragment extends Fragment {
         int count = 0;
         for (Customer customer: (ArrayList<Customer>) DbHelper.get(Customer.getQuery(), Customer.TABLE_NAME))
             if (Account.findAccounts(customer.getId()).size() == 0){
-                DbHelper.run("DELETE * FROM " + Owns.TABLE_NAME + " WHERE " + Owns.CID + "=" + customer.getId());
+                DbHelper.run("DELETE FROM " + Owns.TABLE_NAME + " WHERE " + Owns.CID + "=" + customer.getId());
                 count++;
             }
-        Toast.makeText(getContext(), accounts.size() + "Accounts and " + count + " Customers deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), accounts.size() + " Accounts and " + count + " Customers deleted", Toast.LENGTH_SHORT).show();
     }
 
     public void DeleteTransactions(){
