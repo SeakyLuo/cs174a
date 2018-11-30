@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,12 +19,12 @@ public class UseridDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_userid,container,false);
         setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
-//        TODO: change id
-        ((TextView) view.findViewById(R.id.userid_userid)).setText("");
+        ((TextView) view.findViewById(R.id.userid_userid)).setText(DatabaseHelper.user.getId());
         view.findViewById(R.id.userid_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+                startActivity(new Intent(getContext(), CreateAccountActivity.class));
                 caller.finish();
             }
         });

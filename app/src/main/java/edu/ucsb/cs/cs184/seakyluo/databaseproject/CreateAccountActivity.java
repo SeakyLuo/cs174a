@@ -107,10 +107,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
                 DatabaseHelper.run(new Account(acount, bank_name.getText().toString(), type).insertQuery());
                 DatabaseHelper.run(Owns.InsertQuery(DatabaseHelper.user.getId(), acount, 1));
-                if (isPocket)
-                    DatabaseHelper.run(Transaction.InsertQuery(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.TOP_UP, balance, selected_account.getId(), acount));
-                else
-                    DatabaseHelper.run(Transaction.InsertQuery(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.DEPOSIT, balance, 0, acount));
+                try {
+                    if (isPocket)
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.TOP_UP, balance, selected_account.getId(), acount);
+                    else
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.DEPOSIT, balance, 0, acount);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 finish();
             }
         });

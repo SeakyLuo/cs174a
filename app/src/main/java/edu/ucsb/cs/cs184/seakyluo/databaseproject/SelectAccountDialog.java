@@ -32,6 +32,7 @@ public class SelectAccountDialog extends DialogFragment {
                 for (onConfirmListener listener: listeners){
                     listener.onConfirm(accounts.get(radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()))));
                 }
+                dismiss();
             }
         });
         return view;

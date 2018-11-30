@@ -23,7 +23,7 @@ public class DatabaseHelper {
     private static final String PASSWORD = "4608659";
 
     public static void init(){
-        DBInit.Init();
+//        DBInit.Init();
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);

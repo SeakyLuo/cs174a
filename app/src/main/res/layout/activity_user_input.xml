@@ -11,10 +11,10 @@
         android:id="@+id/ui_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorBackgroundFloating"
+        android:background="@android:color/transparent"
         android:minHeight="?attr/actionBarSize"
-        app:contentInsetStart="0dp"
-        android:theme="?attr/actionBarTheme" >
+        android:theme="?attr/actionBarTheme"
+        app:contentInsetStart="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,6 +42,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical"
                 android:text="Title"
+                android:textColor="@android:color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

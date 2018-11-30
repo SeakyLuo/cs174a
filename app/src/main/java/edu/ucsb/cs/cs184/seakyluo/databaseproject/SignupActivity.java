@@ -49,8 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         DatabaseHelper.run(customer.insertQuery());
         fragment.setCaller(SignupActivity.this);
         fragment.showNow(getSupportFragmentManager(), "UserID");
-        startActivity(new Intent(SignupActivity.this, CreateAccountActivity.class));
-        finish();
     }
 
     public void onSignupFailed() {
