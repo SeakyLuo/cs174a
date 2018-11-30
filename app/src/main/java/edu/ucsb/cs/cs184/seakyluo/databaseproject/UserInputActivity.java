@@ -75,31 +75,33 @@ public class UserInputActivity extends AppCompatActivity {
     }
 
     private void Confirm(){
+        boolean isValid = true;
         if (fromVisible){
             if (fromAccount.getText().toString().isEmpty()){
                 fromAccount.setError("Empty!");
-                return;
+                isValid = false;
             }
             if (from_type != null && !findTypeIn(selected_from, from_type)){
                 fromAccount.setError(selected_from.getType() + " NOT Supported!");
-                return;
+                isValid = false;
             }
         }
         if (toVisible){
             if (toAccount.getText().toString().isEmpty()){
                 toAccount.setError("Empty!");
-                return;
+                isValid = false;
             }
             if (to_type != null && !findTypeIn(selected_to, to_type)){
                 toAccount.setError(selected_to.getType() + " NOT Supported!");
-                return;
+                isValid = false;
             }
         }
         if (amount.getText().toString().isEmpty()){
             amount.setError("Empty!");
-            return;
+            isValid = false;
         }
-        MakeTransaction(Double.parseDouble(amount.getText().toString()), from, to);
+        if (isValid)
+            MakeTransaction(Double.parseDouble(amount.getText().toString()), from, to);
     }
 
     private void MakeTransaction(double amount, int from, int to){
@@ -115,6 +117,7 @@ public class UserInputActivity extends AppCompatActivity {
             this.amount.setError(e.toString());
             return;
         }
+        Toast.makeText(getApplicationContext(), title + " Successful!", Toast.LENGTH_SHORT).show();
         finish();
     }
 

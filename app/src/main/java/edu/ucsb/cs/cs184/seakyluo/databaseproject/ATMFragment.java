@@ -144,8 +144,8 @@ public class ATMFragment extends Fragment {
             return;
         }
         QuickAmountDialog dialog = new QuickAmountDialog();
-        dialog.showNow(getFragmentManager(), "QuickCash");
-        dialog.setAccounts(Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false));
+        dialog.showNow(getFragmentManager(), Transaction.QUICK_CASH);
+        dialog.setAccounts(Account.findAccountsWithoutType(DatabaseHelper.user.getId(), Account.POCKET, false), Transaction.QUICK_CASH);
     }
 
     public void QuickRefill(){
@@ -159,8 +159,8 @@ public class ATMFragment extends Fragment {
             return;
         }
         QuickAmountDialog dialog = new QuickAmountDialog();
-        dialog.showNow(getFragmentManager(), "QuickRefill");
-        dialog.setAccounts(accounts);
+        dialog.showNow(getFragmentManager(), Transaction.QUICK_REFILL);
+        dialog.setAccounts(accounts, Transaction.QUICK_REFILL);
     }
 
     public void Login(){

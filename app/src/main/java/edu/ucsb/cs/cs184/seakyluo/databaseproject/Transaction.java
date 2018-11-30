@@ -69,11 +69,10 @@ public class Transaction implements Serializable {
     }
     public static ArrayList<Transaction> MonthlyStatement(int cid){
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for (Account account: Account.findAccounts(cid))
-            if (Owns.findPrimaryOwner(account.getId()).getId() == cid)
-                for (Transaction transaction: Account.findTransactions(account.getId()))
-                    if (transaction.getTime().getMonth() == DatabaseHelper.time.getMonth() - 1)
-                        transactions.add(transaction);
+        for (Owns owns: (ArrayList<Owns>) DatabaseHelper.get(Owns.getQuery() + " WHERE o." + CID + "=" + cid + " AND " + Owns.ISPRIMARY + "=1", Owns.TABLE_NAME))
+            for (Transaction transaction: Account.findTransactions(owns.getAid()))
+                if (transaction.getTime().getMonth() == DatabaseHelper.time.getMonth() - 1)
+                    transactions.add(transaction);
         return transactions;
     }
     public static void Deposit(int toAccount, double amount){
