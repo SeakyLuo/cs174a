@@ -151,6 +151,14 @@ public class Account implements Serializable {
                 accounts.add(account);
         return accounts;
     }
+    public static ArrayList<Account> findPrimaryAccounts(int cid){
+        ArrayList<Account> accounts = new ArrayList<>();
+        if (Customer.findCustomer(cid) == null) return accounts;
+        for (Account account: findAccounts(cid))
+            if(Owns.PrimarilyOwns(cid, account.getId()))
+                accounts.add(account);
+        return accounts;
+    }
     public static ArrayList<Account> findClosedAccounts(){
         ArrayList<Account> accounts = new ArrayList<>();
         for (Account account: (ArrayList<Account>) DbHelper.get(Account.getQuery(), TABLE_NAME))

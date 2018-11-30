@@ -73,7 +73,13 @@ public class BankTellerFragment extends Fragment {
         dialog.needsInput("Customer ID", new ShowListDialog.OnEditFinishListener() {
             @Override
             public void EditFinish(String text) {
-                ArrayList<Transaction> data = Transaction.MonthlyStatement(Integer.parseInt(text));
+                ArrayList<String> data = new ArrayList<>();
+                int cid = Integer.parseInt(text);
+                for (Transaction transaction: Transaction.MonthlyStatement(cid))
+                    data.add(transaction.toString());
+                for (Account account: Account.findPrimaryAccounts(cid))
+                    if (account.getBalance() > 100000)
+                        data.add(account.getId() + ": the limit of insurance has reached");
                 dialog.setData(data);
             }
         });

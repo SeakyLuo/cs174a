@@ -31,10 +31,13 @@ public class Owns implements Serializable {
     }
     public static Customer findPrimaryOwner(int aid){
         try{
-            return ((ArrayList<Customer>) DbHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0);
+            return Customer.findCustomer(((ArrayList<Owns>) DbHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).get(0).getCid());
         }catch (IndexOutOfBoundsException e){
             return null;
         }
+    }
+    public static boolean PrimarilyOwns(int cid, int aid){
+        return ((ArrayList<Owns>) DbHelper.get(getQuery() + " WHERE o." + AID + "=" + aid + " AND o." + ISPRIMARY + "=1", Customer.TABLE_NAME)).size() == 0;
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + CID + "=" + cid + " AND " + AID + "=" + aid;
