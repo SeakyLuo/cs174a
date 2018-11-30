@@ -9,36 +9,46 @@ public class Customer implements Serializable {
                                                                                     NAME + " CHAR(40), " +
                                                                                     ADDRESS +" CHAR(40), " +
                                                                                     PIN  + " CHAR(4) NOT NULL, " +
-            PREACCOUNT + " INTEGER, " +
+                                                                                    PREACCOUNT + " INTEGER, " +
                                                                                     PREAMOUNT + " REAL, " +
                                                                                     "PRIMARY KEY(" + ID +"))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
-    private int cid, preaccount = 0;
+    private int cid, preAccount;
     private String name, address, pin = "1717";
-    private double preamount = 0;
+    private double preAmount = 0;
 
     public Customer(int cid, String name, String address, String pin){
         this.cid = cid;
         this.name = name.trim();
         this.address = address.trim();
         this.pin = pin;
+        this.preAccount = 0;
+        this.preAmount = 0;
+    }
+    public Customer(int cid, String name, String address, String pin, int preAccount, double preAmount){
+        this.cid = cid;
+        this.name = name.trim();
+        this.address = address.trim();
+        this.pin = pin;
+        this.preAccount = preAccount;
+        this.preAmount = preAmount;
     }
     public int getId() { return cid; }
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getPin() { return pin; }
-    public double getPreamount() { return preamount; }
-    public int getPreaccount() { return preaccount; }
-    public void setPreaccount(int preaccount){
-        this.preaccount = preaccount;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREACCOUNT + "=" + preaccount + " WHERE " + ID + "=" + cid);
+    public double getPreAmount() { return preAmount; }
+    public int getPreAccount() { return preAccount; }
+    public void setPreAccount(int preAccount){
+        this.preAccount = preAccount;
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREACCOUNT + "=" + preAccount + " WHERE " + ID + "=" + cid);
     }
-    public void setPreamount(double preamount){
-        this.preamount = preamount;
-        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREAMOUNT + "=" + preamount + " WHERE " + ID + "=" + cid);
+    public void setPreAmount(double preAmount){
+        this.preAmount = preAmount;
+        DatabaseHelper.run("UPDATE " + TABLE_NAME + " SET " + PREAMOUNT + "=" + preAmount + " WHERE " + ID + "=" + cid);
     }
     public String insertQuery(){
-        return InsertQuery(cid, name, address, pin, preaccount, preamount);
+        return InsertQuery(cid, name, address, pin, preAccount, preAmount);
     }
     public String deleteQuery(){
         return "DELETE FROM " + TABLE_NAME + " WHERE " + ID + "=" + cid;

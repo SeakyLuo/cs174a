@@ -43,12 +43,16 @@ public class DatabaseHelper {
                         objects.add(new Customer(rs.getInt(Customer.ID),
                                 rs.getString(Customer.NAME),
                                 rs.getString(Customer.ADDRESS),
-                                rs.getString(Customer.PIN)));
+                                rs.getString(Customer.PIN),
+                                rs.getInt(Customer.PREACCOUNT),
+                                rs.getDouble(Customer.PREAMOUNT)));
                         break;
                     case Account.TABLE_NAME:
                         objects.add(new Account(rs.getInt(Account.ID),
                                 rs.getString(Account.BANK_NAME),
-                                rs.getString(Account.TYPE)));
+                                rs.getString(Account.TYPE),
+                                rs.getDouble(Account.BALANCE),
+                                rs.getDouble(Account.INTEREST)));
                         break;
                     case Transaction.TABLE_NAME:
                         objects.add(new Transaction(rs.getInt(Transaction.CID),

@@ -39,16 +39,16 @@ public class QuickAmountDialog extends DialogFragment {
                     quick.setText(QUICK_CASH);
             }
         });
-        if(DatabaseHelper.user.getPreamount() != 0) editText.setText(DatabaseHelper.user.getPreamount() + "");
+        if(DatabaseHelper.user.getPreAmount() != 0) editText.setText(DatabaseHelper.user.getPreAmount() + "");
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getAccount() == null){
                     Toast.makeText(getContext(), "No account selected!", Toast.LENGTH_SHORT).show();
                 }else{
-                    DatabaseHelper.user.setPreaccount(getAccount().getId());
+                    DatabaseHelper.user.setPreAccount(getAccount().getId());
                 }
-                DatabaseHelper.user.setPreamount(Double.parseDouble(editText.getText().toString()));
+                DatabaseHelper.user.setPreAmount(Double.parseDouble(editText.getText().toString()));
             }
         });
         quick.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class QuickAmountDialog extends DialogFragment {
             RadioButton button = new RadioButton(getContext());
             button.setPadding(16,8,16,8);
             button.setText(account.toString());
-            if (account.getId() == DatabaseHelper.user.getPreaccount())
+            if (account.getId() == DatabaseHelper.user.getPreAccount())
                 button.setChecked(true);
             radioGroup.addView(button);
         }

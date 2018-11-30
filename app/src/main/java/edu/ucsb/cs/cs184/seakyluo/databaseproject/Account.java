@@ -40,6 +40,13 @@ public class Account implements Serializable {
                 break;
         }
     }
+    public Account(int aid, String bank_name, String type, double balance, double interest){
+        this.aid = aid;
+        this.bank_name = bank_name.trim();
+        this.type = type.trim();
+        this.balance = balance;
+        this.interest = interest;
+    }
 
     public int getId() { return aid; }
     public String getType(){

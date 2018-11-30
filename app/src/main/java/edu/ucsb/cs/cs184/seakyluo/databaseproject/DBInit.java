@@ -13,18 +13,18 @@ public class DBInit {
     
     public static void Init(){
         queries = new ArrayList<>();
-//        DropTables();
-//        CreateTables();
-//        // Insert Sample data
-//        InsertCustomers();
-//        InsertAccounts();
-//        InsertOwns();
-//        DatabaseHelper.run(queries);
-//        // Insert Time
-//        DatabaseHelper.insertTime(2011,4,1);
-//        // Insert Counter
-//        DatabaseHelper.insertCounter();
-//        InsertTransactions();
+        DropTables();
+        CreateTables();
+        // Insert Sample data
+        InsertCustomers();
+        InsertAccounts();
+        InsertOwns();
+        DatabaseHelper.run(queries);
+        // Insert Time
+        DatabaseHelper.insertTime(2011,4,1);
+        // Insert Counter
+        DatabaseHelper.insertCounter();
+        InsertTransactions();
         Verification();
     }
 
