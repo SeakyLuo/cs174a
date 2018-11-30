@@ -90,6 +90,14 @@ public class Account implements Serializable {
                 transactions.add(transaction);
         return transactions;
     }
+    public static ArrayList<Transaction> findTransactionsInNMonths(int aid, int n){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        for (Transaction transaction: findTransactions(aid))
+            if ((transaction.getFrom() == aid || transaction.getTo() == aid) &&
+                DbHelper.getMonth() - DbHelper.getMonth(transaction.getTime()) <= n )
+                transactions.add(transaction);
+        return transactions;
+    }
     public String insertQuery(){
         return InsertQuery(aid, bank_name, type, balance, interest);
     }
@@ -105,7 +113,8 @@ public class Account implements Serializable {
     }
 
     public boolean isClosed() {
-        return balance <= 0.01 && findTransactions(aid).size() > 0;
+        return balance <= 0.01;
+//        return balance <= 0.01 && findTransactions(aid).size() > 0;
     }
     public boolean isPocket() {
         try{
@@ -129,7 +138,6 @@ public class Account implements Serializable {
         }catch (IndexOutOfBoundsException e){
             return null;
         }
-
     }
     public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();

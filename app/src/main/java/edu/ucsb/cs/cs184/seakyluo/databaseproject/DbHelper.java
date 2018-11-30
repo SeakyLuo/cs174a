@@ -190,11 +190,13 @@ public class DbHelper {
 
     public static void setTime(int year, int month, int day){
         run("UPDATE " + TIME + " t SET t.time=" + TimeQuery(year, month, day));
-        get(GET_TIME, TIME);
+        time = Date.valueOf(year + "-" + month + "-" + day);
+//        get(GET_TIME, TIME);
     }
     public static void insertTime(int year, int month, int day){
         run("INSERT INTO " + TIME + "(time) VALUES (" + TimeQuery(year, month, day) + ")");
-        get(GET_TIME, TIME);
+        time = Date.valueOf(year + "-" + month + "-" + day);
+//        get(GET_TIME, TIME);
     }
     public static String TimeQuery(Date date){
         return TimeQuery(getYear(date), getMonth(date), getDay(date));

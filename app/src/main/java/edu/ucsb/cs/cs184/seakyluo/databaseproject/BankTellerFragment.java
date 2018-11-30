@@ -24,8 +24,22 @@ public class BankTellerFragment extends Fragment {
     }
 
     public void SetNewDate(){
-        PickDateDialog dialog = new PickDateDialog();
-        dialog.showNow(getFragmentManager(), "DatePicker");
+//        PickDateDialog dialog = new PickDateDialog();
+//        dialog.showNow(getFragmentManager(), "DatePicker");
+        Toast.makeText(getContext(), DbHelper.time.toString(), Toast.LENGTH_SHORT).show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month += 1;
+                if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
+                    Toast.makeText(getContext(), "Cannot Set Date Earlier", Toast.LENGTH_SHORT).show();
+                else {
+                    DbHelper.setTime(year, month, dayOfMonth);
+                    Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, DbHelper.getYear(), DbHelper.getMonth() - 1, DbHelper.getDay());
+        datePickerDialog.show();
     }
 
     public void ResetPIN(){
@@ -66,14 +80,17 @@ public class BankTellerFragment extends Fragment {
         ArrayList<Account> data = new ArrayList<>();
         for (Account account: Account.findClosedAccounts()){
             if (account.isClosed()){
-                ArrayList a = Account.findTransactions(account.getId());
-                for (Transaction transaction: Account.findTransactions(account.getId()))
+                ArrayList<Transaction> transactions = Account.findTransactions(account.getId());
+                boolean valid = false;
+                for (Transaction transaction: transactions){
                     if (DbHelper.getMonth() - DbHelper.getMonth(transaction.getTime()) == 1){
-                        data.add(account);
+                        valid = true;
+                    }else if (DbHelper.getMonth() == DbHelper.getMonth(transaction.getTime())){
+                        valid = false;
                         break;
-                    } else{
-                        Log.d("fuck", transaction.toString());
                     }
+                }
+                if (valid) data.add(account);
             }
         }
         ShowListDialog dialog = new ShowListDialog();
