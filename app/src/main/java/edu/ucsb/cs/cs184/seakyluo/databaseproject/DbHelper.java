@@ -28,6 +28,7 @@ public class DbHelper {
         get(GET_TIME, TIME);
         get(GET_ACOUNT, ACOUNT);
         get(GET_CCOUNT, CCOUNT);
+        Log.d("fuck", time.toString());
     }
 
     private static ArrayList Get(Connection connection, String sql, String table_name){
@@ -214,6 +215,7 @@ public class DbHelper {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.YEAR);
+//        return Integer.parseInt(date.toString().substring(0, 3));
     }
     public static int getYear(){
         return getYear(time);
@@ -223,6 +225,7 @@ public class DbHelper {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.MONTH);
+//        return Integer.parseInt(date.toString().substring(5, 6));
     }
     public static int getMonth(){
         return getMonth(time);
@@ -232,6 +235,7 @@ public class DbHelper {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DAY_OF_MONTH);
+//        return Integer.parseInt(date.toString().substring(8, 9));
     }
     public static int getDay(){
         return getDay(time);

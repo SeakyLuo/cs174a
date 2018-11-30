@@ -1,5 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class Account implements Serializable {
         this.aid = aid;
         this.bank_name = bank_name.trim();
         this.type = type.trim();
-        this.balance = balance;
+        this.balance = round(balance);
         this.interest = interest;
     }
 
@@ -70,7 +72,7 @@ public class Account implements Serializable {
         DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + BALANCE + "=" + balance  + " WHERE a." + ID + "=" + aid);
     }
     public void setInterest(double interest) {
-        this.interest = round(interest);
+        this.interest = interest;
         DbHelper.run("UPDATE " + TABLE_NAME + " a SET a." + INTEREST + "=" + interest + " WHERE a." + ID + "=" + aid);
     }
     public ArrayList<Owns> findOwners(){
@@ -115,6 +117,7 @@ public class Account implements Serializable {
     }
     public static int getPocketLinkedAccount(int aid){
         Account account = Account.findAccount(aid);
+        Log.d("fuck", account.toString());
         if (account.isType(POCKET)) return Integer.parseInt(account.getType());
         else return 0;
     }

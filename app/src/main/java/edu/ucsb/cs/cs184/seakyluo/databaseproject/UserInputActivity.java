@@ -114,6 +114,7 @@ public class UserInputActivity extends AppCompatActivity {
             this.amount.setError(e.getMessage());
             return;
         } catch (Exception e) {
+            e.printStackTrace();
             this.amount.setError(e.getMessage());
             return;
         }

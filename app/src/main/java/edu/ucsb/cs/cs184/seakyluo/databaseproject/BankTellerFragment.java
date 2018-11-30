@@ -19,20 +19,20 @@ import java.util.ArrayList;
 public class BankTellerFragment extends Fragment {
 
     public void SetNewDate(){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            DatePickerDialog dialog = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
-                        Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
-                    else{
-                        Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
-                        DbHelper.setTime(year, month, dayOfMonth);
-                    }
+        PickDateDialog dialog = new PickDateDialog();
+        dialog.setTime(DbHelper.time);
+        dialog.setListener(new PickDateDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int year, int month, int dayOfMonth) {
+                if (new Date(year, month, dayOfMonth).getTime() < DbHelper.time.getTime())
+                    Toast.makeText(getContext(), "You cannot set an earlier date.", Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(getContext(), "Set Date Successful", Toast.LENGTH_SHORT).show();
+                    DbHelper.setTime(year, month, dayOfMonth);
                 }
-            }, DbHelper.getYear(DbHelper.time), DbHelper.getMonth(DbHelper.time), DbHelper.getDay(DbHelper.time));
-            dialog.show();
-        }
+            }
+        });
+        dialog.showNow(getFragmentManager(), "DatePicker");
     }
 
     public void ResetPIN(){
@@ -71,12 +71,15 @@ public class BankTellerFragment extends Fragment {
 
     public void ListClosedAccounts(){
         ArrayList<Account> data = new ArrayList<>();
-        for(Account account: Account.findClosedAccounts()){
-            if(account.isClosed()){
+        for (Account account: Account.findClosedAccounts()){
+            if (account.isClosed()){
+                ArrayList a = Account.findTransactions(account.getId());
                 for (Transaction transaction: Account.findTransactions(account.getId()))
                     if (DbHelper.getMonth() - DbHelper.getMonth(transaction.getTime()) == 1){
                         data.add(account);
                         break;
+                    } else{
+                        Log.d("fuck", transaction.toString());
                     }
             }
         }

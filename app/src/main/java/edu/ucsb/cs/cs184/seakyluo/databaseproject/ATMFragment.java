@@ -24,10 +24,14 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
-
-        intent.putExtra(UserInputActivity.TO_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.TO_ACCOUNTS, accounts);
         intent.putExtra(UserInputActivity.FROM_VISIBLE, false);
         startActivity(intent);
     }
@@ -37,7 +41,6 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
-
         ArrayList<Account> accounts = Account.findAccountsWithType(DbHelper.user.getId(), Account.POCKET, false);
         if (accounts.size() == 0){
             Toast.makeText(getContext(), "You don't have a Pocket Account!", Toast.LENGTH_SHORT).show();
@@ -55,11 +58,15 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.WITHDRAW);
-
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         startActivity(intent);
     }
 
@@ -68,11 +75,15 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.SAVINGS, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.PURCHASE);
-        ;
         intent.putExtra(UserInputActivity.TO_VISIBLE, false);
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.SAVINGS, false));
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         startActivity(intent);
     }
 
@@ -81,10 +92,13 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
         intent.putExtra(UserInputActivity.TITLE, Transaction.TRANSFER);
-
-        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
         intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         intent.putExtra(UserInputActivity.TO_ACCOUNTS, accounts);
         startActivity(intent);
@@ -112,10 +126,14 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getContext(), UserInputActivity.class);
-        intent.putExtra(UserInputActivity.TITLE, Transaction.DEPOSIT);
-
-        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false));
+        intent.putExtra(UserInputActivity.TITLE, Transaction.WIRE);
+        intent.putExtra(UserInputActivity.FROM_ACCOUNTS, accounts);
         intent.putExtra(UserInputActivity.TO_TYPE, new String[] {Account.CHECKING, Account.SAVINGS});
         startActivity(intent);
     }
@@ -142,9 +160,14 @@ public class ATMFragment extends Fragment {
             Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ArrayList<Account> accounts = Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false);
+        if (accounts.size() == 0){
+            Toast.makeText(getContext(), "You don't have accounts available!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         QuickAmountDialog dialog = new QuickAmountDialog();
         dialog.showNow(getFragmentManager(), QuickAmountDialog.QUICK_CASH);
-        dialog.setAccounts(Account.findAccountsWithoutType(DbHelper.user.getId(), Account.POCKET, false), QuickAmountDialog.QUICK_CASH);
+        dialog.setAccounts(accounts, QuickAmountDialog.QUICK_CASH);
     }
 
     public void QuickRefill(){
