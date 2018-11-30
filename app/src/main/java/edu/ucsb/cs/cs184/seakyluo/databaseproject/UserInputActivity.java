@@ -75,31 +75,42 @@ public class UserInputActivity extends AppCompatActivity {
 
     private void Confirm(){
         boolean isValid = true;
+        if (amount.getText().toString().isEmpty()){
+            amount.setError("Empty!");
+            isValid = false;
+        }
         if (fromVisible){
             if (fromAccount.getText().toString().isEmpty()){
                 fromAccount.setError("Empty!");
                 isValid = false;
-            }
-            Account selected_from = Account.findAccount(from);
-            if (from_type != null && !findTypeIn(selected_from, from_type)){
-                fromAccount.setError(selected_from.getType() + " NOT Supported!");
-                isValid = false;
+            }else{
+                from = Integer.parseInt(fromAccount.getText().toString());
+                Account account = Account.findAccount(from);
+                if (account == null){
+                    toAccount.setError(from + " NOT found!");
+                    isValid = false;
+                }else if (from_type != null && !findTypeIn(account, from_type)){
+                    fromAccount.setError(account.getType() + " NOT Supported!");
+                    isValid = false;
+                }
             }
         }
         if (toVisible){
             if (toAccount.getText().toString().isEmpty()){
                 toAccount.setError("Empty!");
                 isValid = false;
+            }else{
+                to = Integer.parseInt(toAccount.getText().toString());
+                Account account = Account.findAccount(to);
+                if (account == null){
+                    toAccount.setError(to + " NOT fount!");
+                    isValid = false;
+                }
+                else if (to_type != null && !findTypeIn(account, to_type)){
+                    toAccount.setError(account.getType() + " NOT Supported!");
+                    isValid = false;
+                }
             }
-            Account selected_to = Account.findAccount(to);
-            if (to_type != null && !findTypeIn(selected_to, to_type)){
-                toAccount.setError(selected_to.getType() + " NOT Supported!");
-                isValid = false;
-            }
-        }
-        if (amount.getText().toString().isEmpty()){
-            amount.setError("Empty!");
-            isValid = false;
         }
         if (isValid)
             MakeTransaction(Double.parseDouble(amount.getText().toString()), from, to);

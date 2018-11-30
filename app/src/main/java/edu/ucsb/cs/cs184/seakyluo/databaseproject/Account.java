@@ -125,7 +125,12 @@ public class Account implements Serializable {
         else return 0;
     }
     public static Account findAccount(int aid){
-        return ((ArrayList<Account>) DbHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
+        try{
+            return ((ArrayList<Account>) DbHelper.get(getQuery() + " WHERE a." + ID + "=" + aid, TABLE_NAME)).get(0);
+        }catch (IndexOutOfBoundsException e){
+            return null;
+        }
+
     }
     public static ArrayList<Account> findAccounts(int userid){
         ArrayList<Account> accounts = new ArrayList<>();
