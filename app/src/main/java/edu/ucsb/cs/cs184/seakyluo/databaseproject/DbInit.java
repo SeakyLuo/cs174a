@@ -81,20 +81,20 @@ public class DbInit {
 
     public static void InsertAccounts(){
         // Insert Accounts
-        queries.add(new Account(17431, "San Fransisco", "Student-Checking").insertQuery());
-        queries.add(new Account(54321, "Los Angeles", "Student-Checking").insertQuery());
-        queries.add(new Account(12121, "Goleta", "Student-Checking").insertQuery());
-        queries.add(new Account(41725, "Los Angeles", "Interest-Checking").insertQuery());
-        queries.add(new Account(76543 , "Santa Barbara", "Interest-Checking").insertQuery());
-        queries.add(new Account(93156, "Goleta", "Interest-Checking").insertQuery());
-        queries.add(new Account(43942, "Santa Barbara", "Savings").insertQuery());
-        queries.add(new Account(29107, "Los Angeles", "Savings").insertQuery());
-        queries.add(new Account(19023, "San Fransisco", "Savings").insertQuery());
-        queries.add(new Account(32156, "Goleta", "Savings").insertQuery());
-        queries.add(new Account(53027, "Goleta", "Pocket").insertQuery());
-        queries.add(new Account(43947, "Isla Vista", "Pocket").insertQuery());
-        queries.add(new Account(60413, "Santa Cruz", "Pocket").insertQuery());
-        queries.add(new Account(67521, "Santa Barbara", "Pocket").insertQuery());
+        queries.add(new Account(17431, "San Fransisco", Account.STUDENT_CHECKING).insertQuery());
+        queries.add(new Account(54321, "Los Angeles", Account.STUDENT_CHECKING).insertQuery());
+        queries.add(new Account(12121, "Goleta", Account.STUDENT_CHECKING).insertQuery());
+        queries.add(new Account(41725, "Los Angeles", Account.INTEREST_CHECKING).insertQuery());
+        queries.add(new Account(76543 , "Santa Barbara", Account.INTEREST_CHECKING).insertQuery());
+        queries.add(new Account(93156, "Goleta", Account.INTEREST_CHECKING).insertQuery());
+        queries.add(new Account(43942, "Santa Barbara", Account.SAVINGS).insertQuery());
+        queries.add(new Account(29107, "Los Angeles", Account.SAVINGS).insertQuery());
+        queries.add(new Account(19023, "San Fransisco", Account.SAVINGS).insertQuery());
+        queries.add(new Account(32156, "Goleta", Account.SAVINGS).insertQuery());
+        queries.add(new Account(53027, "Goleta", "12121").insertQuery());
+        queries.add(new Account(43947, "Isla Vista", "29107").insertQuery());
+        queries.add(new Account(60413, "Santa Cruz", "43942").insertQuery());
+        queries.add(new Account(67521, "Santa Barbara", "19023").insertQuery());
     }
 
     public static void InsertOwns(){

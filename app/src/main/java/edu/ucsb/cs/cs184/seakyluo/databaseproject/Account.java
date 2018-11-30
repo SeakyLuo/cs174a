@@ -37,6 +37,9 @@ public class Account implements Serializable {
             case POCKET:
                 this.interest = 0d;
                 break;
+            default:
+                this.interest = 0d;
+                break;
         }
     }
     public Account(int aid, String bank_name, String type, double balance, double interest){
