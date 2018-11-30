@@ -14,9 +14,7 @@ public class Account implements Serializable {
                                                                                     "PRIMARY KEY(" + ID + "))";
     public static final String DROP_TABLE = "DROP TABLE " + TABLE_NAME + " CASCADE Constraints";
     public static final String CHECKING = "Checking", STUDENT_CHECKING = "Student-Checking", INTEREST_CHECKING = "Interest-Checking", SAVINGS = "Savings", POCKET = "Pocket";
-    private static final String[] VT_CHECKING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.WRITE_CHECK, Transaction.ACCRUE_INTEREST},
-            VT_SAVING = {Transaction.DEPOSIT, Transaction.WITHDRAW, Transaction.TRANSFER, Transaction.WIRE, Transaction.ACCRUE_INTEREST},
-            VT_POCKET = {Transaction.TOP_UP, Transaction.PURCHASE, Transaction.COLLECT, Transaction.PAY_FRIEND};
+
     private int aid;
     private String bank_name, type;
     private Double balance, interest;
@@ -112,27 +110,10 @@ public class Account implements Serializable {
             return false;
         }
     }
-    public int getPocketLinkedAccount(){
-        try{
-            return Integer.parseInt(type);
-        }catch (NumberFormatException e){
-            return 0;
-        }
-    }
-
-    public boolean ValidTransactions(Transaction transaction){
-        switch (type){
-            case STUDENT_CHECKING:
-                return Arrays.asList(VT_CHECKING).contains(transaction.getType());
-            case INTEREST_CHECKING:
-                return Arrays.asList(VT_CHECKING).contains(transaction.getType());
-            case SAVINGS:
-                return Arrays.asList(VT_SAVING).contains(transaction.getType());
-            case POCKET:
-                return Arrays.asList(VT_POCKET).contains(transaction.getType());
-            default:
-                return false;
-        }
+    public static int getPocketLinkedAccount(int aid){
+        Account account = Account.findAccount(aid);
+        if (account.isType(POCKET)) return Integer.parseInt(account.getType());
+        else return 0;
     }
 
     public static Account findAccount(int aid){

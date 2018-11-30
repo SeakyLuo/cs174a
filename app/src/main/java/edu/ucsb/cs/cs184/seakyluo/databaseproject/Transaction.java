@@ -175,7 +175,8 @@ public class Transaction implements Serializable {
                 Transaction.Deposit(to, amount);
                 break;
             case Transaction.TOP_UP:
-                Transaction.TopUp(from, to, amount);
+                if (from == 0) Transaction.TopUp(Account.getPocketLinkedAccount(to), to, amount);
+                else Transaction.TopUp(from, to, amount);
                 break;
             case Transaction.WITHDRAW:
                 Transaction.Withdraw(from, amount);
