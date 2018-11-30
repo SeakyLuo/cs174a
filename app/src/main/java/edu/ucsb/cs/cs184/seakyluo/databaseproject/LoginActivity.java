@@ -51,12 +51,12 @@ public class LoginActivity extends AppCompatActivity{
     public void onLoginSuccess() {
         DatabaseHelper.user = Customer.findCustomer(Integer.parseInt(_idText.getText().toString()));
         setResult(RESULT_OK);
-        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
         finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
     }
 
     @Override

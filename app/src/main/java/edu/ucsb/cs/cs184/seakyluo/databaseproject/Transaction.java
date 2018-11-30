@@ -1,5 +1,7 @@
 package edu.ucsb.cs.cs184.seakyluo.databaseproject;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -160,10 +162,12 @@ public class Transaction implements Serializable {
         }
     }
     public static void QuickCash(int from, double amount) throws Account.NotEnoughMoneyException{
+        Log.d("fuck", "before: " +Account.findAccount(from).getBalance());
         Account.findAccount(from).modifyBalance(-amount);
+        Log.d("fuck", "after: " +Account.findAccount(from).getBalance());
     }
-    public static void QuickRefill(int from, double amount) throws Account.NotEnoughMoneyException{
-        Account.findAccount(from).modifyBalance(amount);
+    public static void QuickRefill(int to, double amount) throws Account.NotEnoughMoneyException{
+        Account.findAccount(to).modifyBalance(amount);
     }
     public static void MakeTransaction(int cid, Date time, String type, double amount, int from, int to) throws Exception {
         MakeTransaction(cid, time.getYear(), time.getMonth(), time.getDay(), type, amount, from, to);
@@ -199,7 +203,7 @@ public class Transaction implements Serializable {
                 Transaction.QuickCash(from, amount);
                 break;
             case Transaction.QUICK_REFILL:
-                Transaction.QuickRefill(from, amount);
+                Transaction.QuickRefill(to, amount);
                 break;
         }
         DatabaseHelper.run(InsertQuery(cid, year, month, day, type, amount, from, to));

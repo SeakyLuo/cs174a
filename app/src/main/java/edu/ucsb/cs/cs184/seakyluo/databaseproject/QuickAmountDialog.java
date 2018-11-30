@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ public class QuickAmountDialog extends DialogFragment {
     private EditText editText;
     private RadioGroup radioGroup;
     private Button set, quick;
+    private String title;
+    private Account account;
     private ArrayList<Account> accounts = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +34,12 @@ public class QuickAmountDialog extends DialogFragment {
         set = view.findViewById(R.id.qa_set);
         quick = view.findViewById(R.id.qa_quick);
         if(DatabaseHelper.user.getPreAmount() != 0) editText.setText(DatabaseHelper.user.getPreAmount() + "");
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                account = getAccount();
+            }
+        });
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,23 +49,26 @@ public class QuickAmountDialog extends DialogFragment {
                     valid = false;
                 }
                 if (editText.getText().toString().isEmpty()){
-                    Toast.makeText(getContext(), "No amount!", Toast.LENGTH_SHORT).show();
+                    editText.setError("No amount!");
                     valid = false;
                 }
                 if (!valid) return;
                 DatabaseHelper.user.setPreAccount(getAccount().getId());
                 DatabaseHelper.user.setPreAmount(Double.parseDouble(editText.getText().toString()));
-                Toast.makeText(getContext(), "Set successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Set Successful!", Toast.LENGTH_SHORT).show();
             }
         });
         quick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    if (quick.getText().equals(QUICK_CASH))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_CASH, Double.parseDouble(editText.getText().toString()), getAccount().getId(), 0);
-                    else if (quick.getText().equals(QUICK_REFILL))
-                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_REFILL, Double.parseDouble(editText.getText().toString()), getAccount().getId(), 0);
+                    Log.d("fuck", account.toString());
+                    if (title.equals(QUICK_CASH))
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_CASH, Double.parseDouble(editText.getText().toString()), account.getId(), 0);
+                    else if (title.equals(QUICK_REFILL))
+                        Transaction.MakeTransaction(DatabaseHelper.user.getId(), DatabaseHelper.time, Transaction.QUICK_REFILL, Double.parseDouble(editText.getText().toString()), 0, account.getId());
+                    else
+                        Log.d("fuck", "QuickAmountDialog has an incorrect title: " + title);
                     Toast.makeText(getContext(), quick.getText() + " Successful!", Toast.LENGTH_SHORT).show();
                     dismiss();
                 } catch (Account.NotEnoughMoneyException e) {
@@ -79,13 +91,17 @@ public class QuickAmountDialog extends DialogFragment {
 
     public void setAccounts(ArrayList<Account> accounts, String title){
         this.accounts = accounts;
+        this.title = title;
         this.quick.setText(title);
         for (Account account: accounts){
             RadioButton button = new RadioButton(getContext());
             button.setPadding(16,8,16,8);
             button.setText(account.toString());
-            if (account.getId() == DatabaseHelper.user.getPreAccount())
+            if (account.getId() == DatabaseHelper.user.getPreAccount()){
+                this.account = account;
+                Log.d("fuck", account.toString());
                 button.setChecked(true);
+            }
             radioGroup.addView(button);
         }
     }
